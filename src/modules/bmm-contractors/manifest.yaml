@@ -1,24 +1,36 @@
 # BMM-Contractors Module Manifest
-# Distributed Team Communication via SMTP and Git
-# Version: 1.0.0
+# Fully Automated AI Coding Pipeline
+# Version: 2.0.0
 
 name: bmm-contractors
-version: "1.0.0"
-display_name: "BMAD Contractors Module"
-description: "Coordinate distributed contractor teams through SMTP email and Git operations. Enables asynchronous work assignment, progress tracking, and code delivery without real-time communication."
+version: "2.0.0"
+display_name: "BMAD Autonomous Execution Layer"
+description: "Fully automated AI coding agents that implement stories, write tests, deploy code, and self-heal on failures. SMTP communication only to founder for status/approvals."
 author: "BMad"
 license: "MIT"
 
 # Module category and tags
-category: "operations"
+category: "automation"
 tags:
-  - contractors
-  - distributed-team
+  - ai-agents
+  - autonomous
+  - coding
+  - automation
+  - pipeline
+  - self-healing
   - smtp
   - git
-  - async
-  - remote-work
-  - outsourcing
+
+# Automation mode
+automation:
+  mode: "full"  # full | supervised | manual
+  description: |
+    Full E2E automation:
+    - AI agents write code autonomously
+    - Self-healing on quality gate failures
+    - Auto-merge on passing checks
+    - Auto-deployment on release approval
+    - SMTP reports only to founder
 
 # Dependencies
 dependencies:
@@ -31,8 +43,12 @@ dependencies:
     reason: "Story and sprint integration"
   bmm-metrics:
     version: ">=1.0.0"
-    required: false
-    reason: "Track contractor velocity and quality"
+    required: true
+    reason: "Quality gates and automated checks"
+  bmm-release:
+    version: ">=1.0.0"
+    required: true
+    reason: "Automated release and deployment"
 
 # Event Integration
 events:
@@ -46,190 +62,206 @@ events:
     # From bmm-metrics
     - metrics.quality.pass
     - metrics.quality.fail
+    - metrics.quality.check.requested
     # From bmm-release
     - release.candidate.created
-    # Internal contractor events
-    - contractor.submission.received
-    - contractor.reply.received
+    - release.approved
+    - release.deployed
+    - release.failed
+    # Founder communication
+    - founder.reply.received
+    - smtp.email.received
 
   publishes:
-    # Assignment events
-    - contractor.story.assigned
-    - contractor.story.reassigned
-    - contractor.story.unassigned
-    # Communication events
-    - contractor.email.sent
-    - contractor.email.failed
-    - contractor.email.bounced
-    - contractor.reply.received
-    # Submission events
+    # Story assignment events
+    - story.assigned
+    - story.reassigned
+    - story.timeout
+    # Agent implementation events
+    - contractor.implementation.started
+    - contractor.implementation.completed
     - contractor.submission.received
-    - contractor.submission.approved
-    - contractor.submission.rejected
     - contractor.revision.requested
+    - contractor.blocked
     # Git events
     - contractor.branch.created
     - contractor.pr.opened
     - contractor.pr.merged
     - contractor.pr.rejected
-    # Status events
-    - contractor.status.updated
-    - contractor.blocked
-    - contractor.unblocked
-    # Performance events
-    - contractor.velocity.calculated
-    - contractor.quality.scored
+    # QA events
+    - qa.review.requested
+    - qa.review.completed
+    - qa.approved
+    - qa.rejected
+    # Deployment events
+    - deployment.requested
+    - deployment.started
+    - deployment.completed
+    # Escalation events
+    - escalation.required
+    # Founder communication
+    - founder.notification.sent
 
 # Agents provided by this module
 agents:
+  # Orchestrator (central coordinator)
+  - name: orchestrator-agent
+    file: agents/orchestrator-agent.agent.yaml
+    description: "Central coordinator that routes work to AI agents and manages the pipeline"
+    icon: "🎯"
+    type: "orchestrator"
+    autonomous: true
+
+  # AI Coding Agents
+  - name: backend-agent
+    file: agents/backend-agent.agent.yaml
+    description: "Autonomous AI agent that writes Java/Spring backend code"
+    icon: "☕"
+    type: "ai-coding-agent"
+    autonomous: true
+
+  - name: frontend-agent
+    file: agents/frontend-agent.agent.yaml
+    description: "Autonomous AI agent that writes React/TypeScript frontend code"
+    icon: "⚛️"
+    type: "ai-coding-agent"
+    autonomous: true
+
+  - name: mobile-agent
+    file: agents/mobile-agent.agent.yaml
+    description: "Autonomous AI agent that writes Android/Kotlin mobile code"
+    icon: "📱"
+    type: "ai-coding-agent"
+    autonomous: true
+
+  - name: qa-agent
+    file: agents/qa-agent.agent.yaml
+    description: "Autonomous AI agent that writes tests and validates quality"
+    icon: "🧪"
+    type: "ai-coding-agent"
+    autonomous: true
+
+  - name: devops-agent
+    file: agents/devops-agent.agent.yaml
+    description: "Autonomous AI agent that manages infrastructure and deployments"
+    icon: "🔧"
+    type: "ai-coding-agent"
+    autonomous: true
+
+  - name: researcher-agent
+    file: agents/researcher-agent.agent.yaml
+    description: "Autonomous AI agent that conducts research and creates documentation"
+    icon: "📚"
+    type: "ai-coding-agent"
+    autonomous: true
+
+# Legacy coordinator (for backward compatibility)
+legacy_agents:
   - name: contractor-coordinator
     file: agents/contractor-coordinator.agent.yaml
-    description: "Orchestrates contractor communication, assignment, and tracking"
+    description: "Legacy coordinator for human contractor teams"
     icon: "📡"
+    deprecated: true
+    use_instead: "orchestrator-agent"
 
-# Contractor profiles (not full agents, but role definitions)
-contractor_profiles:
-  - name: backend-dev
-    file: agents/profiles/backend-dev.profile.yaml
-    description: "Backend Developer - Java/Spring APIs"
-    icon: "☕"
-
-  - name: frontend-dev
-    file: agents/profiles/frontend-dev.profile.yaml
-    description: "Frontend Developer - React/TypeScript"
-    icon: "⚛️"
-
-  - name: mobile-dev
-    file: agents/profiles/mobile-dev.profile.yaml
-    description: "Mobile Developer - Android/Kotlin"
-    icon: "📱"
-
-  - name: qa-engineer
-    file: agents/profiles/qa-engineer.profile.yaml
-    description: "QA Engineer - Test Automation"
-    icon: "🧪"
-
-  - name: researcher
-    file: agents/profiles/researcher.profile.yaml
-    description: "Researcher/Advisor - Documentation & Analysis"
-    icon: "📚"
-
-# Workflows provided
+# Automated workflows
 workflows:
-  - name: assign-story
-    path: workflows/assign-story
-    description: "Assign a story to a contractor via email"
-    standalone: true
-    triggers:
-      - event: story.ready
-        auto: false
+  # Fully automated - triggered by events
+  - name: auto-assign-story
+    path: workflows/auto-assign-story
+    description: "Automatically assigns stories to appropriate AI agents"
+    automation:
+      trigger: "story.ready"
+      auto: true
 
-  - name: review-submission
-    path: workflows/review-submission
-    description: "Review contractor code submission"
-    standalone: true
-    triggers:
-      - event: contractor.submission.received
-        auto: true
+  - name: auto-review-submission
+    path: workflows/auto-review-submission
+    description: "Automatically reviews and validates agent submissions"
+    automation:
+      trigger: "contractor.submission.received"
+      auto: true
 
-  - name: contractor-standup
-    path: workflows/contractor-standup
-    description: "Generate standup summary from contractor updates"
-    standalone: true
-    triggers:
-      - scheduled: "0 9 * * 1-5"  # 9am weekdays
+  - name: self-healing
+    path: workflows/self-healing
+    description: "Automatically fixes quality gate failures"
+    automation:
+      trigger: "metrics.quality.fail"
+      auto: true
 
-  - name: onboard-contractor
-    path: workflows/onboard-contractor
-    description: "Onboard a new contractor to the project"
-    standalone: true
+  - name: auto-merge
+    path: workflows/auto-merge
+    description: "Automatically merges PRs that pass all checks"
+    automation:
+      trigger: "metrics.quality.pass"
+      auto: true
 
-  - name: request-revision
-    path: workflows/request-revision
-    description: "Request revisions on a submission"
-    standalone: true
+  - name: auto-deploy
+    path: workflows/auto-deploy
+    description: "Automatically deploys approved releases"
+    automation:
+      trigger: "release.approved"
+      auto: true
 
-  - name: escalate-blocker
-    path: workflows/escalate-blocker
-    description: "Escalate a contractor blocker"
-    standalone: true
+  # Scheduled automation
+  - name: daily-summary
+    path: workflows/daily-summary
+    description: "Sends daily status summary to founder"
+    automation:
+      scheduled: "0 9 * * *"
+      auto: true
 
-  - name: contractor-report
-    path: workflows/contractor-report
-    description: "Generate contractor performance report"
-    standalone: true
-
-# Tasks provided
-tasks:
-  - name: send-email
-    file: tasks/send-email.xml
-    description: "Send email via SMTP transport"
-
-  - name: parse-email-reply
-    file: tasks/parse-email-reply.xml
-    description: "Parse contractor email reply for status/commands"
-
-  - name: create-branch
-    file: tasks/create-branch.xml
-    description: "Create Git branch for contractor work"
-
-  - name: check-pr-status
-    file: tasks/check-pr-status.xml
-    description: "Check status of contractor PR"
-
-  - name: merge-pr
-    file: tasks/merge-pr.xml
-    description: "Merge approved contractor PR"
+  - name: agent-health-check
+    path: workflows/agent-health-check
+    description: "Monitors agent health and restarts if needed"
+    automation:
+      scheduled: "*/15 * * * *"
+      auto: true
 
 # Event handlers
 event_handlers:
-  - name: on-story-ready
-    file: events/handlers/on-story-ready.xml
-    event: story.ready
-    description: "Suggest contractor assignment when story is ready"
+  - name: automation-handlers
+    file: events/handlers/automation-handlers.yaml
+    description: "Core automation event handlers for the pipeline"
 
-  - name: on-submission-received
-    file: events/handlers/on-submission-received.xml
-    event: contractor.submission.received
-    description: "Process contractor code submission"
-
-  - name: on-email-reply
-    file: events/handlers/on-email-reply.xml
-    event: contractor.reply.received
-    description: "Process contractor email reply"
-
-# Email templates
+# Email templates for founder communication
 templates:
-  - name: story-assignment
-    file: templates/email/story-assignment.md
-    description: "Email template for assigning a story"
+  - name: founder-daily-summary
+    file: templates/email/founder-daily-summary.md
+    description: "Daily status summary for founder"
 
-  - name: revision-request
-    file: templates/email/revision-request.md
-    description: "Email template for requesting revisions"
+  - name: founder-release-approval
+    file: templates/email/founder-release-approval.md
+    description: "Release approval request for founder"
 
-  - name: submission-approved
-    file: templates/email/submission-approved.md
-    description: "Email template for approving submission"
+  - name: founder-alert
+    file: templates/email/founder-alert.md
+    description: "Critical alert notification for founder"
 
-  - name: submission-rejected
-    file: templates/email/submission-rejected.md
-    description: "Email template for rejecting submission"
-
-  - name: blocker-followup
-    file: templates/email/blocker-followup.md
-    description: "Email template for blocker follow-up"
-
-  - name: standup-request
-    file: templates/email/standup-request.md
-    description: "Email template for standup status request"
-
-  - name: welcome-onboarding
-    file: templates/email/welcome-onboarding.md
-    description: "Email template for new contractor onboarding"
+  - name: founder-deployment-complete
+    file: templates/email/founder-deployment-complete.md
+    description: "Deployment completion notification"
 
 # Configuration schema
 config_schema:
+  # Founder configuration
+  founder:
+    type: object
+    required: true
+    description: "Founder contact for approvals and escalations"
+    properties:
+      email:
+        type: string
+        required: true
+        description: "Founder's email address for SMTP communication"
+      name:
+        type: string
+        description: "Founder's name"
+      timezone:
+        type: string
+        default: "UTC"
+        description: "Founder's timezone for scheduling"
+
+  # SMTP configuration
   smtp:
     type: object
     required: true
@@ -256,11 +288,10 @@ config_schema:
         description: "From address for outgoing emails"
       from_name:
         type: string
+        default: "BMAD Orchestrator"
         description: "From name for outgoing emails"
-      reply_to:
-        type: string
-        description: "Reply-to address"
 
+  # Git configuration
   git:
     type: object
     required: true
@@ -275,67 +306,47 @@ config_schema:
       main_branch:
         type: string
         default: "main"
-      develop_branch:
-        type: string
-        default: "develop"
-      branch_pattern:
-        type: string
-        default: "story/{story_id}-{slug}"
-      require_pr:
+      auto_merge:
         type: boolean
         default: true
-      require_review:
-        type: boolean
-        default: true
-      min_reviewers:
-        type: integer
-        default: 1
+        description: "Auto-merge PRs that pass all checks"
 
-  contractors:
-    type: array
-    items:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        email:
-          type: string
-        role:
-          type: string
-          enum: ["backend-dev", "frontend-dev", "mobile-dev", "qa-engineer", "researcher"]
-        tech_stack:
-          type: array
-          items:
-            type: string
-        availability:
-          type: string
-          enum: ["full-time", "part-time", "on-call"]
-        timezone:
-          type: string
-        response_sla_hours:
-          type: integer
-          default: 24
-
-  communication:
+  # Automation settings
+  automation:
     type: object
     properties:
-      subject_prefix:
-        type: string
-        default: "[PROJECT]"
-      include_context:
-        type: boolean
-        default: true
-      max_context_lines:
+      max_iterations:
         type: integer
-        default: 500
-      reminder_after_hours:
+        default: 3
+        description: "Max self-healing iterations before escalating"
+      story_timeout_hours:
         type: integer
         default: 48
-      escalation_after_hours:
-        type: integer
-        default: 72
+        description: "Hours before a story times out"
+      daily_summary_time:
+        type: string
+        default: "09:00"
+        description: "Time to send daily summary (founder timezone)"
+      auto_deploy:
+        type: boolean
+        default: false
+        description: "Auto-deploy on founder approval without manual trigger"
+
+  # Agent configuration
+  agents:
+    type: object
+    properties:
+      enabled:
+        type: array
+        items:
+          type: string
+          enum: ["backend-agent", "frontend-agent", "mobile-agent", "qa-agent", "devops-agent", "researcher-agent"]
+        default: ["backend-agent", "frontend-agent", "qa-agent", "devops-agent"]
+        description: "Which AI agents to enable"
+      parallel_execution:
+        type: boolean
+        default: true
+        description: "Allow multiple agents to work in parallel"
 
 # Installation hooks
 hooks:
@@ -345,14 +356,17 @@ hooks:
     - action: "create_state"
       template: "state/module-state.yaml"
     - action: "validate_smtp"
-      optional: true
+      required: true
     - action: "validate_git"
-      optional: true
+      required: true
+    - action: "validate_founder_email"
+      required: true
     - action: "log"
-      message: "Contractors module installed. Configure SMTP and Git settings, then add contractor profiles."
+      message: "Autonomous Execution Layer installed. AI agents ready. Configure founder email for status reports."
 
   pre_uninstall:
+    - action: "stop_agents"
     - action: "backup_state"
       path: "state/"
     - action: "warn"
-      message: "Uninstalling will not affect pending contractor assignments"
+      message: "Stopping all AI agents. Pending work will be lost."

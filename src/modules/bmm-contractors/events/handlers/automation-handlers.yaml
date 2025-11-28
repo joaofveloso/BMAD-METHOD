@@ -1,0 +1,356 @@
+# Automation Event Handlers
+# Defines the automated event-driven pipeline for AI coding agents
+
+schema_version: "1.0.0"
+module: bmm-contractors
+handler_type: "automation"
+
+# =============================================================================
+# STORY LIFECYCLE AUTOMATION
+# =============================================================================
+
+handlers:
+
+  # When a story is ready, auto-assign to appropriate AI agent
+  auto_assign_story:
+    event: "story.ready"
+    handler: "orchestrator-agent"
+    automation:
+      enabled: true
+      mode: "immediate"
+    action: |
+      1. Read story labels and type
+      2. Match against routing rules:
+         - backend/api → backend-agent
+         - frontend/ui → frontend-agent
+         - mobile/android → mobile-agent
+         - devops/infrastructure → devops-agent
+         - documentation/research → researcher-agent
+         - qa/testing → qa-agent
+      3. Check agent availability
+      4. Publish story.assigned event
+      5. Start story timeout timer
+    publish:
+      - event: "story.assigned"
+        payload:
+          story_id: "{story.id}"
+          agent: "{matched_agent}"
+          deadline: "{calculated_deadline}"
+          correlation_id: "{uuid}"
+
+  # When agent starts working
+  track_implementation_start:
+    event: "contractor.implementation.started"
+    handler: "orchestrator-agent"
+    automation:
+      enabled: true
+      mode: "immediate"
+    action: |
+      1. Record start timestamp
+      2. Update story status to "in_progress"
+      3. Initialize iteration counter to 0
+      4. Log to metrics
+
+  # When agent submits PR
+  process_submission:
+    event: "contractor.submission.received"
+    handler: "orchestrator-agent"
+    automation:
+      enabled: true
+      mode: "immediate"
+    action: |
+      1. Update story status to "in_review"
+      2. Trigger quality gate check
+      3. If story.requires_qa_review:
+         - Assign to qa-agent for review
+      4. Wait for quality results
+    publish:
+      - event: "metrics.quality.check.requested"
+        payload:
+          pr_number: "{submission.pr_number}"
+          story_id: "{submission.story_id}"
+          agent: "{submission.agent}"
+
+# =============================================================================
+# QUALITY GATE AUTOMATION
+# =============================================================================
+
+  # Quality gates passed - auto-merge
+  auto_merge_on_quality_pass:
+    event: "metrics.quality.pass"
+    handler: "orchestrator-agent"
+    automation:
+      enabled: true
+      mode: "immediate"
+    conditions:
+      - "pr.all_checks_pass == true"
+      - "pr.no_blocking_issues == true"
+    action: |
+      1. Merge PR to target branch
+      2. Update story status to "done"
+      3. Calculate cycle time metrics
+      4. Add to daily summary for founder
+      5. Check if agent has capacity for next story
+      6. If pending stories, assign next
+    publish:
+      - event: "contractor.pr.merged"
+      - event: "story.done"
+
+  # Quality gates failed - self-healing loop
+  self_heal_quality_failure:
+    event: "metrics.quality.fail"
+    handler: "orchestrator-agent"
+    automation:
+      enabled: true
+      mode: "immediate"
+    action: |
+      1. Parse failure reasons
+      2. Increment iteration counter
+      3. If iteration_count < 3:
+         - Analyze failure type
+         - Generate fix instructions
+         - Request agent to fix
+      4. If iteration_count >= 3:
+         - Escalate to founder via SMTP
+         - Include failure history
+         - Request human decision
+    publish:
+      - event: "contractor.revision.requested"
+        condition: "iteration_count < 3"
+        payload:
+          story_id: "{story.id}"
+          agent: "{assigned_agent}"
+          failures: "{failure_list}"
+          iteration: "{iteration_count}"
+          fix_instructions: "{generated_instructions}"
+      - event: "escalation.required"
+        condition: "iteration_count >= 3"
+        payload:
+          story_id: "{story.id}"
+          reason: "max_iterations_exceeded"
+          failure_history: "{failure_history}"
+
+# =============================================================================
+# RELEASE AUTOMATION
+# =============================================================================
+
+  # Sprint ended - create release candidate
+  auto_create_release:
+    event: "sprint.ended"
+    handler: "orchestrator-agent"
+    automation:
+      enabled: true
+      mode: "immediate"
+    conditions:
+      - "config.release.auto_create_on_sprint_end == true"
+      - "completed_stories.count > 0"
+    action: |
+      1. Collect all merged stories from sprint
+      2. Generate changelog
+      3. Calculate version number
+      4. Create release candidate
+      5. Send release notification to founder
+      6. Wait for founder approval
+    publish:
+      - event: "release.candidate.created"
+      - event: "founder.notification.sent"
+        payload:
+          type: "release_approval_required"
+          release_version: "{version}"
+          story_count: "{story_count}"
+          changelog: "{changelog}"
+
+  # Founder approved release
+  execute_deployment:
+    event: "founder.reply.received"
+    handler: "orchestrator-agent"
+    automation:
+      enabled: true
+      mode: "immediate"
+    conditions:
+      - "reply.command == 'APPROVE'"
+      - "reply.context == 'release'"
+    action: |
+      1. Assign deployment to devops-agent
+      2. Monitor deployment progress
+      3. Run post-deployment health checks
+      4. Send deployment status to founder
+    publish:
+      - event: "release.approved"
+      - event: "deployment.requested"
+
+  # Deployment completed
+  notify_deployment_complete:
+    event: "release.deployed"
+    handler: "orchestrator-agent"
+    automation:
+      enabled: true
+      mode: "immediate"
+    action: |
+      1. Run post-deployment verification
+      2. Collect deployment metrics
+      3. Send success notification to founder
+    publish:
+      - event: "founder.notification.sent"
+        payload:
+          type: "deployment_complete"
+          version: "{release.version}"
+          environment: "{deployment.environment}"
+          metrics: "{deployment.metrics}"
+
+  # Deployment failed - auto-rollback
+  auto_rollback_on_failure:
+    event: "release.failed"
+    handler: "orchestrator-agent"
+    automation:
+      enabled: true
+      mode: "immediate"
+    conditions:
+      - "config.rollback.auto_rollback_on_failure == true"
+    action: |
+      1. Trigger immediate rollback
+      2. Notify founder of failure
+      3. Collect failure diagnostics
+      4. Create incident report
+    publish:
+      - event: "release.rollback.initiated"
+      - event: "founder.notification.sent"
+        payload:
+          type: "deployment_failed"
+          version: "{release.version}"
+          error: "{failure.error}"
+          rollback_status: "initiated"
+
+# =============================================================================
+# ESCALATION AUTOMATION
+# =============================================================================
+
+  # Agent blocked - attempt resolution or escalate
+  handle_agent_blocked:
+    event: "contractor.blocked"
+    handler: "orchestrator-agent"
+    automation:
+      enabled: true
+      mode: "immediate"
+    action: |
+      1. Analyze blocker type:
+         - technical: Try researcher-agent for solution
+         - dependency: Check if dependency agent can help
+         - requirement: Escalate to founder
+         - access: Escalate to founder
+      2. If resolvable internally:
+         - Route to helper agent
+         - Set resolution timeout
+      3. If requires founder:
+         - Send escalation email
+         - Include context and options
+    publish:
+      - event: "escalation.required"
+        condition: "blocker.requires_human == true"
+      - event: "blocker.resolution.requested"
+        condition: "blocker.requires_human == false"
+
+  # Story timeout - handle stuck agents
+  handle_story_timeout:
+    event: "story.timeout"
+    handler: "orchestrator-agent"
+    automation:
+      enabled: true
+      mode: "immediate"
+    action: |
+      1. Check agent status
+      2. If agent unresponsive:
+         - Cancel current task
+         - Reset agent
+         - Reassign story
+      3. If agent working but slow:
+         - Extend deadline
+         - Log warning
+      4. If consistently timing out:
+         - Escalate to founder
+    publish:
+      - event: "story.reassigned"
+        condition: "agent.unresponsive == true"
+      - event: "escalation.required"
+        condition: "timeout_count >= 3"
+
+# =============================================================================
+# FOUNDER COMMUNICATION
+# =============================================================================
+
+  # Process founder email reply
+  process_founder_reply:
+    event: "smtp.email.received"
+    handler: "orchestrator-agent"
+    automation:
+      enabled: true
+      mode: "immediate"
+    conditions:
+      - "email.from == config.founder_email"
+    action: |
+      1. Parse email for command:
+         - APPROVE: Execute pending action
+         - REJECT: Cancel pending action
+         - PAUSE: Pause automation
+         - RESUME: Resume automation
+         - STATUS: Send status report
+         - PRIORITY: Update priority
+      2. Execute command
+      3. Send confirmation email
+    publish:
+      - event: "founder.reply.received"
+        payload:
+          command: "{parsed_command}"
+          context: "{reply_context}"
+          parameters: "{parsed_parameters}"
+
+  # Daily summary to founder
+  send_daily_summary:
+    event: "scheduler.daily"
+    handler: "orchestrator-agent"
+    automation:
+      enabled: true
+      mode: "scheduled"
+      schedule: "0 9 * * *"  # 9am daily
+    action: |
+      1. Aggregate daily metrics
+      2. Collect completed stories
+      3. List in-progress items
+      4. Identify blockers
+      5. Generate action items
+      6. Send summary email to founder
+    publish:
+      - event: "founder.notification.sent"
+        payload:
+          type: "daily_summary"
+          metrics: "{aggregated_metrics}"
+
+# =============================================================================
+# SCHEDULED AUTOMATION
+# =============================================================================
+
+scheduled:
+  # Check for stuck stories every hour
+  stuck_story_check:
+    schedule: "0 * * * *"
+    action: |
+      1. Find stories in_progress > 24 hours without update
+      2. Send reminder to assigned agent
+      3. If > 48 hours, escalate
+
+  # Quality trend analysis daily
+  quality_trend_analysis:
+    schedule: "0 8 * * *"
+    action: |
+      1. Analyze quality metrics trends
+      2. Identify declining agents
+      3. Include in daily summary if issues found
+
+  # Agent health check every 15 minutes
+  agent_health_check:
+    schedule: "*/15 * * * *"
+    action: |
+      1. Ping all active agents
+      2. Check for unresponsive agents
+      3. Restart if necessary
+      4. Log health status
