@@ -1,0 +1,94 @@
+# BMM-Container-Backend Module Installer Configuration
+# Autonomous AI Backend Agent Container Deployment
+# Java/Spring backend development via SMTP
+
+code: bmm-container-backend
+name: "Container: Backend (192.168.56.12)"
+default_selected: false
+
+header: "Backend AI Agent Container"
+subheader: |
+  Deploy the Backend AI agent to its dedicated container.
+  Autonomous agent that writes Java/Spring backend code,
+  creates PRs, and handles revisions via SMTP.
+
+  Container IP: 192.168.56.12
+  SSH Port: 2222
+  Email: backend20251128@gmail.com
+
+# Dependencies
+requires:
+  - core
+  - bmm-contractors
+
+# Container configuration
+container:
+  name: "backend"
+  ip: "192.168.56.12"
+  ssh_port: 2222
+  agent_file: "bmm-contractors/agents/backend-agent.agent.yaml"
+
+# Gmail configuration
+gmail_address:
+  prompt: "Backend agent Gmail address"
+  default: "backend20251128@gmail.com"
+  result: "{value}"
+
+gmail_app_password:
+  prompt: "Gmail App Password for backend agent"
+  default: ""
+  result: "{value}"
+  secret: true
+  env_var: "BACKEND_GMAIL_APP_PASSWORD"
+
+# Tech stack
+java_version:
+  prompt: "Java version"
+  default: "21"
+  result: "{value}"
+  single-select:
+    - value: "21"
+      label: "Java 21 (LTS)"
+    - value: "17"
+      label: "Java 17 (LTS)"
+
+spring_version:
+  prompt: "Spring Boot version"
+  default: "3.x"
+  result: "{value}"
+  single-select:
+    - value: "3.x"
+      label: "Spring Boot 3.x"
+    - value: "2.7.x"
+      label: "Spring Boot 2.7.x"
+
+# Polling interval
+polling_interval:
+  prompt: "Email polling interval (seconds)"
+  default: "60"
+  result: "{value}"
+
+# Files to install
+install_files:
+  - source: "bmm-contractors/agents/backend-agent.agent.yaml"
+    destination: "agents/backend-agent.agent.yaml"
+
+# Environment variables
+env_vars:
+  BACKEND_GMAIL_APP_PASSWORD: "{gmail_app_password}"
+  BACKEND_EMAIL: "{gmail_address}"
+  CONTAINER_IP: "192.168.56.12"
+  CONTAINER_NAME: "backend"
+  JAVA_VERSION: "{java_version}"
+  SPRING_VERSION: "{spring_version}"
+  POLLING_INTERVAL: "{polling_interval}"
+
+post_install_message: |
+  Backend container configured!
+
+  Next steps:
+  1. Set up the container at 192.168.56.12
+  2. Install Java {java_version} and Spring Boot {spring_version}
+  3. Copy installed files to the container
+  4. Set environment variable: BACKEND_GMAIL_APP_PASSWORD
+  5. Start the agent runtime (polling mode)

@@ -1,0 +1,95 @@
+# BMM-Container-QA Module Installer Configuration
+# Autonomous AI QA Agent Container Deployment
+# Test automation and quality validation via SMTP
+
+code: bmm-container-qa
+name: "Container: QA (192.168.56.15)"
+default_selected: false
+
+header: "QA AI Agent Container"
+subheader: |
+  Deploy the QA AI agent to its dedicated container.
+  Autonomous agent that writes tests, reviews PRs,
+  and validates quality gates via SMTP.
+
+  Container IP: 192.168.56.15
+  SSH Port: 2225
+  Email: qualityassurance20251128@gmail.com
+
+# Dependencies
+requires:
+  - core
+  - bmm-contractors
+
+# Container configuration
+container:
+  name: "qa"
+  ip: "192.168.56.15"
+  ssh_port: 2225
+  agent_file: "bmm-contractors/agents/qa-agent.agent.yaml"
+
+# Gmail configuration
+gmail_address:
+  prompt: "QA agent Gmail address"
+  default: "qualityassurance20251128@gmail.com"
+  result: "{value}"
+
+gmail_app_password:
+  prompt: "Gmail App Password for QA agent"
+  default: ""
+  result: "{value}"
+  secret: true
+  env_var: "QA_GMAIL_APP_PASSWORD"
+
+# Test frameworks
+test_frameworks:
+  prompt: "Test frameworks to use"
+  default: ["junit", "playwright"]
+  result: "{value}"
+  multi-select:
+    - value: "junit"
+      label: "JUnit 5 (Java)"
+    - value: "playwright"
+      label: "Playwright (E2E)"
+    - value: "jest"
+      label: "Jest (JavaScript)"
+    - value: "espresso"
+      label: "Espresso (Android)"
+
+# Coverage threshold
+coverage_threshold:
+  prompt: "Minimum code coverage percentage"
+  default: "80"
+  result: "{value}"
+
+# Polling interval
+polling_interval:
+  prompt: "Email polling interval (seconds)"
+  default: "60"
+  result: "{value}"
+
+# Files to install
+install_files:
+  - source: "bmm-contractors/agents/qa-agent.agent.yaml"
+    destination: "agents/qa-agent.agent.yaml"
+
+# Environment variables
+env_vars:
+  QA_GMAIL_APP_PASSWORD: "{gmail_app_password}"
+  QA_EMAIL: "{gmail_address}"
+  CONTAINER_IP: "192.168.56.15"
+  CONTAINER_NAME: "qa"
+  COVERAGE_THRESHOLD: "{coverage_threshold}"
+  POLLING_INTERVAL: "{polling_interval}"
+
+post_install_message: |
+  QA container configured!
+
+  Next steps:
+  1. Set up the container at 192.168.56.15
+  2. Install test frameworks
+  3. Copy installed files to the container
+  4. Set environment variable: QA_GMAIL_APP_PASSWORD
+  5. Start the agent runtime (polling mode)
+
+  QA agent will enforce {coverage_threshold}% code coverage.

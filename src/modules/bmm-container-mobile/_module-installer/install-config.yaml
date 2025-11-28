@@ -1,0 +1,84 @@
+# BMM-Container-Mobile Module Installer Configuration
+# Autonomous AI Mobile Agent Container Deployment
+# Android/Kotlin mobile development via SMTP
+
+code: bmm-container-mobile
+name: "Container: Mobile (192.168.56.14)"
+default_selected: false
+
+header: "Mobile AI Agent Container"
+subheader: |
+  Deploy the Mobile AI agent to its dedicated container.
+  Autonomous agent that writes Android/Kotlin mobile code,
+  creates PRs, and handles revisions via SMTP.
+
+  Container IP: 192.168.56.14
+  SSH Port: 2224
+  Email: joao.veloso.fodra@gmail.com
+
+# Dependencies
+requires:
+  - core
+  - bmm-contractors
+
+# Container configuration
+container:
+  name: "mobile"
+  ip: "192.168.56.14"
+  ssh_port: 2224
+  agent_file: "bmm-contractors/agents/mobile-agent.agent.yaml"
+
+# Gmail configuration
+gmail_address:
+  prompt: "Mobile agent Gmail address"
+  default: "joao.veloso.fodra@gmail.com"
+  result: "{value}"
+
+gmail_app_password:
+  prompt: "Gmail App Password for mobile agent"
+  default: ""
+  result: "{value}"
+  secret: true
+  env_var: "MOBILE_GMAIL_APP_PASSWORD"
+
+# Tech stack
+android_sdk_version:
+  prompt: "Android SDK version"
+  default: "34"
+  result: "{value}"
+
+kotlin_version:
+  prompt: "Kotlin version"
+  default: "1.9"
+  result: "{value}"
+
+# Polling interval
+polling_interval:
+  prompt: "Email polling interval (seconds)"
+  default: "60"
+  result: "{value}"
+
+# Files to install
+install_files:
+  - source: "bmm-contractors/agents/mobile-agent.agent.yaml"
+    destination: "agents/mobile-agent.agent.yaml"
+
+# Environment variables
+env_vars:
+  MOBILE_GMAIL_APP_PASSWORD: "{gmail_app_password}"
+  MOBILE_EMAIL: "{gmail_address}"
+  CONTAINER_IP: "192.168.56.14"
+  CONTAINER_NAME: "mobile"
+  ANDROID_SDK_VERSION: "{android_sdk_version}"
+  KOTLIN_VERSION: "{kotlin_version}"
+  POLLING_INTERVAL: "{polling_interval}"
+
+post_install_message: |
+  Mobile container configured!
+
+  Next steps:
+  1. Set up the container at 192.168.56.14
+  2. Install Android SDK {android_sdk_version} and Kotlin {kotlin_version}
+  3. Copy installed files to the container
+  4. Set environment variable: MOBILE_GMAIL_APP_PASSWORD
+  5. Start the agent runtime (polling mode)

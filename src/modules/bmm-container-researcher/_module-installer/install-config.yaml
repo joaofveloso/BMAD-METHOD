@@ -1,0 +1,85 @@
+# BMM-Container-Researcher Module Installer Configuration
+# Autonomous AI Researcher Agent Container Deployment
+# Documentation and research via SMTP
+
+code: bmm-container-researcher
+name: "Container: Researcher (192.168.56.17)"
+default_selected: false
+
+header: "Researcher AI Agent Container"
+subheader: |
+  Deploy the Researcher AI agent to its dedicated container.
+  Autonomous agent that conducts research, creates documentation,
+  and provides technical guidance via SMTP.
+
+  Container IP: 192.168.56.17
+  SSH Port: 2227
+  Email: researcher20251128@gmail.com
+
+# Dependencies
+requires:
+  - core
+  - bmm-contractors
+
+# Container configuration
+container:
+  name: "researcher"
+  ip: "192.168.56.17"
+  ssh_port: 2227
+  agent_file: "bmm-contractors/agents/researcher-agent.agent.yaml"
+
+# Gmail configuration
+gmail_address:
+  prompt: "Researcher agent Gmail address"
+  default: "researcher20251128@gmail.com"
+  result: "{value}"
+
+gmail_app_password:
+  prompt: "Gmail App Password for researcher agent"
+  default: ""
+  result: "{value}"
+  secret: true
+  env_var: "RESEARCHER_GMAIL_APP_PASSWORD"
+
+# Research capabilities
+research_tools:
+  prompt: "Research tools enabled"
+  default: ["web-search", "api-docs"]
+  result: "{value}"
+  multi-select:
+    - value: "web-search"
+      label: "Web Search"
+    - value: "api-docs"
+      label: "API Documentation"
+    - value: "code-analysis"
+      label: "Code Analysis"
+    - value: "security-audit"
+      label: "Security Audit"
+
+# Polling interval
+polling_interval:
+  prompt: "Email polling interval (seconds)"
+  default: "60"
+  result: "{value}"
+
+# Files to install
+install_files:
+  - source: "bmm-contractors/agents/researcher-agent.agent.yaml"
+    destination: "agents/researcher-agent.agent.yaml"
+
+# Environment variables
+env_vars:
+  RESEARCHER_GMAIL_APP_PASSWORD: "{gmail_app_password}"
+  RESEARCHER_EMAIL: "{gmail_address}"
+  CONTAINER_IP: "192.168.56.17"
+  CONTAINER_NAME: "researcher"
+  POLLING_INTERVAL: "{polling_interval}"
+
+post_install_message: |
+  Researcher container configured!
+
+  Next steps:
+  1. Set up the container at 192.168.56.17
+  2. Copy installed files to the container
+  3. Set environment variable: RESEARCHER_GMAIL_APP_PASSWORD
+  4. Start the agent runtime (polling mode)

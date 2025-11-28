@@ -1,0 +1,97 @@
+# BMM-Container-Founder Module Installer Configuration
+# Autonomous AI Founder Agent Container Deployment
+# Interactive agent for organizing work and commanding the pipeline
+
+code: bmm-container-founder
+name: "Container: Founder (192.168.56.10)"
+default_selected: false
+
+header: "Founder AI Agent Container"
+subheader: |
+  Deploy the Founder AI agent to its dedicated container.
+  Interactive agent that helps brainstorm ideas, create stories,
+  and command the autonomous coding pipeline via SMTP.
+
+  Container IP: 192.168.56.10
+  SSH Port: 2220
+  Email: founder20251128@gmail.com
+
+# Dependencies
+requires:
+  - core
+  - bmm-contractors
+
+# Container configuration
+container:
+  name: "founder"
+  ip: "192.168.56.10"
+  ssh_port: 2220
+  agent_file: "bmm-contractors/agents/founder-agent.agent.yaml"
+
+# Gmail configuration
+gmail_address:
+  prompt: "Founder Gmail address"
+  default: "founder20251128@gmail.com"
+  result: "{value}"
+
+gmail_app_password:
+  prompt: "Gmail App Password for founder (generate at myaccount.google.com/apppasswords)"
+  default: ""
+  result: "{value}"
+  secret: true
+  env_var: "FOUNDER_GMAIL_APP_PASSWORD"
+
+# Agent mode
+agent_mode:
+  prompt: "Agent operation mode"
+  default: "interactive"
+  result: "{value}"
+  single-select:
+    - value: "interactive"
+      label: "Interactive - You chat directly with the agent"
+    - value: "scheduled"
+      label: "Scheduled - Agent runs on schedule (cron)"
+
+# Polling interval
+polling_interval:
+  prompt: "Email polling interval (seconds)"
+  default: "60"
+  result: "{value}"
+  single-select:
+    - value: "30"
+      label: "30 seconds - Fast response"
+    - value: "60"
+      label: "60 seconds - Standard"
+    - value: "120"
+      label: "2 minutes - Lower resource usage"
+
+# Files to install
+install_files:
+  - source: "bmm-contractors/agents/founder-agent.agent.yaml"
+    destination: "agents/founder-agent.agent.yaml"
+  - source: "bmm-contractors/templates/email/"
+    destination: "templates/email/"
+
+# Environment variables to set
+env_vars:
+  FOUNDER_GMAIL_APP_PASSWORD: "{gmail_app_password}"
+  FOUNDER_EMAIL: "{gmail_address}"
+  CONTAINER_IP: "192.168.56.10"
+  CONTAINER_NAME: "founder"
+  AGENT_MODE: "{agent_mode}"
+  POLLING_INTERVAL: "{polling_interval}"
+
+# Post-install instructions
+post_install_message: |
+  Founder container configured!
+
+  Next steps:
+  1. Set up the container at 192.168.56.10
+  2. Copy installed files to the container
+  3. Set environment variable: FOUNDER_GMAIL_APP_PASSWORD
+  4. Start the agent runtime
+
+  To interact with the Founder agent:
+  - SSH to 192.168.56.10:2220
+  - Run the agent in interactive mode
+  - Create stories and send to pipeline

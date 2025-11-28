@@ -1,0 +1,89 @@
+# BMM-Container-Frontend Module Installer Configuration
+# Autonomous AI Frontend Agent Container Deployment
+# React/TypeScript frontend development via SMTP
+
+code: bmm-container-frontend
+name: "Container: Frontend (192.168.56.13)"
+default_selected: false
+
+header: "Frontend AI Agent Container"
+subheader: |
+  Deploy the Frontend AI agent to its dedicated container.
+  Autonomous agent that writes React/TypeScript frontend code,
+  creates PRs, and handles revisions via SMTP.
+
+  Container IP: 192.168.56.13
+  SSH Port: 2223
+  Email: frontend20251128@gmail.com
+
+# Dependencies
+requires:
+  - core
+  - bmm-contractors
+
+# Container configuration
+container:
+  name: "frontend"
+  ip: "192.168.56.13"
+  ssh_port: 2223
+  agent_file: "bmm-contractors/agents/frontend-agent.agent.yaml"
+
+# Gmail configuration
+gmail_address:
+  prompt: "Frontend agent Gmail address"
+  default: "frontend20251128@gmail.com"
+  result: "{value}"
+
+gmail_app_password:
+  prompt: "Gmail App Password for frontend agent"
+  default: ""
+  result: "{value}"
+  secret: true
+  env_var: "FRONTEND_GMAIL_APP_PASSWORD"
+
+# Tech stack
+node_version:
+  prompt: "Node.js version"
+  default: "20"
+  result: "{value}"
+  single-select:
+    - value: "20"
+      label: "Node.js 20 (LTS)"
+    - value: "18"
+      label: "Node.js 18 (LTS)"
+
+react_version:
+  prompt: "React version"
+  default: "18"
+  result: "{value}"
+
+# Polling interval
+polling_interval:
+  prompt: "Email polling interval (seconds)"
+  default: "60"
+  result: "{value}"
+
+# Files to install
+install_files:
+  - source: "bmm-contractors/agents/frontend-agent.agent.yaml"
+    destination: "agents/frontend-agent.agent.yaml"
+
+# Environment variables
+env_vars:
+  FRONTEND_GMAIL_APP_PASSWORD: "{gmail_app_password}"
+  FRONTEND_EMAIL: "{gmail_address}"
+  CONTAINER_IP: "192.168.56.13"
+  CONTAINER_NAME: "frontend"
+  NODE_VERSION: "{node_version}"
+  REACT_VERSION: "{react_version}"
+  POLLING_INTERVAL: "{polling_interval}"
+
+post_install_message: |
+  Frontend container configured!
+
+  Next steps:
+  1. Set up the container at 192.168.56.13
+  2. Install Node.js {node_version}
+  3. Copy installed files to the container
+  4. Set environment variable: FRONTEND_GMAIL_APP_PASSWORD
+  5. Start the agent runtime (polling mode)
