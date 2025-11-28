@@ -1,5 +1,6 @@
 # QA AI Agent Definition
 # Autonomous AI agent that writes tests and validates quality
+# ALL COMMUNICATION VIA SMTP
 
 name: qa-agent
 displayName: QA AI Agent
@@ -8,6 +9,13 @@ icon: "🧪"
 
 type: "ai-coding-agent"
 
+# Container deployment
+deployment:
+  container: "qa"
+  ip: "192.168.56.15"
+  ssh_port: 2225
+  email: "qualityassurance20251128@gmail.com"
+
 persona:
   role: "Autonomous QA Engineer + Test Architect + Quality Guardian"
 
@@ -15,6 +23,11 @@ persona:
     Autonomous AI agent specialized in test automation and quality assurance.
     Reviews PRs from other agents, writes additional tests, validates quality
     gates, and ensures code meets acceptance criteria.
+
+    ALL COMMUNICATION IS VIA SMTP EMAIL:
+    - Receive review requests from orchestrator@bmad.local
+    - Send QA PASS/QA FAIL results to orchestrator@bmad.local
+    - Parse email commands and respond with structured replies
 
     Expert in:
     - Test strategy and planning
@@ -43,20 +56,8 @@ persona:
 
 autonomous:
   enabled: true
-
-  triggers:
-    - event: "contractor.submission.received"
-      condition: "pr.requires_qa_review == true"
-      action: "start_qa_review"
-
-    - event: "story.assigned"
-      condition: "story.labels contains 'qa' OR story.type == 'testing'"
-      action: "start_implementation"
-
-    - event: "metrics.quality.fail"
-      condition: "failure_type == 'test_coverage'"
-      action: "write_missing_tests"
-
+  mode: "smtp-polling"
+  polling_interval_seconds: 60
   max_iterations: 2
   story_timeout_hours: 24
 
@@ -65,6 +66,66 @@ autonomous:
     - "security_vulnerability_found"
     - "acceptance_criteria_unclear"
     - "unable_to_reproduce_issue"
+
+# SMTP Configuration (Gmail)
+smtp:
+  server:
+    host: "smtp.gmail.com"
+    port: 587
+    tls: true
+  imap:
+    host: "imap.gmail.com"
+    port: 993
+    tls: true
+  identity:
+    address: "qualityassurance20251128@gmail.com"
+    display_name: "QA AI Agent"
+    password: "${QA_GMAIL_APP_PASSWORD}"
+  polling:
+    interval_seconds: 60
+    protocol: "IMAP"
+    folder: "INBOX"
+  contacts:
+    orchestrator: "orchestrator20251128@gmail.com"
+  parsing:
+    command_patterns:
+      - pattern: "\\[BMAD\\] REVIEW:"
+        action: "start_qa_review"
+      - pattern: "\\[BMAD\\] ASSIGN:"
+        action: "start_implementation"
+      - pattern: "\\[BMAD\\] STATUS CHECK:"
+        action: "send_status_update"
+
+smtp_handlers:
+  on_review_request:
+    trigger: "Receives email with subject '[BMAD] REVIEW:'"
+    action: |
+      1. Parse PR details from email body
+      2. Clone repo and checkout PR branch
+      3. Run tests, validate acceptance criteria
+      4. Send QA PASS or QA FAIL reply
+    reply:
+      to: "orchestrator20251128@gmail.com"
+      body: |
+        QA PASS  # or QA FAIL
+        Story: {story_id}
+        PR: {pr_number}
+        Coverage: {coverage}%
+        Tests: {test_count} passed
+        Issues: {issues_found}
+
+  on_assignment:
+    trigger: "Receives email with subject '[BMAD] ASSIGN:'"
+    reply:
+      to: "orchestrator20251128@gmail.com"
+      body: "ACKNOWLEDGED\nStory: {story_id}\nStarting implementation."
+
+  on_blocked:
+    trigger: "Agent encounters blocker"
+    send_email:
+      to: "orchestrator20251128@gmail.com"
+      subject: "[BMAD] BLOCKED: {story_id}"
+      body: "BLOCKED\nStory: {story_id}\nReason: {blocker_reason}"
 
 code_generation:
   workspace: "{project-root}/workspace/qa-agent/{story_id}"
@@ -165,22 +226,39 @@ workflow:
       output: "acceptance_validation.md"
 
     - id: "report"
-      action: "Generate QA report"
-      publish_event: "qa.review.completed"
+      action: "Send QA PASS or QA FAIL email to orchestrator"
+      send_email:
+        to: "orchestrator20251128@gmail.com"
+        subject: "Re: [BMAD] REVIEW: PR#{pr_number}"
+        body: |
+          QA {result}
+          Story: {story_id}
+          PR: {pr_number}
+          Coverage: {coverage}%
+          Tests: {test_count} passed
+          Issues: {issues_found}
 
-events:
-  publishes:
-    - qa.review.started
-    - qa.review.completed
-    - qa.tests.added
-    - qa.bug.found
-    - qa.approved
-    - qa.rejected
+communication:
+  receives_from:
+    orchestrator20251128@gmail.com:
+      - "[BMAD] REVIEW:" - PR review request
+      - "[BMAD] ASSIGN:" - Test writing assignment
+      - "[BMAD] STATUS CHECK:" - Health check ping
+  sends_to:
+    orchestrator20251128@gmail.com:
+      - "QA PASS" - Review passed
+      - "QA FAIL" - Review failed with issues
+      - "ACKNOWLEDGED" - Starting work
+      - "SUBMITTED" - Tests ready
+      - "BLOCKED" - Cannot proceed
 
-  subscribes:
-    - contractor.submission.received
-    - story.assigned
-    - metrics.quality.fail
+state:
+  persistence: "local_sqlite"
+  database: "/var/lib/bmad/qa-agent.db"
+  tracked:
+    - current_reviews
+    - current_story
+    - email_correlation
 
 metrics:
   tracked:
@@ -190,3 +268,5 @@ metrics:
     - coverage_improvement_avg
     - review_time_avg
     - false_positive_rate
+    - emails_sent
+    - emails_received

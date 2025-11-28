@@ -1,11 +1,11 @@
 # BMM-Contractors Module Manifest
 # Fully Automated AI Coding Pipeline
-# Version: 2.0.0
+# Version: 2.1.0 - SMTP-Only Architecture
 
 name: bmm-contractors
-version: "2.0.0"
+version: "2.1.0"
 display_name: "BMAD Autonomous Execution Layer"
-description: "Fully automated AI coding agents that implement stories, write tests, deploy code, and self-heal on failures. SMTP communication only to founder for status/approvals."
+description: "Fully automated AI coding agents with SMTP-only communication. No internal event bus - all inter-agent and founder communication via email."
 author: "BMad"
 license: "MIT"
 
@@ -18,19 +18,41 @@ tags:
   - automation
   - pipeline
   - self-healing
-  - smtp
+  - smtp-only
   - git
+  - email-driven
+
+# Communication Architecture
+communication:
+  mode: "smtp-only"
+  description: |
+    ALL communication happens via SMTP email through Gmail:
+    - Inter-agent communication via Gmail accounts
+    - Founder communication via Gmail
+    - No internal event bus or message queues
+    - Email polling every 60 seconds via IMAP
+
+  smtp_server:
+    host: "smtp.gmail.com"
+    port: 587
+    tls: true
+  imap_server:
+    host: "imap.gmail.com"
+    port: 993
+    tls: true
+  note: "Each agent uses Gmail App Password for authentication"
 
 # Automation mode
 automation:
   mode: "full"  # full | supervised | manual
   description: |
-    Full E2E automation:
+    Full E2E automation with SMTP-only communication:
     - AI agents write code autonomously
-    - Self-healing on quality gate failures
+    - Self-healing on quality gate failures (max 3 iterations)
     - Auto-merge on passing checks
-    - Auto-deployment on release approval
-    - SMTP reports only to founder
+    - Auto-deployment on founder approval
+    - All status via SMTP to founder
+    - Inter-agent coordination via SMTP
 
 # Dependencies
 dependencies:
@@ -50,57 +72,100 @@ dependencies:
     required: true
     reason: "Automated release and deployment"
 
-# Event Integration
-events:
-  subscribes:
-    # From BMM core - story lifecycle
-    - story.created
-    - story.ready
-    - story.done
-    - sprint.started
-    - sprint.ended
-    # From bmm-metrics
-    - metrics.quality.pass
-    - metrics.quality.fail
-    - metrics.quality.check.requested
-    # From bmm-release
-    - release.candidate.created
-    - release.approved
-    - release.deployed
-    - release.failed
-    # Founder communication
-    - founder.reply.received
-    - smtp.email.received
+# Container Deployment Architecture
+containers:
+  founder:
+    ip: "192.168.56.10"
+    ssh_port: 2220
+    email: "founder20251128@gmail.com"
+    password_env: "FOUNDER_GMAIL_APP_PASSWORD"
+    purpose: "Leadership & approvals"
 
-  publishes:
-    # Story assignment events
-    - story.assigned
-    - story.reassigned
-    - story.timeout
-    # Agent implementation events
-    - contractor.implementation.started
-    - contractor.implementation.completed
-    - contractor.submission.received
-    - contractor.revision.requested
-    - contractor.blocked
-    # Git events
-    - contractor.branch.created
-    - contractor.pr.opened
-    - contractor.pr.merged
-    - contractor.pr.rejected
-    # QA events
-    - qa.review.requested
-    - qa.review.completed
-    - qa.approved
-    - qa.rejected
-    # Deployment events
-    - deployment.requested
-    - deployment.started
-    - deployment.completed
-    # Escalation events
-    - escalation.required
-    # Founder communication
-    - founder.notification.sent
+  orchestrator:
+    ip: "192.168.56.11"
+    ssh_port: 2221
+    email: "orchestrator20251128@gmail.com"
+    password_env: "ORCHESTRATOR_GMAIL_APP_PASSWORD"
+    purpose: "Central coordinator - routes work to agents via SMTP"
+
+  backend:
+    ip: "192.168.56.12"
+    ssh_port: 2222
+    email: "backend20251128@gmail.com"
+    password_env: "BACKEND_GMAIL_APP_PASSWORD"
+    purpose: "Java/Spring backend development"
+
+  frontend:
+    ip: "192.168.56.13"
+    ssh_port: 2223
+    email: "frontend20251128@gmail.com"
+    password_env: "FRONTEND_GMAIL_APP_PASSWORD"
+    purpose: "React/TypeScript frontend development"
+
+  mobile:
+    ip: "192.168.56.14"
+    ssh_port: 2224
+    email: "joao.veloso.fodra@gmail.com"
+    password_env: "MOBILE_GMAIL_APP_PASSWORD"
+    purpose: "Android/Kotlin mobile development"
+
+  qa:
+    ip: "192.168.56.15"
+    ssh_port: 2225
+    email: "qualityassurance20251128@gmail.com"
+    password_env: "QA_GMAIL_APP_PASSWORD"
+    purpose: "Test automation and QA review"
+
+  devops:
+    ip: "192.168.56.16"
+    ssh_port: 2226
+    email: "devops20251128@gmail.com"
+    password_env: "DEVOPS_GMAIL_APP_PASSWORD"
+    purpose: "Infrastructure and deployments"
+
+  researcher:
+    ip: "192.168.56.17"
+    ssh_port: 2227
+    email: "researcher20251128@gmail.com"
+    password_env: "RESEARCHER_GMAIL_APP_PASSWORD"
+    purpose: "Documentation and research"
+
+# SMTP Communication (replaces events)
+smtp_communication:
+  description: |
+    All communication happens via SMTP email.
+    No internal event bus - agents poll their inbox every 60 seconds.
+
+  # Email patterns for inter-agent communication
+  email_patterns:
+    # From Orchestrator to Agents
+    assignment: "[BMAD] ASSIGN: {story_id}"
+    revision: "[BMAD] REVISION: {story_id}"
+    complete: "[BMAD] COMPLETE: {story_id}"
+    status_check: "[BMAD] STATUS CHECK: {story_id}"
+    review_request: "[BMAD] REVIEW: PR#{pr_number}"
+    deploy_request: "[BMAD] DEPLOY: Release {version}"
+
+    # From Agents to Orchestrator
+    acknowledged: "ACKNOWLEDGED"
+    submitted: "SUBMITTED"
+    blocked: "BLOCKED"
+    progress: "PROGRESS"
+    qa_pass: "QA PASS"
+    qa_fail: "QA FAIL"
+    quality_pass: "QUALITY PASS"
+    quality_fail: "QUALITY FAIL"
+    deployed: "DEPLOYED"
+    deploy_failed: "DEPLOY FAILED"
+
+    # From Founder (email replies)
+    approve: "APPROVE"
+    reject: "REJECT"
+    pause: "PAUSE"
+    resume: "RESUME"
+    status: "STATUS"
+    rollback: "ROLLBACK {version}"
+    unblock: "UNBLOCK {story_id}"
 
 # Agents provided by this module
 agents:
@@ -223,23 +288,67 @@ event_handlers:
     file: events/handlers/automation-handlers.yaml
     description: "Core automation event handlers for the pipeline"
 
-# Email templates for founder communication
+# Email templates
 templates:
-  - name: founder-daily-summary
-    file: templates/email/founder-daily-summary.md
-    description: "Daily status summary for founder"
+  # Founder communication templates
+  founder:
+    - name: founder-daily-summary
+      file: templates/email/founder-daily-summary.md
+      description: "Daily status summary for founder"
 
-  - name: founder-release-approval
-    file: templates/email/founder-release-approval.md
-    description: "Release approval request for founder"
+    - name: founder-release-approval
+      file: templates/email/founder-release-approval.md
+      description: "Release approval request for founder"
 
-  - name: founder-alert
-    file: templates/email/founder-alert.md
-    description: "Critical alert notification for founder"
+    - name: founder-alert
+      file: templates/email/founder-alert.md
+      description: "Critical alert notification for founder"
 
-  - name: founder-deployment-complete
-    file: templates/email/founder-deployment-complete.md
-    description: "Deployment completion notification"
+    - name: founder-deployment-complete
+      file: templates/email/founder-deployment-complete.md
+      description: "Deployment completion notification"
+
+    - name: founder-command-confirmed
+      file: templates/email/founder-command-confirmed.md
+      description: "Confirmation of founder command execution"
+
+  # Inter-agent communication templates (Orchestrator to Agents)
+  agent_outbound:
+    - name: agent-story-assignment
+      file: templates/email/agent-story-assignment.md
+      description: "Story assignment to AI agent"
+
+    - name: agent-revision-request
+      file: templates/email/agent-revision-request.md
+      description: "Request agent to fix quality failures"
+
+    - name: agent-story-complete
+      file: templates/email/agent-story-complete.md
+      description: "Notify agent story was merged"
+
+    - name: agent-status-check
+      file: templates/email/agent-status-check.md
+      description: "Health check / timeout warning"
+
+    - name: agent-assist-request
+      file: templates/email/agent-assist-request.md
+      description: "Request one agent to help another"
+
+  # QA and Metrics templates
+  qa_metrics:
+    - name: qa-review-request
+      file: templates/email/qa-review-request.md
+      description: "Request QA agent to review PR"
+
+    - name: quality-check-request
+      file: templates/email/quality-check-request.md
+      description: "Request metrics system to run quality gates"
+
+  # DevOps templates
+  devops:
+    - name: devops-deploy-request
+      file: templates/email/devops-deploy-request.md
+      description: "Request deployment from DevOps agent"
 
 # Configuration schema
 config_schema:

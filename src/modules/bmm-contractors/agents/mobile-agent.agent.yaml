@@ -1,5 +1,6 @@
 # Mobile AI Coding Agent Definition
 # Autonomous AI agent that writes Android/Kotlin mobile code
+# ALL COMMUNICATION VIA SMTP
 
 name: mobile-agent
 displayName: Mobile AI Agent
@@ -8,13 +9,25 @@ icon: "📱"
 
 type: "ai-coding-agent"
 
+# Container deployment
+deployment:
+  container: "mobile"
+  ip: "192.168.56.14"
+  ssh_port: 2224
+  email: "joao.veloso.fodra@gmail.com"
+
 persona:
   role: "Autonomous Mobile Developer + Android Architect + Offline-First Specialist"
 
   identity: |
     Autonomous AI coding agent specialized in Android/Kotlin mobile development.
-    Receives story assignments via events, writes production-quality mobile code,
+    Receives story assignments via SMTP email, writes production-quality mobile code,
     creates PRs, and iterates on feedback until quality gates pass.
+
+    ALL COMMUNICATION IS VIA SMTP EMAIL:
+    - Receive assignments from orchestrator@bmad.local
+    - Send status updates and submissions to orchestrator@bmad.local
+    - Parse email commands and respond with structured replies
 
     Expert in:
     - Kotlin with coroutines and Flow
@@ -42,20 +55,8 @@ persona:
 
 autonomous:
   enabled: true
-
-  triggers:
-    - event: "story.assigned"
-      condition: "story.labels contains 'mobile' OR story.type == 'android'"
-      action: "start_implementation"
-
-    - event: "contractor.revision.requested"
-      condition: "story.assigned_agent == 'mobile-agent'"
-      action: "implement_revisions"
-
-    - event: "metrics.quality.fail"
-      condition: "pr.author == 'mobile-agent'"
-      action: "fix_quality_issues"
-
+  mode: "smtp-polling"
+  polling_interval_seconds: 60
   max_iterations: 3
   story_timeout_hours: 72  # Mobile takes longer
 
@@ -64,6 +65,55 @@ autonomous:
     - "blocked_on_requirement"
     - "device_compatibility_issue"
     - "sync_architecture_decision"
+
+# SMTP Configuration (Gmail)
+smtp:
+  server:
+    host: "smtp.gmail.com"
+    port: 587
+    tls: true
+  imap:
+    host: "imap.gmail.com"
+    port: 993
+    tls: true
+  identity:
+    address: "joao.veloso.fodra@gmail.com"
+    display_name: "Mobile AI Agent"
+    password: "${MOBILE_GMAIL_APP_PASSWORD}"
+  polling:
+    interval_seconds: 60
+    protocol: "IMAP"
+    folder: "INBOX"
+  contacts:
+    orchestrator: "orchestrator20251128@gmail.com"
+  parsing:
+    command_patterns:
+      - pattern: "\\[BMAD\\] ASSIGN:"
+        action: "start_implementation"
+      - pattern: "\\[BMAD\\] REVISION:"
+        action: "implement_revisions"
+      - pattern: "\\[BMAD\\] COMPLETE:"
+        action: "acknowledge_complete"
+      - pattern: "\\[BMAD\\] STATUS CHECK:"
+        action: "send_status_update"
+
+smtp_handlers:
+  on_assignment:
+    trigger: "Receives email with subject '[BMAD] ASSIGN:'"
+    reply:
+      to: "orchestrator20251128@gmail.com"
+      body: "ACKNOWLEDGED\nStory: {story_id}\nStarting implementation."
+  on_revision_request:
+    trigger: "Receives email with subject '[BMAD] REVISION:'"
+    reply:
+      to: "orchestrator20251128@gmail.com"
+      body: "SUBMITTED\nStory: {story_id}\nPR: {pr_url}"
+  on_blocked:
+    trigger: "Agent encounters blocker"
+    send_email:
+      to: "orchestrator20251128@gmail.com"
+      subject: "[BMAD] BLOCKED: {story_id}"
+      body: "BLOCKED\nStory: {story_id}\nReason: {blocker_reason}"
 
 code_generation:
   workspace: "{project-root}/workspace/mobile-agent/{story_id}"
@@ -195,22 +245,34 @@ workflow:
         - "./gradlew connectedAndroidTest"
 
     - id: "submit"
-      action: "Create PR and request review"
-      publish_event: "contractor.submission.received"
+      action: "Create PR and send SUBMITTED email to orchestrator"
+      send_email:
+        to: "orchestrator20251128@gmail.com"
+        subject: "[BMAD] SUBMITTED: {story_id}"
+        body: "SUBMITTED\nStory: {story_id}\nPR: {pr_url}"
 
-events:
-  publishes:
-    - contractor.implementation.started
-    - contractor.implementation.completed
-    - contractor.submission.received
-    - contractor.blocked
-    - contractor.pr.opened
+communication:
+  receives_from:
+    orchestrator20251128@gmail.com:
+      - "[BMAD] ASSIGN:" - New story assignment
+      - "[BMAD] REVISION:" - Fix quality failures
+      - "[BMAD] COMPLETE:" - Story merged confirmation
+      - "[BMAD] STATUS CHECK:" - Health check ping
+  sends_to:
+    orchestrator20251128@gmail.com:
+      - "ACKNOWLEDGED" - Starting work
+      - "SUBMITTED" - PR ready
+      - "BLOCKED" - Cannot proceed
+      - "PROGRESS" - Status update
 
-  subscribes:
-    - story.assigned
-    - contractor.revision.requested
-    - metrics.quality.pass
-    - metrics.quality.fail
+state:
+  persistence: "local_sqlite"
+  database: "/var/lib/bmad/mobile-agent.db"
+  tracked:
+    - current_story
+    - iteration_count
+    - email_correlation
+    - work_in_progress
 
 metrics:
   tracked:
@@ -221,3 +283,5 @@ metrics:
     - apk_size_impact_avg
     - crash_free_rate
     - offline_test_pass_rate
+    - emails_sent
+    - emails_received

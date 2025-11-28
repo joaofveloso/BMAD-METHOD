@@ -1,5 +1,6 @@
 # DevOps AI Agent Definition
 # Autonomous AI agent that manages infrastructure and CI/CD
+# ALL COMMUNICATION VIA SMTP
 
 name: devops-agent
 displayName: DevOps AI Agent
@@ -8,12 +9,24 @@ icon: "🔧"
 
 type: "ai-coding-agent"
 
+# Container deployment
+deployment:
+  container: "devops"
+  ip: "192.168.56.16"
+  ssh_port: 2226
+  email: "devops20251128@gmail.com"
+
 persona:
   role: "Autonomous DevOps Engineer + Infrastructure Architect + Release Automator"
 
   identity: |
     Autonomous AI agent specialized in infrastructure, CI/CD, and deployment.
     Manages pipelines, infrastructure as code, monitoring, and automated releases.
+
+    ALL COMMUNICATION IS VIA SMTP EMAIL:
+    - Receive deployment requests from orchestrator@bmad.local
+    - Send DEPLOYED/DEPLOY FAILED results to orchestrator@bmad.local
+    - Parse email commands and respond with structured replies
 
     Expert in:
     - Terraform for infrastructure as code
@@ -41,25 +54,8 @@ persona:
 
 autonomous:
   enabled: true
-
-  triggers:
-    - event: "story.assigned"
-      condition: "story.labels contains 'devops' OR story.type == 'infrastructure'"
-      action: "start_implementation"
-
-    - event: "release.approved"
-      action: "execute_deployment"
-
-    - event: "release.failed"
-      action: "execute_rollback"
-
-    - event: "metrics.sla.breach"
-      condition: "breach_type == 'availability'"
-      action: "investigate_and_remediate"
-
-    - event: "contractor.pr.merged"
-      action: "update_pipeline_if_needed"
-
+  mode: "smtp-polling"
+  polling_interval_seconds: 60
   max_iterations: 2
   story_timeout_hours: 24
 
@@ -68,6 +64,78 @@ autonomous:
     - "security_vulnerability_critical"
     - "cost_threshold_exceeded"
     - "compliance_violation"
+
+# SMTP Configuration (Gmail)
+smtp:
+  server:
+    host: "smtp.gmail.com"
+    port: 587
+    tls: true
+  imap:
+    host: "imap.gmail.com"
+    port: 993
+    tls: true
+  identity:
+    address: "devops20251128@gmail.com"
+    display_name: "DevOps AI Agent"
+    password: "${DEVOPS_GMAIL_APP_PASSWORD}"
+  polling:
+    interval_seconds: 60
+    protocol: "IMAP"
+    folder: "INBOX"
+  contacts:
+    orchestrator: "orchestrator20251128@gmail.com"
+  parsing:
+    command_patterns:
+      - pattern: "\\[BMAD\\] DEPLOY:"
+        action: "execute_deployment"
+      - pattern: "\\[BMAD\\] ASSIGN:"
+        action: "start_implementation"
+      - pattern: "\\[BMAD\\] ROLLBACK:"
+        action: "execute_rollback"
+      - pattern: "\\[BMAD\\] STATUS CHECK:"
+        action: "send_status_update"
+
+smtp_handlers:
+  on_deploy_request:
+    trigger: "Receives email with subject '[BMAD] DEPLOY:'"
+    action: |
+      1. Parse deployment details from email body
+      2. Execute pre-deployment checks
+      3. Deploy to target environment
+      4. Run health checks
+      5. Send DEPLOYED or DEPLOY FAILED reply
+    reply:
+      to: "orchestrator20251128@gmail.com"
+      body: |
+        DEPLOYED  # or DEPLOY FAILED
+        Version: {version}
+        Environment: {environment}
+        Duration: {duration} minutes
+        Health: {health_status}
+
+  on_rollback_request:
+    trigger: "Receives email with subject '[BMAD] ROLLBACK:'"
+    action: |
+      1. Execute rollback to previous version
+      2. Verify health
+      3. Send ROLLED BACK reply
+    reply:
+      to: "orchestrator20251128@gmail.com"
+      body: "ROLLED BACK\nVersion: {previous_version}\nEnvironment: {environment}"
+
+  on_assignment:
+    trigger: "Receives email with subject '[BMAD] ASSIGN:'"
+    reply:
+      to: "orchestrator20251128@gmail.com"
+      body: "ACKNOWLEDGED\nStory: {story_id}\nStarting implementation."
+
+  on_blocked:
+    trigger: "Agent encounters blocker"
+    send_email:
+      to: "orchestrator20251128@gmail.com"
+      subject: "[BMAD] BLOCKED: {story_id}"
+      body: "BLOCKED\nStory: {story_id}\nReason: {blocker_reason}"
 
 code_generation:
   workspace: "{project-root}/workspace/devops-agent/{story_id}"
@@ -191,8 +259,11 @@ workflow:
         - "infracost breakdown --path ."
 
     - id: "submit"
-      action: "Create PR for review"
-      publish_event: "contractor.submission.received"
+      action: "Create PR and send SUBMITTED email to orchestrator"
+      send_email:
+        to: "orchestrator20251128@gmail.com"
+        subject: "[BMAD] SUBMITTED: {story_id}"
+        body: "SUBMITTED\nStory: {story_id}\nPR: {pr_url}"
 
 # Deployment automation
 deployment:
@@ -225,22 +296,31 @@ deployment:
       - "error_rate_spike"
       - "latency_spike"
 
-events:
-  publishes:
-    - infrastructure.change.planned
-    - infrastructure.change.applied
-    - deployment.started
-    - deployment.completed
-    - deployment.failed
-    - rollback.started
-    - rollback.completed
+communication:
+  receives_from:
+    orchestrator20251128@gmail.com:
+      - "[BMAD] DEPLOY:" - Deployment request
+      - "[BMAD] ROLLBACK:" - Rollback request
+      - "[BMAD] ASSIGN:" - Infrastructure story assignment
+      - "[BMAD] STATUS CHECK:" - Health check ping
+  sends_to:
+    orchestrator20251128@gmail.com:
+      - "DEPLOYING" - Deployment started
+      - "DEPLOYED" - Deployment complete
+      - "DEPLOY FAILED" - Deployment failed
+      - "ROLLED BACK" - Rollback complete
+      - "ACKNOWLEDGED" - Starting work
+      - "SUBMITTED" - PR ready
+      - "BLOCKED" - Cannot proceed
 
-  subscribes:
-    - story.assigned
-    - release.approved
-    - release.failed
-    - metrics.sla.breach
-    - contractor.pr.merged
+state:
+  persistence: "local_sqlite"
+  database: "/var/lib/bmad/devops-agent.db"
+  tracked:
+    - current_deployment
+    - current_story
+    - email_correlation
+    - deployment_history
 
 metrics:
   tracked:
@@ -250,3 +330,5 @@ metrics:
     - rollback_count
     - infrastructure_cost
     - uptime_percentage
+    - emails_sent
+    - emails_received

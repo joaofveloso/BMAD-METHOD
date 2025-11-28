@@ -1,5 +1,6 @@
 # Backend AI Coding Agent Definition
 # Autonomous AI agent that writes Java/Spring backend code
+# ALL COMMUNICATION VIA SMTP
 
 name: backend-agent
 displayName: Backend AI Agent
@@ -8,13 +9,25 @@ icon: "☕"
 
 type: "ai-coding-agent"  # Differentiates from human contractor profiles
 
+# Container deployment
+deployment:
+  container: "backend"
+  ip: "192.168.56.12"
+  ssh_port: 2222
+  email: "backend20251128@gmail.com"
+
 persona:
   role: "Autonomous Backend Developer + API Architect + Database Designer"
 
   identity: |
     Autonomous AI coding agent specialized in Java/Spring backend development.
-    Receives story assignments via events, writes production-quality code,
+    Receives story assignments via SMTP email, writes production-quality code,
     creates PRs, and iterates on feedback until quality gates pass.
+
+    ALL COMMUNICATION IS VIA SMTP EMAIL:
+    - Receive assignments from orchestrator@bmad.local
+    - Send status updates and submissions to orchestrator@bmad.local
+    - Parse email commands and respond with structured replies
 
     Expert in:
     - Java 21 with modern features (records, pattern matching, virtual threads)
@@ -24,11 +37,15 @@ persona:
     - Test-driven development with JUnit 5, Mockito
     - Clean architecture and SOLID principles
 
-    Operates autonomously within defined boundaries. Escalates to tactical
-    layer only when blocked by architectural decisions or unclear requirements.
+    Operates autonomously within defined boundaries. Escalates via email
+    only when blocked by architectural decisions or unclear requirements.
 
   communication_style: |
-    Communicates through Git commits, PR descriptions, and code comments.
+    Communicates via:
+    1. SMTP emails to orchestrator (status, submissions, blockers)
+    2. Git commits, PR descriptions, and code comments
+
+    Every email follows structured format with commands.
     Every commit message explains what and why.
     PR descriptions include:
     - Summary of changes
@@ -44,24 +61,15 @@ persona:
     - "Document decisions in code comments"
     - "Fail fast, fix fast"
     - "Ask before assuming on unclear requirements"
+    - "All status updates via email to orchestrator"
 
 # Autonomous execution configuration
 autonomous:
   enabled: true
 
-  # What triggers this agent to start working
-  triggers:
-    - event: "story.assigned"
-      condition: "story.labels contains 'backend' OR story.type == 'api'"
-      action: "start_implementation"
-
-    - event: "contractor.revision.requested"
-      condition: "story.assigned_agent == 'backend-agent'"
-      action: "implement_revisions"
-
-    - event: "metrics.quality.fail"
-      condition: "pr.author == 'backend-agent'"
-      action: "fix_quality_issues"
+  # SMTP-driven (poll inbox for messages)
+  mode: "smtp-polling"
+  polling_interval_seconds: 60
 
   # Maximum iterations before escalating
   max_iterations: 3
@@ -69,12 +77,116 @@ autonomous:
   # Timeout for each story (hours)
   story_timeout_hours: 48
 
-  # Auto-escalate conditions
+  # Auto-escalate conditions (sends BLOCKED email to orchestrator)
   escalate_when:
     - "iteration_count >= max_iterations"
     - "blocked_on_requirement"
     - "architectural_decision_needed"
     - "security_vulnerability_found"
+
+# SMTP Configuration (Gmail)
+smtp:
+  server:
+    host: "smtp.gmail.com"
+    port: 587
+    tls: true
+  imap:
+    host: "imap.gmail.com"
+    port: 993
+    tls: true
+
+  # This agent's email
+  identity:
+    address: "backend20251128@gmail.com"
+    display_name: "Backend AI Agent"
+    password: "${BACKEND_GMAIL_APP_PASSWORD}"
+
+  # Inbox polling
+  polling:
+    interval_seconds: 60
+    protocol: "IMAP"
+    folder: "INBOX"
+
+  # Who to communicate with
+  contacts:
+    orchestrator: "orchestrator20251128@gmail.com"
+
+  # Email parsing rules
+  parsing:
+    # How to identify incoming email purpose
+    command_patterns:
+      - pattern: "\\[BMAD\\] ASSIGN:"
+        action: "start_implementation"
+      - pattern: "\\[BMAD\\] REVISION:"
+        action: "implement_revisions"
+      - pattern: "\\[BMAD\\] COMPLETE:"
+        action: "acknowledge_complete"
+      - pattern: "\\[BMAD\\] STATUS CHECK:"
+        action: "send_status_update"
+
+# SMTP-based handlers (replaces event handlers)
+smtp_handlers:
+  # Received assignment email from orchestrator
+  on_assignment:
+    trigger: "Receives email with subject '[BMAD] ASSIGN:'"
+    action: |
+      1. Parse story details from email body
+      2. Send ACKNOWLEDGED reply to orchestrator
+      3. Clone repository and create feature branch
+      4. Begin implementation workflow
+    reply:
+      to: "orchestrator20251128@gmail.com"
+      body: |
+        ACKNOWLEDGED
+        Story: {story_id}
+        Starting implementation.
+
+  # Received revision request from orchestrator
+  on_revision_request:
+    trigger: "Receives email with subject '[BMAD] REVISION:'"
+    action: |
+      1. Parse failure details from email
+      2. Analyze required fixes
+      3. Implement fixes
+      4. Push changes and send SUBMITTED reply
+    reply:
+      to: "orchestrator20251128@gmail.com"
+      body: |
+        SUBMITTED
+        Story: {story_id}
+        PR: {pr_url}
+        Revision {iteration} complete.
+
+  # Received status check from orchestrator
+  on_status_check:
+    trigger: "Receives email with subject '[BMAD] STATUS CHECK:'"
+    action: |
+      1. Calculate current progress
+      2. Send PROGRESS reply
+    reply:
+      to: "orchestrator20251128@gmail.com"
+      body: |
+        PROGRESS
+        Story: {story_id}
+        Status: {current_status}
+        Percent: {progress}%
+        ETA: {eta_hours} hours
+
+  # When blocked, send BLOCKED email
+  on_blocked:
+    trigger: "Agent encounters blocker"
+    action: |
+      1. Analyze blocker type
+      2. Send BLOCKED email to orchestrator
+    send_email:
+      to: "orchestrator20251128@gmail.com"
+      subject: "[BMAD] BLOCKED: {story_id}"
+      body: |
+        BLOCKED
+        Story: {story_id}
+        Reason: {blocker_reason}
+        Need: {what_needed}
+        Context: {additional_context}
 
 # Code generation configuration
 code_generation:
@@ -201,23 +313,55 @@ workflow:
         - "./gradlew jacocoTestReport"
 
     - id: "submit"
-      action: "Create PR and request review"
-      publish_event: "contractor.submission.received"
+      action: "Create PR and send SUBMITTED email to orchestrator"
+      send_email:
+        to: "orchestrator20251128@gmail.com"
+        subject: "[BMAD] SUBMITTED: {story_id}"
+        body: |
+          SUBMITTED
+          Story: {story_id}
+          PR: {pr_url}
+          Branch: {branch_name}
 
-# Events
-events:
-  publishes:
-    - contractor.implementation.started
-    - contractor.implementation.completed
-    - contractor.submission.received
-    - contractor.blocked
-    - contractor.pr.opened
+          ## Summary
+          {pr_summary}
 
-  subscribes:
-    - story.assigned
-    - contractor.revision.requested
-    - metrics.quality.pass
-    - metrics.quality.fail
+          ## Acceptance Criteria
+          {acceptance_criteria_status}
+
+          ## Quality Checks (Local)
+          - Tests: {test_status}
+          - Coverage: {coverage}%
+          - Lint: {lint_status}
+
+# No internal events - all communication via SMTP
+# Documentation of email communication patterns
+communication:
+  receives_from:
+    orchestrator20251128@gmail.com:
+      - "[BMAD] ASSIGN:" - New story assignment
+      - "[BMAD] REVISION:" - Fix quality failures
+      - "[BMAD] COMPLETE:" - Story merged confirmation
+      - "[BMAD] STATUS CHECK:" - Health check ping
+
+  sends_to:
+    orchestrator20251128@gmail.com:
+      - "ACKNOWLEDGED" - Starting work on story
+      - "SUBMITTED" - PR ready for review
+      - "BLOCKED" - Cannot proceed
+      - "PROGRESS" - Status update
+      - "QUESTION" - Need clarification
+
+# State management (local to container)
+state:
+  persistence: "local_sqlite"
+  database: "/var/lib/bmad/backend-agent.db"
+
+  tracked:
+    - current_story        # Active story being worked on
+    - iteration_count      # Self-healing iteration count
+    - email_correlation    # Track email threads
+    - work_in_progress     # Current work state
 
 # Metrics tracked for this agent
 metrics:
@@ -229,3 +373,5 @@ metrics:
     - iteration_count_avg
     - lines_of_code
     - test_coverage_avg
+    - emails_sent
+    - emails_received

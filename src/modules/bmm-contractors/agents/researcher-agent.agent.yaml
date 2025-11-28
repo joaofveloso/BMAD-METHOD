@@ -1,5 +1,6 @@
 # Researcher AI Agent Definition
 # Autonomous AI agent that conducts research and creates documentation
+# ALL COMMUNICATION VIA SMTP
 
 name: researcher-agent
 displayName: Researcher AI Agent
@@ -8,6 +9,13 @@ icon: "📚"
 
 type: "ai-coding-agent"
 
+# Container deployment
+deployment:
+  container: "researcher"
+  ip: "192.168.56.17"
+  ssh_port: 2227
+  email: "researcher20251128@gmail.com"
+
 persona:
   role: "Autonomous Researcher + Technical Writer + Knowledge Curator"
 
@@ -15,6 +23,11 @@ persona:
     Autonomous AI agent specialized in research, documentation, and analysis.
     Conducts technical research, creates documentation, analyzes competitors,
     and maintains the project knowledge base.
+
+    ALL COMMUNICATION IS VIA SMTP EMAIL:
+    - Receive assignments from orchestrator@bmad.local
+    - Send status updates and submissions to orchestrator@bmad.local
+    - Parse email commands and respond with structured replies
 
     Expert in:
     - Technical research and evaluation
@@ -43,21 +56,8 @@ persona:
 
 autonomous:
   enabled: true
-
-  triggers:
-    - event: "story.assigned"
-      condition: "story.labels contains 'documentation' OR story.type == 'research'"
-      action: "start_implementation"
-
-    - event: "contractor.pr.merged"
-      action: "update_documentation_if_needed"
-
-    - event: "architecture.decision.needed"
-      action: "research_options"
-
-    - event: "release.deployed"
-      action: "update_changelog"
-
+  mode: "smtp-polling"
+  polling_interval_seconds: 60
   max_iterations: 2
   story_timeout_hours: 24
 
@@ -65,6 +65,64 @@ autonomous:
     - "research_inconclusive"
     - "conflicting_sources"
     - "requires_external_input"
+
+# SMTP Configuration (Gmail)
+smtp:
+  server:
+    host: "smtp.gmail.com"
+    port: 587
+    tls: true
+  imap:
+    host: "imap.gmail.com"
+    port: 993
+    tls: true
+  identity:
+    address: "researcher20251128@gmail.com"
+    display_name: "Researcher AI Agent"
+    password: "${RESEARCHER_GMAIL_APP_PASSWORD}"
+  polling:
+    interval_seconds: 60
+    protocol: "IMAP"
+    folder: "INBOX"
+  contacts:
+    orchestrator: "orchestrator20251128@gmail.com"
+  parsing:
+    command_patterns:
+      - pattern: "\\[BMAD\\] ASSIGN:"
+        action: "start_implementation"
+      - pattern: "\\[BMAD\\] RESEARCH:"
+        action: "start_research"
+      - pattern: "\\[BMAD\\] STATUS CHECK:"
+        action: "send_status_update"
+
+smtp_handlers:
+  on_assignment:
+    trigger: "Receives email with subject '[BMAD] ASSIGN:'"
+    reply:
+      to: "orchestrator20251128@gmail.com"
+      body: "ACKNOWLEDGED\nStory: {story_id}\nStarting implementation."
+
+  on_research_request:
+    trigger: "Receives email with subject '[BMAD] RESEARCH:'"
+    action: |
+      1. Parse research question from email
+      2. Conduct research
+      3. Compile findings
+      4. Send RESEARCH COMPLETE reply
+    reply:
+      to: "orchestrator20251128@gmail.com"
+      body: |
+        RESEARCH COMPLETE
+        Topic: {research_topic}
+        Summary: {summary}
+        Recommendation: {recommendation}
+
+  on_blocked:
+    trigger: "Agent encounters blocker"
+    send_email:
+      to: "orchestrator20251128@gmail.com"
+      subject: "[BMAD] BLOCKED: {story_id}"
+      body: "BLOCKED\nStory: {story_id}\nReason: {blocker_reason}"
 
 code_generation:
   workspace: "{project-root}/workspace/researcher-agent/{story_id}"
@@ -163,8 +221,11 @@ workflow:
         - "npm run docs:build"
 
     - id: "submit"
-      action: "Create PR for review"
-      publish_event: "contractor.submission.received"
+      action: "Create PR and send SUBMITTED email to orchestrator"
+      send_email:
+        to: "orchestrator20251128@gmail.com"
+        subject: "[BMAD] SUBMITTED: {story_id}"
+        body: "SUBMITTED\nStory: {story_id}\nPR: {pr_url}"
 
 # Research capabilities
 research:
@@ -195,18 +256,27 @@ research:
       - "Recommendation"
       - "Sources"
 
-events:
-  publishes:
-    - documentation.updated
-    - research.completed
-    - adr.created
-    - changelog.updated
+communication:
+  receives_from:
+    orchestrator20251128@gmail.com:
+      - "[BMAD] ASSIGN:" - Documentation story assignment
+      - "[BMAD] RESEARCH:" - Research request
+      - "[BMAD] STATUS CHECK:" - Health check ping
+  sends_to:
+    orchestrator20251128@gmail.com:
+      - "ACKNOWLEDGED" - Starting work
+      - "SUBMITTED" - PR ready
+      - "RESEARCH COMPLETE" - Research findings ready
+      - "BLOCKED" - Cannot proceed
+      - "PROGRESS" - Status update
 
-  subscribes:
-    - story.assigned
-    - contractor.pr.merged
-    - architecture.decision.needed
-    - release.deployed
+state:
+  persistence: "local_sqlite"
+  database: "/var/lib/bmad/researcher-agent.db"
+  tracked:
+    - current_story
+    - current_research
+    - email_correlation
 
 metrics:
   tracked:
@@ -215,3 +285,5 @@ metrics:
     - research_reports
     - adrs_created
     - documentation_coverage
+    - emails_sent
+    - emails_received

@@ -1,5 +1,6 @@
 # Orchestrator AI Agent Definition
-# Central coordinator that routes work to AI coding agents and manages the pipeline
+# Central coordinator that routes work to AI coding agents via SMTP
+# ALL communication (internal and external) happens through email
 
 name: orchestrator-agent
 displayName: Orchestrator AI Agent
@@ -8,13 +9,26 @@ icon: "🎯"
 
 type: "ai-orchestrator"
 
+# Container deployment
+deployment:
+  container: "orchestrator"
+  ip: "192.168.56.11"
+  ssh_port: 2221
+  email: "orchestrator20251128@gmail.com"
+
 persona:
   role: "Pipeline Orchestrator + Agent Coordinator + Automation Controller"
 
   identity: |
     Central AI orchestrator that coordinates all autonomous coding agents.
     Routes stories to appropriate agents, monitors progress, handles failures,
-    and reports status to the founder via SMTP.
+    and reports status to the founder.
+
+    ALL COMMUNICATION IS VIA SMTP EMAIL:
+    - Send assignment emails to AI agents
+    - Receive status/submission emails from agents
+    - Send reports and alerts to founder
+    - Parse email commands from founder replies
 
     Responsibilities:
     - Route stories to appropriate AI coding agents based on labels/type
@@ -24,8 +38,10 @@ persona:
     - Aggregate status and send reports to founder
     - Escalate blocked items that need human decision
 
-    The only communication to external humans (founder) is via SMTP email.
-    All agent coordination happens through internal events.
+    Communication Protocol:
+    - Outbound: Send structured emails with commands
+    - Inbound: Parse email replies for status updates
+    - Polling: Check inbox every 60 seconds for agent responses
 
   principles:
     - "Automate everything possible"
@@ -33,319 +49,443 @@ persona:
     - "Keep founder informed, not overwhelmed"
     - "Parallel execution when possible"
     - "Fail fast, recover faster"
+    - "All communication via SMTP - no direct connections"
 
 autonomous:
   enabled: true
 
-  # Always running, event-driven
-  mode: "event-driven"
+  # SMTP-driven (poll inbox for messages)
+  mode: "smtp-polling"
+  polling_interval_seconds: 60
 
-# Agent routing configuration
+# Agent routing configuration with Gmail addresses
 routing:
+  # Agent email addresses
+  agents:
+    backend-agent:
+      email: "backend20251128@gmail.com"
+      container_ip: "192.168.56.12"
+    frontend-agent:
+      email: "frontend20251128@gmail.com"
+      container_ip: "192.168.56.13"
+    mobile-agent:
+      email: "joao.veloso.fodra@gmail.com"
+      container_ip: "192.168.56.14"
+    qa-agent:
+      email: "qualityassurance20251128@gmail.com"
+      container_ip: "192.168.56.15"
+    devops-agent:
+      email: "devops20251128@gmail.com"
+      container_ip: "192.168.56.16"
+    researcher-agent:
+      email: "researcher20251128@gmail.com"
+      container_ip: "192.168.56.17"
+
+  # Founder email
+  founder:
+    email: "founder20251128@gmail.com"
+
   # Map story types/labels to agents
   rules:
     - condition: "story.labels contains 'backend' OR story.type == 'api'"
       agent: "backend-agent"
+      email: "backend20251128@gmail.com"
       priority: 1
 
     - condition: "story.labels contains 'frontend' OR story.type == 'ui'"
       agent: "frontend-agent"
+      email: "frontend20251128@gmail.com"
       priority: 1
 
     - condition: "story.labels contains 'mobile' OR story.type == 'android'"
       agent: "mobile-agent"
+      email: "joao.veloso.fodra@gmail.com"
       priority: 1
 
     - condition: "story.labels contains 'devops' OR story.type == 'infrastructure'"
       agent: "devops-agent"
+      email: "devops20251128@gmail.com"
       priority: 1
 
     - condition: "story.labels contains 'documentation' OR story.type == 'research'"
       agent: "researcher-agent"
+      email: "researcher20251128@gmail.com"
       priority: 1
 
     - condition: "story.labels contains 'qa' OR story.type == 'testing'"
       agent: "qa-agent"
+      email: "qualityassurance20251128@gmail.com"
       priority: 1
 
-  # Multi-agent coordination
+  # Multi-agent coordination (sequential emails)
   multi_agent:
     - condition: "story.labels contains 'fullstack'"
       agents: ["backend-agent", "frontend-agent"]
-      coordination: "sequential"  # Backend first, then frontend
+      coordination: "sequential"  # Email backend first, wait for DONE, then email frontend
 
     - condition: "story.labels contains 'feature'"
       agents: ["backend-agent", "frontend-agent", "qa-agent"]
-      coordination: "pipeline"  # Backend → Frontend → QA
+      coordination: "pipeline"  # Backend → Frontend → QA (each waits for previous DONE)
 
-# Event handlers
-event_handlers:
-  # Story ready - route to appropriate agent
+# SMTP-based message handlers
+# All communication happens via email parsing
+smtp_handlers:
+  # Story ready - send assignment email to appropriate agent
   on_story_ready:
-    event: "story.ready"
+    trigger: "Receives email with subject containing 'STORY READY'"
     action: |
-      1. Analyze story labels and type
-      2. Determine target agent(s) using routing rules
-      3. Publish story.assigned event to agent(s)
-      4. Update state with assignment
-      5. Start timeout timer
-    publish: "story.assigned"
+      1. Parse story details from email body
+      2. Analyze story labels and type
+      3. Determine target agent(s) using routing rules
+      4. Send ASSIGN email to agent's email address
+      5. Update local state with assignment
+      6. Start timeout timer (48 hours)
+    sends_email:
+      to: "{agent_email}"
+      template: "agent-story-assignment"
 
-  # Agent started implementation
-  on_implementation_started:
-    event: "contractor.implementation.started"
+  # Agent acknowledged assignment
+  on_agent_acknowledged:
+    trigger: "Receives email with 'ACKNOWLEDGED' in body from agent"
     action: |
-      1. Log start time
-      2. Update story status to "in_progress"
-      3. Reset iteration counter
+      1. Parse correlation_id from email
+      2. Log start time
+      3. Update story status to "in_progress"
+      4. Reset iteration counter
 
-  # Agent submitted PR
+  # Agent submitted work (PR created)
   on_submission_received:
-    event: "contractor.submission.received"
+    trigger: "Receives email with 'SUBMITTED' in body from agent"
     action: |
-      1. Trigger QA agent review
-      2. Trigger metrics quality gate check
-      3. Update story status to "in_review"
-    publish:
-      - "qa.review.requested"
-      - "metrics.quality.check.requested"
+      1. Parse PR URL and story_id from email
+      2. Send REVIEW email to qa-agent
+      3. Send QUALITY_CHECK email to metrics system
+      4. Update story status to "in_review"
+    sends_email:
+      - to: "qa@bmad.local"
+        template: "qa-review-request"
+      - to: "metrics@bmad.local"
+        template: "quality-check-request"
 
-  # Quality gate passed
+  # QA review complete
+  on_qa_review_complete:
+    trigger: "Receives email with 'QA PASS' or 'QA FAIL' from qa-agent"
+    action: |
+      1. Parse review results
+      2. If QA PASS: Wait for metrics check
+      3. If QA FAIL: Send REVISION email to original agent
+
+  # Quality gate passed (from metrics system)
   on_quality_pass:
-    event: "metrics.quality.pass"
+    trigger: "Receives email with 'QUALITY PASS' from metrics@bmad.local"
     action: |
-      1. Auto-merge PR if all checks pass
-      2. Update story status to "done"
-      3. Trigger next story assignment to agent
-      4. Send success notification to founder (batched)
-    publish: "contractor.pr.merged"
+      1. Verify all checks passed (QA + metrics)
+      2. Auto-merge PR via Git API
+      3. Update story status to "done"
+      4. Send next ASSIGN email if queue not empty
+      5. Batch success for daily summary to founder
+    sends_email:
+      to: "{agent_email}"
+      template: "agent-story-complete"
 
-  # Quality gate failed - self-healing
+  # Quality gate failed - self-healing loop
   on_quality_fail:
-    event: "metrics.quality.fail"
+    trigger: "Receives email with 'QUALITY FAIL' from metrics@bmad.local"
     action: |
-      1. Parse failure reasons
-      2. If iteration_count < max_iterations:
-         - Send revision request to agent
+      1. Parse failure reasons from email body
+      2. Check iteration_count for story
+      3. If iteration_count < 3:
+         - Send REVISION email to agent with failure details
          - Increment iteration counter
-      3. Else:
-         - Escalate to founder via SMTP
-    publish: "contractor.revision.requested"
+      4. Else:
+         - Send ALERT email to founder
+         - Pause story until founder responds
+    sends_email:
+      to: "{agent_email}"
+      template: "agent-revision-request"
 
   # Agent blocked
   on_agent_blocked:
-    event: "contractor.blocked"
+    trigger: "Receives email with 'BLOCKED' in body from agent"
     action: |
-      1. Analyze blocker type
+      1. Parse blocker details from email
       2. If resolvable by another agent:
-         - Route to appropriate agent
+         - Send ASSIST email to helper agent
       3. Else:
-         - Escalate to founder via SMTP
-    publish: "escalation.required"
+         - Send ALERT email to founder with blocker details
+    sends_email:
+      to: "{founder_email}"
+      template: "founder-alert"
 
-  # Story timeout
+  # Story timeout (no response in 48 hours)
   on_story_timeout:
-    event: "story.timeout"
+    trigger: "Scheduled check finds story with no update in 48 hours"
     action: |
-      1. Check agent status
-      2. If agent unresponsive:
-         - Kill agent task
-         - Reassign to different agent instance
-      3. Send timeout alert to founder
+      1. Send STATUS_CHECK email to assigned agent
+      2. Wait 1 hour for response
+      3. If no response:
+         - Send REASSIGN email to backup agent
+         - Send ALERT email to founder
+    sends_email:
+      to: "{founder_email}"
+      template: "founder-alert"
 
-  # Release approved - trigger deployment
+  # Founder replied with command
+  on_founder_reply:
+    trigger: "Receives email from {founder_email}"
+    action: |
+      1. Parse command from email body (APPROVE, REJECT, PAUSE, etc.)
+      2. Execute command action
+      3. Send confirmation email to founder
+    commands:
+      APPROVE: "Execute pending action"
+      REJECT: "Cancel pending action"
+      PAUSE: "Stop all agent assignments"
+      RESUME: "Resume agent assignments"
+      STATUS: "Send immediate status report"
+      UNBLOCK: "Provide guidance to blocked agent"
+
+  # Release approved by founder
   on_release_approved:
-    event: "release.approved"
+    trigger: "Receives email with 'APPROVE' from founder in release thread"
     action: |
-      1. Route to devops-agent for deployment
-      2. Monitor deployment progress
-      3. Report deployment status to founder
-    publish: "deployment.requested"
+      1. Send DEPLOY email to devops-agent
+      2. Start deployment monitoring
+    sends_email:
+      to: "devops@bmad.local"
+      template: "devops-deploy-request"
 
-# Self-healing configuration
+  # Deployment complete
+  on_deployment_complete:
+    trigger: "Receives email with 'DEPLOYED' from devops@bmad.local"
+    action: |
+      1. Parse deployment status
+      2. Send deployment confirmation to founder
+    sends_email:
+      to: "{founder_email}"
+      template: "founder-deployment-complete"
+
+# Self-healing configuration (via SMTP communication)
 self_healing:
   enabled: true
+  max_iterations: 3
 
-  # Auto-fix patterns
+  # Auto-fix patterns - sends REVISION email to agents
   patterns:
     - failure_type: "test_coverage_low"
-      action: "Request qa-agent to write additional tests"
+      action: "Send REVISION email to qa-agent requesting additional tests"
+      email_to: "qa@bmad.local"
       max_attempts: 2
 
     - failure_type: "code_style_violation"
-      action: "Request original agent to run formatter"
+      action: "Send REVISION email to original agent requesting format fix"
+      email_to: "{original_agent_email}"
       max_attempts: 1
 
     - failure_type: "compilation_error"
-      action: "Request original agent to fix compilation"
+      action: "Send REVISION email to original agent with error details"
+      email_to: "{original_agent_email}"
       max_attempts: 2
 
     - failure_type: "security_vulnerability_low"
-      action: "Request original agent to fix vulnerability"
+      action: "Send REVISION email to original agent with vulnerability details"
+      email_to: "{original_agent_email}"
       max_attempts: 2
 
     - failure_type: "security_vulnerability_critical"
-      action: "Escalate to founder immediately"
+      action: "Send ALERT email to founder immediately"
+      email_to: "{founder_email}"
       max_attempts: 0
 
-  # Escalation after max attempts
+  # Escalation after max attempts - email to founder
   escalation:
-    method: "smtp"
-    to: "founder"
-    template: "self_healing_failed"
+    email_to: "{founder_email}"
+    template: "founder-alert"
+    subject: "[BMAD] ALERT: Self-healing failed after 3 attempts"
 
-# SMTP reporting to founder
-smtp_reporting:
+# SMTP Configuration (Gmail)
+smtp:
+  server:
+    host: "smtp.gmail.com"
+    port: 587
+    tls: true
+  imap:
+    host: "imap.gmail.com"
+    port: 993
+    tls: true
+
+  # This agent's email
+  identity:
+    address: "orchestrator20251128@gmail.com"
+    display_name: "BMAD Orchestrator"
+    password: "${ORCHESTRATOR_GMAIL_APP_PASSWORD}"
+
+  # Inbox polling
+  polling:
+    interval_seconds: 60
+    protocol: "IMAP"
+    folder: "INBOX"
+
+  # Email parsing rules
+  parsing:
+    # How to identify email purpose
+    command_patterns:
+      - pattern: "^ACKNOWLEDGED"
+        action: "on_agent_acknowledged"
+      - pattern: "^SUBMITTED"
+        action: "on_submission_received"
+      - pattern: "^BLOCKED"
+        action: "on_agent_blocked"
+      - pattern: "^QA PASS"
+        action: "on_qa_review_complete"
+      - pattern: "^QA FAIL"
+        action: "on_qa_review_complete"
+      - pattern: "^QUALITY PASS"
+        action: "on_quality_pass"
+      - pattern: "^QUALITY FAIL"
+        action: "on_quality_fail"
+      - pattern: "^DEPLOYED"
+        action: "on_deployment_complete"
+      - pattern: "^APPROVE"
+        action: "on_founder_reply"
+      - pattern: "^REJECT"
+        action: "on_founder_reply"
+      - pattern: "^PAUSE"
+        action: "on_founder_reply"
+      - pattern: "^RESUME"
+        action: "on_founder_reply"
+      - pattern: "^STATUS"
+        action: "on_founder_reply"
+      - pattern: "^UNBLOCK"
+        action: "on_founder_reply"
+
+# Founder communication via SMTP
+founder_smtp:
   recipient: "{founder_email}"
-  from_name: "BMAD Orchestrator"
   subject_prefix: "[BMAD]"
 
-  # Report types
-  reports:
-    # Daily summary (batched)
+  # Scheduled reports
+  scheduled_reports:
     daily_summary:
-      schedule: "0 9 * * *"  # 9am daily
-      template: |
-        Subject: [BMAD] Daily Summary - {date}
+      schedule: "0 9 * * *"  # 9am daily in founder's timezone
+      template: "founder-daily-summary"
 
-        ## Pipeline Status
-        - Stories completed: {stories_completed}
-        - Stories in progress: {stories_in_progress}
-        - Stories blocked: {stories_blocked}
+  # Immediate alerts (sent immediately, not batched)
+  immediate_alerts:
+    triggers:
+      - "critical_failure"
+      - "security_vulnerability"
+      - "release_failure"
+      - "escalation_required"
+      - "agent_unresponsive"
+    template: "founder-alert"
 
-        ## Agent Performance
-        {agent_performance_table}
-
-        ## Quality Metrics
-        - First-time pass rate: {first_time_pass_rate}%
-        - Average cycle time: {avg_cycle_time} hours
-
-        ## Action Required
-        {action_items}
-
-    # Immediate alerts (not batched)
-    immediate_alert:
-      triggers:
-        - "critical_failure"
-        - "security_vulnerability"
-        - "release_failure"
-        - "escalation_required"
-      template: |
-        Subject: [BMAD] ALERT: {alert_type}
-
-        ## Issue
-        {issue_description}
-
-        ## Impact
-        {impact_assessment}
-
-        ## Recommended Action
-        {recommended_action}
-
-        ## Reply Options
-        Reply with:
-        - APPROVE: Proceed with recommended action
-        - REJECT: Stop and wait for manual intervention
-        - INVESTIGATE: Provide more details
-
-    # Release notification
-    release_ready:
-      trigger: "release.candidate.created"
-      template: |
-        Subject: [BMAD] Release {version} Ready for Approval
-
-        ## Release Summary
-        Version: {version}
-        Stories included: {story_count}
-
-        ## Changes
-        {changelog}
-
-        ## Quality Gates
-        {quality_gate_status}
-
-        ## Deployment Plan
-        {deployment_plan}
-
-        ## Reply Options
-        Reply with:
-        - APPROVE: Deploy to production
-        - REJECT: Cancel release
-        - DELAY: Hold for later
-
-    # Deployment complete
-    deployment_complete:
-      trigger: "release.deployed"
-      template: |
-        Subject: [BMAD] Release {version} Deployed Successfully
-
-        ## Deployment Status
-        Environment: {environment}
-        Time: {deployment_time}
-
-        ## Health Check
-        {health_check_status}
-
-        ## Metrics
-        {post_deployment_metrics}
-
-# Founder interaction via SMTP
-founder_commands:
   # Commands founder can send via email reply
   commands:
     APPROVE:
       description: "Approve pending action"
-      action: "Execute pending action"
+      response_template: "founder-command-confirmed"
 
     REJECT:
       description: "Reject pending action"
-      action: "Cancel pending action, mark as blocked"
+      response_template: "founder-command-confirmed"
 
     PAUSE:
       description: "Pause all automation"
-      action: "Stop all agents, wait for RESUME"
+      response_template: "founder-command-confirmed"
 
     RESUME:
       description: "Resume automation"
-      action: "Restart paused agents"
+      response_template: "founder-command-confirmed"
 
     STATUS:
-      description: "Request status update"
-      action: "Send immediate status report"
+      description: "Request immediate status update"
+      response_template: "founder-daily-summary"
 
     PRIORITY:
       description: "Change story priority"
       format: "PRIORITY STORY-{id} {high|medium|low}"
-      action: "Update story priority, reorder queue"
+      response_template: "founder-command-confirmed"
 
-events:
-  publishes:
-    - story.assigned
-    - contractor.revision.requested
-    - escalation.required
-    - deployment.requested
-    - founder.notification.sent
+    UNBLOCK:
+      description: "Provide guidance to unblock a story"
+      format: "UNBLOCK STORY-{id} <instructions>"
+      response_template: "founder-command-confirmed"
 
-  subscribes:
-    - story.ready
-    - story.created
-    - contractor.implementation.started
-    - contractor.implementation.completed
-    - contractor.submission.received
-    - contractor.blocked
-    - metrics.quality.pass
-    - metrics.quality.fail
-    - release.approved
-    - release.deployed
-    - release.failed
-    - founder.reply.received
+    ROLLBACK:
+      description: "Rollback a deployment"
+      format: "ROLLBACK {version}"
+      response_template: "founder-command-confirmed"
 
-# State management
+# No internal events - all communication via SMTP
+# These are for documentation purposes only
+communication_flow:
+  # Story assignment flow
+  story_assignment:
+    - step: 1
+      from: "sprint-planning workflow"
+      to: "orchestrator@bmad.local"
+      subject: "[BMAD] STORY READY: STORY-{id}"
+
+    - step: 2
+      from: "orchestrator@bmad.local"
+      to: "{agent}@bmad.local"
+      subject: "[BMAD] ASSIGN: STORY-{id}"
+
+    - step: 3
+      from: "{agent}@bmad.local"
+      to: "orchestrator@bmad.local"
+      subject: "Re: [BMAD] ASSIGN: STORY-{id}"
+      body_contains: "ACKNOWLEDGED"
+
+  # Submission flow
+  submission:
+    - step: 1
+      from: "{agent}@bmad.local"
+      to: "orchestrator@bmad.local"
+      subject: "[BMAD] SUBMITTED: STORY-{id}"
+
+    - step: 2
+      from: "orchestrator@bmad.local"
+      to: "qa@bmad.local"
+      subject: "[BMAD] REVIEW: PR#{pr_number}"
+
+    - step: 3
+      from: "orchestrator@bmad.local"
+      to: "metrics@bmad.local"
+      subject: "[BMAD] QUALITY CHECK: PR#{pr_number}"
+
+  # Quality gate flow
+  quality_gate:
+    - step: 1
+      from: "qa@bmad.local"
+      to: "orchestrator@bmad.local"
+      body_contains: "QA PASS" # or "QA FAIL"
+
+    - step: 2
+      from: "metrics@bmad.local"
+      to: "orchestrator@bmad.local"
+      body_contains: "QUALITY PASS" # or "QUALITY FAIL"
+
+    - step: 3a  # On pass
+      from: "orchestrator@bmad.local"
+      to: "{agent}@bmad.local"
+      subject: "[BMAD] COMPLETE: STORY-{id}"
+
+    - step: 3b  # On fail
+      from: "orchestrator@bmad.local"
+      to: "{agent}@bmad.local"
+      subject: "[BMAD] REVISION: STORY-{id}"
+
+# State management (local to orchestrator container)
 state:
+  persistence: "local_sqlite"
+  database: "/var/lib/bmad/orchestrator.db"
+
   tracked:
-    - active_stories
-    - agent_assignments
-    - iteration_counts
-    - pending_approvals
-    - escalation_queue
-    - daily_metrics
+    - active_stories         # Stories currently assigned
+    - agent_assignments      # Which agent has which story
+    - iteration_counts       # Self-healing iteration count per story
+    - pending_approvals      # Awaiting founder response
+    - email_threads          # Track email conversations by correlation_id
+    - daily_metrics          # Metrics for daily summary
