@@ -36,7 +36,7 @@ email_address:
 
 smtp_password:
   prompt: "SMTP password for orchestrator"
-  default: ""
+  default: "Orchestrator123!"
   result: "{value}"
   secret: true
   env_var: "ORCHESTRATOR_SMTP_PASSWORD"

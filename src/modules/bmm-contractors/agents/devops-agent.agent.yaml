@@ -106,7 +106,7 @@ smtp_handlers:
       4. Run health checks
       5. Send DEPLOYED or DEPLOY FAILED reply
     reply:
-      to: "orchestrator20251128@gmail.com"
+      to: "orchestrator@localdomain"
       body: |
         DEPLOYED  # or DEPLOY FAILED
         Version: {version}
@@ -121,19 +121,19 @@ smtp_handlers:
       2. Verify health
       3. Send ROLLED BACK reply
     reply:
-      to: "orchestrator20251128@gmail.com"
+      to: "orchestrator@localdomain"
       body: "ROLLED BACK\nVersion: {previous_version}\nEnvironment: {environment}"
 
   on_assignment:
     trigger: "Receives email with subject '[BMAD] ASSIGN:'"
     reply:
-      to: "orchestrator20251128@gmail.com"
+      to: "orchestrator@localdomain"
       body: "ACKNOWLEDGED\nStory: {story_id}\nStarting implementation."
 
   on_blocked:
     trigger: "Agent encounters blocker"
     send_email:
-      to: "orchestrator20251128@gmail.com"
+      to: "orchestrator@localdomain"
       subject: "[BMAD] BLOCKED: {story_id}"
       body: "BLOCKED\nStory: {story_id}\nReason: {blocker_reason}"
 
@@ -261,7 +261,7 @@ workflow:
     - id: "submit"
       action: "Create PR and send SUBMITTED email to orchestrator"
       send_email:
-        to: "orchestrator20251128@gmail.com"
+        to: "orchestrator@localdomain"
         subject: "[BMAD] SUBMITTED: {story_id}"
         body: "SUBMITTED\nStory: {story_id}\nPR: {pr_url}"
 
@@ -298,13 +298,13 @@ deployment:
 
 communication:
   receives_from:
-    orchestrator20251128@gmail.com:
+    orchestrator@localdomain:
       - "[BMAD] DEPLOY:" - Deployment request
       - "[BMAD] ROLLBACK:" - Rollback request
       - "[BMAD] ASSIGN:" - Infrastructure story assignment
       - "[BMAD] STATUS CHECK:" - Health check ping
   sends_to:
-    orchestrator20251128@gmail.com:
+    orchestrator@localdomain:
       - "DEPLOYING" - Deployment started
       - "DEPLOYED" - Deployment complete
       - "DEPLOY FAILED" - Deployment failed

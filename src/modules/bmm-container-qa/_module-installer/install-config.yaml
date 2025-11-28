@@ -36,7 +36,7 @@ email_address:
 
 smtp_password:
   prompt: "SMTP password for QA agent"
-  default: ""
+  default: "Qa123!"
   result: "{value}"
   secret: true
   env_var: "QA_SMTP_PASSWORD"

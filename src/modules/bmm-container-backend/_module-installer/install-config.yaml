@@ -36,7 +36,7 @@ email_address:
 
 smtp_password:
   prompt: "SMTP password for backend agent"
-  default: ""
+  default: "Backend123!"
   result: "{value}"
   secret: true
   env_var: "BACKEND_SMTP_PASSWORD"

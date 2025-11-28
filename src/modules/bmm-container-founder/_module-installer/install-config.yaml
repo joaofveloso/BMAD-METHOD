@@ -36,7 +36,7 @@ email_address:
 
 smtp_password:
   prompt: "SMTP password for founder"
-  default: ""
+  default: "Founder123!"
   result: "{value}"
   secret: true
   env_var: "FOUNDER_SMTP_PASSWORD"

@@ -36,7 +36,7 @@ email_address:
 
 smtp_password:
   prompt: "SMTP password for DevOps agent"
-  default: ""
+  default: "DevOps123!"
   result: "{value}"
   secret: true
   env_var: "DEVOPS_SMTP_PASSWORD"

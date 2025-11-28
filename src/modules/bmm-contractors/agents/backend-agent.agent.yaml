@@ -135,7 +135,7 @@ smtp_handlers:
       3. Clone repository and create feature branch
       4. Begin implementation workflow
     reply:
-      to: "orchestrator20251128@gmail.com"
+      to: "orchestrator@localdomain"
       body: |
         ACKNOWLEDGED
         Story: {story_id}
@@ -150,7 +150,7 @@ smtp_handlers:
       3. Implement fixes
       4. Push changes and send SUBMITTED reply
     reply:
-      to: "orchestrator20251128@gmail.com"
+      to: "orchestrator@localdomain"
       body: |
         SUBMITTED
         Story: {story_id}
@@ -164,7 +164,7 @@ smtp_handlers:
       1. Calculate current progress
       2. Send PROGRESS reply
     reply:
-      to: "orchestrator20251128@gmail.com"
+      to: "orchestrator@localdomain"
       body: |
         PROGRESS
         Story: {story_id}
@@ -179,7 +179,7 @@ smtp_handlers:
       1. Analyze blocker type
       2. Send BLOCKED email to orchestrator
     send_email:
-      to: "orchestrator20251128@gmail.com"
+      to: "orchestrator@localdomain"
       subject: "[BMAD] BLOCKED: {story_id}"
       body: |
         BLOCKED
@@ -315,7 +315,7 @@ workflow:
     - id: "submit"
       action: "Create PR and send SUBMITTED email to orchestrator"
       send_email:
-        to: "orchestrator20251128@gmail.com"
+        to: "orchestrator@localdomain"
         subject: "[BMAD] SUBMITTED: {story_id}"
         body: |
           SUBMITTED
@@ -338,14 +338,14 @@ workflow:
 # Documentation of email communication patterns
 communication:
   receives_from:
-    orchestrator20251128@gmail.com:
+    orchestrator@localdomain:
       - "[BMAD] ASSIGN:" - New story assignment
       - "[BMAD] REVISION:" - Fix quality failures
       - "[BMAD] COMPLETE:" - Story merged confirmation
       - "[BMAD] STATUS CHECK:" - Health check ping
 
   sends_to:
-    orchestrator20251128@gmail.com:
+    orchestrator@localdomain:
       - "ACKNOWLEDGED" - Starting work on story
       - "SUBMITTED" - PR ready for review
       - "BLOCKED" - Cannot proceed

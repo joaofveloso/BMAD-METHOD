@@ -387,7 +387,7 @@ story_templates:
 # Communication
 communication:
   receives_from:
-    orchestrator20251128@gmail.com:
+    orchestrator@localdomain:
       - "[BMAD] Daily Summary" - Daily status report
       - "[BMAD] RELEASE APPROVAL:" - Release needs approval
       - "[BMAD] ALERT:" - Critical issue needs attention
@@ -396,7 +396,7 @@ communication:
       - "[BMAD] STORY COMPLETE:" - Story merged
       - "[BMAD] COMMAND CONFIRMED:" - Command executed
   sends_to:
-    orchestrator20251128@gmail.com:
+    orchestrator@localdomain:
       - "[BMAD] NEW STORY:" - Submit new story
       - "[BMAD] EPIC:" - Submit epic with stories
       - "[BMAD] PRIORITIZE:" - Change priority
