@@ -14,7 +14,7 @@ deployment:
   container: "founder"
   ip: "192.168.56.10"
   ssh_port: 2220
-  email: "founder20251128@gmail.com"
+  email: "founder@localdomain"
 
 persona:
   role: "Strategic Leader + Idea Generator + Pipeline Commander"
@@ -39,7 +39,7 @@ persona:
        - Handle escalations
 
     ALL OUTBOUND COMMUNICATION TO PIPELINE VIA SMTP EMAIL:
-    - Send new stories to orchestrator20251128@gmail.com
+    - Send new stories to orchestrator@localdomain
     - Send commands (APPROVE, PAUSE, PRIORITIZE, etc.)
     - Receive status updates and alerts from orchestrator
 
@@ -90,26 +90,26 @@ interactive:
       description: "Help make technical or product decisions"
       output: "Decision with pros/cons analysis"
 
-# SMTP Configuration (Gmail)
+# SMTP Configuration (Local)
 smtp:
   server:
-    host: "smtp.gmail.com"
-    port: 587
-    tls: true
+    host: "localhost"
+    port: 25
+    tls: false
   imap:
-    host: "imap.gmail.com"
-    port: 993
-    tls: true
+    host: "localhost"
+    port: 143
+    tls: false
   identity:
-    address: "founder20251128@gmail.com"
+    address: "founder@localdomain"
     display_name: "Founder AI Agent"
-    password: "${FOUNDER_GMAIL_APP_PASSWORD}"
+    password: "${FOUNDER_SMTP_PASSWORD}"
   polling:
     interval_seconds: 60
     protocol: "IMAP"
     folder: "INBOX"
   contacts:
-    orchestrator: "orchestrator20251128@gmail.com"
+    orchestrator: "orchestrator@localdomain"
 
 # Commands founder can send to pipeline (via SMTP)
 pipeline_commands:
@@ -117,7 +117,7 @@ pipeline_commands:
   new_story:
     description: "Submit a new story for implementation"
     email:
-      to: "orchestrator20251128@gmail.com"
+      to: "orchestrator@localdomain"
       subject: "[BMAD] NEW STORY: {story_id}"
       body_template: |
         NEW STORY
@@ -141,7 +141,7 @@ pipeline_commands:
   submit_epic:
     description: "Submit multiple stories from an epic"
     email:
-      to: "orchestrator20251128@gmail.com"
+      to: "orchestrator@localdomain"
       subject: "[BMAD] EPIC: {epic_id}"
       body_template: |
         EPIC SUBMISSION
@@ -157,7 +157,7 @@ pipeline_commands:
   prioritize:
     description: "Change story priority"
     email:
-      to: "orchestrator20251128@gmail.com"
+      to: "orchestrator@localdomain"
       subject: "[BMAD] PRIORITIZE: {story_id}"
       body_template: |
         PRIORITIZE
@@ -169,7 +169,7 @@ pipeline_commands:
   approve:
     description: "Approve pending action (release, deployment, etc.)"
     email:
-      to: "orchestrator20251128@gmail.com"
+      to: "orchestrator@localdomain"
       subject: "Re: {original_subject}"
       body_template: |
         APPROVE
@@ -179,7 +179,7 @@ pipeline_commands:
   reject:
     description: "Reject pending action"
     email:
-      to: "orchestrator20251128@gmail.com"
+      to: "orchestrator@localdomain"
       subject: "Re: {original_subject}"
       body_template: |
         REJECT
@@ -190,7 +190,7 @@ pipeline_commands:
   pause:
     description: "Pause all automation"
     email:
-      to: "orchestrator20251128@gmail.com"
+      to: "orchestrator@localdomain"
       subject: "[BMAD] COMMAND: PAUSE"
       body_template: |
         PAUSE
@@ -201,7 +201,7 @@ pipeline_commands:
   resume:
     description: "Resume automation"
     email:
-      to: "orchestrator20251128@gmail.com"
+      to: "orchestrator@localdomain"
       subject: "[BMAD] COMMAND: RESUME"
       body_template: |
         RESUME
@@ -212,7 +212,7 @@ pipeline_commands:
   status:
     description: "Request immediate status update"
     email:
-      to: "orchestrator20251128@gmail.com"
+      to: "orchestrator@localdomain"
       subject: "[BMAD] COMMAND: STATUS"
       body_template: |
         STATUS
@@ -223,7 +223,7 @@ pipeline_commands:
   unblock:
     description: "Provide guidance to unblock a story"
     email:
-      to: "orchestrator20251128@gmail.com"
+      to: "orchestrator@localdomain"
       subject: "[BMAD] UNBLOCK: {story_id}"
       body_template: |
         UNBLOCK
@@ -239,7 +239,7 @@ pipeline_commands:
   rollback:
     description: "Rollback a deployment"
     email:
-      to: "orchestrator20251128@gmail.com"
+      to: "orchestrator@localdomain"
       subject: "[BMAD] ROLLBACK: {version}"
       body_template: |
         ROLLBACK
@@ -250,7 +250,7 @@ pipeline_commands:
   cancel:
     description: "Cancel a story in progress"
     email:
-      to: "orchestrator20251128@gmail.com"
+      to: "orchestrator@localdomain"
       subject: "[BMAD] CANCEL: {story_id}"
       body_template: |
         CANCEL

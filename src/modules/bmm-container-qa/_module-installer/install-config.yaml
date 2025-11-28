@@ -14,7 +14,7 @@ subheader: |
 
   Container IP: 192.168.56.15
   SSH Port: 2225
-  Email: qualityassurance20251128@gmail.com
+  Email: qa@localdomain
 
 # Dependencies
 requires:
@@ -28,18 +28,18 @@ container:
   ssh_port: 2225
   agent_file: "bmm-contractors/agents/qa-agent.agent.yaml"
 
-# Gmail configuration
-gmail_address:
-  prompt: "QA agent Gmail address"
-  default: "qualityassurance20251128@gmail.com"
+# Local SMTP configuration
+email_address:
+  prompt: "QA agent email address"
+  default: "qa@localdomain"
   result: "{value}"
 
-gmail_app_password:
-  prompt: "Gmail App Password for QA agent"
+smtp_password:
+  prompt: "SMTP password for QA agent"
   default: ""
   result: "{value}"
   secret: true
-  env_var: "QA_GMAIL_APP_PASSWORD"
+  env_var: "QA_SMTP_PASSWORD"
 
 # Test frameworks
 test_frameworks:
@@ -75,12 +75,20 @@ install_files:
 
 # Environment variables
 env_vars:
-  QA_GMAIL_APP_PASSWORD: "{gmail_app_password}"
-  QA_EMAIL: "{gmail_address}"
+  QA_SMTP_PASSWORD: "{smtp_password}"
+  QA_EMAIL: "{email_address}"
   CONTAINER_IP: "192.168.56.15"
   CONTAINER_NAME: "qa"
   COVERAGE_THRESHOLD: "{coverage_threshold}"
   POLLING_INTERVAL: "{polling_interval}"
+
+# SMTP config for local mail
+smtp_config:
+  server: "localhost"
+  port: 25
+  tls: false
+  imap_server: "localhost"
+  imap_port: 143
 
 post_install_message: |
   QA container configured!
@@ -88,8 +96,9 @@ post_install_message: |
   Next steps:
   1. Set up the container at 192.168.56.15
   2. Install test frameworks
-  3. Copy installed files to the container
-  4. Set environment variable: QA_GMAIL_APP_PASSWORD
-  5. Start the agent runtime (polling mode)
+  3. Configure local mail server (Postfix/Dovecot)
+  4. Copy installed files to the container
+  5. Set environment variable: QA_SMTP_PASSWORD
+  6. Start the agent runtime (polling mode)
 
   QA agent will enforce {coverage_threshold}% code coverage.

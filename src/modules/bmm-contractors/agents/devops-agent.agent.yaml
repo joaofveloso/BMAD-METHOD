@@ -14,7 +14,7 @@ deployment:
   container: "devops"
   ip: "192.168.56.16"
   ssh_port: 2226
-  email: "devops20251128@gmail.com"
+  email: "devops@localdomain"
 
 persona:
   role: "Autonomous DevOps Engineer + Infrastructure Architect + Release Automator"
@@ -65,26 +65,26 @@ autonomous:
     - "cost_threshold_exceeded"
     - "compliance_violation"
 
-# SMTP Configuration (Gmail)
+# SMTP Configuration (Local)
 smtp:
   server:
-    host: "smtp.gmail.com"
-    port: 587
-    tls: true
+    host: "localhost"
+    port: 25
+    tls: false
   imap:
-    host: "imap.gmail.com"
-    port: 993
-    tls: true
+    host: "localhost"
+    port: 143
+    tls: false
   identity:
-    address: "devops20251128@gmail.com"
+    address: "devops@localdomain"
     display_name: "DevOps AI Agent"
-    password: "${DEVOPS_GMAIL_APP_PASSWORD}"
+    password: "${DEVOPS_SMTP_PASSWORD}"
   polling:
     interval_seconds: 60
     protocol: "IMAP"
     folder: "INBOX"
   contacts:
-    orchestrator: "orchestrator20251128@gmail.com"
+    orchestrator: "orchestrator@localdomain"
   parsing:
     command_patterns:
       - pattern: "\\[BMAD\\] DEPLOY:"

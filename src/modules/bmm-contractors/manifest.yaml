@@ -33,14 +33,14 @@ communication:
     - Email polling every 60 seconds via IMAP
 
   smtp_server:
-    host: "smtp.gmail.com"
-    port: 587
-    tls: true
+    host: "localhost"
+    port: 25
+    tls: false
   imap_server:
-    host: "imap.gmail.com"
-    port: 993
-    tls: true
-  note: "Each agent uses Gmail App Password for authentication"
+    host: "localhost"
+    port: 143
+    tls: false
+  note: "Each container runs local mail server (e.g., Postfix/Dovecot)"
 
 # Automation mode
 automation:
@@ -77,57 +77,57 @@ containers:
   founder:
     ip: "192.168.56.10"
     ssh_port: 2220
-    email: "founder20251128@gmail.com"
-    password_env: "FOUNDER_GMAIL_APP_PASSWORD"
+    email: "founder@localdomain"
+    password_env: "FOUNDER_SMTP_PASSWORD"
     purpose: "Leadership & approvals"
 
   orchestrator:
     ip: "192.168.56.11"
     ssh_port: 2221
-    email: "orchestrator20251128@gmail.com"
-    password_env: "ORCHESTRATOR_GMAIL_APP_PASSWORD"
+    email: "orchestrator@localdomain"
+    password_env: "ORCHESTRATOR_SMTP_PASSWORD"
     purpose: "Central coordinator - routes work to agents via SMTP"
 
   backend:
     ip: "192.168.56.12"
     ssh_port: 2222
-    email: "backend20251128@gmail.com"
-    password_env: "BACKEND_GMAIL_APP_PASSWORD"
+    email: "backend@localdomain"
+    password_env: "BACKEND_SMTP_PASSWORD"
     purpose: "Java/Spring backend development"
 
   frontend:
     ip: "192.168.56.13"
     ssh_port: 2223
-    email: "frontend20251128@gmail.com"
-    password_env: "FRONTEND_GMAIL_APP_PASSWORD"
+    email: "frontend@localdomain"
+    password_env: "FRONTEND_SMTP_PASSWORD"
     purpose: "React/TypeScript frontend development"
 
   mobile:
     ip: "192.168.56.14"
     ssh_port: 2224
-    email: "android20251128@outlook.com"
-    password_env: "MOBILE_OUTLOOK_APP_PASSWORD"
+    email: "android@localdomain"
+    password_env: "MOBILE_SMTP_PASSWORD"
     purpose: "Android/Kotlin mobile development"
 
   qa:
     ip: "192.168.56.15"
     ssh_port: 2225
-    email: "qualityassurance20251128@gmail.com"
-    password_env: "QA_GMAIL_APP_PASSWORD"
+    email: "qa@localdomain"
+    password_env: "QA_SMTP_PASSWORD"
     purpose: "Test automation and QA review"
 
   devops:
     ip: "192.168.56.16"
     ssh_port: 2226
-    email: "devops20251128@gmail.com"
-    password_env: "DEVOPS_GMAIL_APP_PASSWORD"
+    email: "devops@localdomain"
+    password_env: "DEVOPS_SMTP_PASSWORD"
     purpose: "Infrastructure and deployments"
 
   researcher:
     ip: "192.168.56.17"
     ssh_port: 2227
-    email: "joao.fodra.veloso@gmail.com"
-    password_env: "RESEARCHER_GMAIL_APP_PASSWORD"
+    email: "researcher@localdomain"
+    password_env: "RESEARCHER_SMTP_PASSWORD"
     purpose: "Documentation and research"
 
 # SMTP Communication (replaces events)

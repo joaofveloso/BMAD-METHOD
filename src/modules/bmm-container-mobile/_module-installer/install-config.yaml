@@ -1,6 +1,6 @@
 # BMM-Container-Mobile Module Installer Configuration
 # Autonomous AI Mobile Agent Container Deployment
-# Android/Kotlin mobile development via SMTP (Outlook)
+# Android/Kotlin mobile development via SMTP
 
 code: bmm-container-mobile
 name: "Container: Mobile (192.168.56.14)"
@@ -14,7 +14,7 @@ subheader: |
 
   Container IP: 192.168.56.14
   SSH Port: 2224
-  Email: android20251128@outlook.com
+  Email: android@localdomain
 
 # Dependencies
 requires:
@@ -28,18 +28,18 @@ container:
   ssh_port: 2224
   agent_file: "bmm-contractors/agents/mobile-agent.agent.yaml"
 
-# Outlook configuration
-outlook_address:
-  prompt: "Mobile agent Outlook address"
-  default: "android20251128@outlook.com"
+# Local SMTP configuration
+email_address:
+  prompt: "Mobile agent email address"
+  default: "android@localdomain"
   result: "{value}"
 
-outlook_app_password:
-  prompt: "Outlook App Password for mobile agent"
+smtp_password:
+  prompt: "SMTP password for mobile agent"
   default: ""
   result: "{value}"
   secret: true
-  env_var: "MOBILE_OUTLOOK_APP_PASSWORD"
+  env_var: "MOBILE_SMTP_PASSWORD"
 
 # Tech stack
 android_sdk_version:
@@ -65,21 +65,21 @@ install_files:
 
 # Environment variables
 env_vars:
-  MOBILE_OUTLOOK_APP_PASSWORD: "{outlook_app_password}"
-  MOBILE_EMAIL: "{outlook_address}"
+  MOBILE_SMTP_PASSWORD: "{smtp_password}"
+  MOBILE_EMAIL: "{email_address}"
   CONTAINER_IP: "192.168.56.14"
   CONTAINER_NAME: "mobile"
   ANDROID_SDK_VERSION: "{android_sdk_version}"
   KOTLIN_VERSION: "{kotlin_version}"
   POLLING_INTERVAL: "{polling_interval}"
 
-# SMTP/IMAP config for Outlook
+# SMTP config for local mail
 smtp_config:
-  server: "smtp-mail.outlook.com"
-  port: 587
-  tls: true
-  imap_server: "outlook.office365.com"
-  imap_port: 993
+  server: "localhost"
+  port: 25
+  tls: false
+  imap_server: "localhost"
+  imap_port: 143
 
 post_install_message: |
   Mobile container configured!
@@ -87,8 +87,7 @@ post_install_message: |
   Next steps:
   1. Set up the container at 192.168.56.14
   2. Install Android SDK {android_sdk_version} and Kotlin {kotlin_version}
-  3. Copy installed files to the container
-  4. Set environment variable: MOBILE_OUTLOOK_APP_PASSWORD
-  5. Start the agent runtime (polling mode)
-
-  Note: This container uses Outlook (not Gmail) for SMTP/IMAP.
+  3. Configure local mail server (Postfix/Dovecot)
+  4. Copy installed files to the container
+  5. Set environment variable: MOBILE_SMTP_PASSWORD
+  6. Start the agent runtime (polling mode)

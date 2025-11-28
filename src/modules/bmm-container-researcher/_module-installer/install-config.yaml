@@ -14,7 +14,7 @@ subheader: |
 
   Container IP: 192.168.56.17
   SSH Port: 2227
-  Email: joao.fodra.veloso@gmail.com
+  Email: researcher@localdomain
 
 # Dependencies
 requires:
@@ -28,18 +28,18 @@ container:
   ssh_port: 2227
   agent_file: "bmm-contractors/agents/researcher-agent.agent.yaml"
 
-# Gmail configuration
-gmail_address:
-  prompt: "Researcher agent Gmail address"
-  default: "joao.fodra.veloso@gmail.com"
+# Local SMTP configuration
+email_address:
+  prompt: "Researcher agent email address"
+  default: "researcher@localdomain"
   result: "{value}"
 
-gmail_app_password:
-  prompt: "Gmail App Password for researcher agent"
+smtp_password:
+  prompt: "SMTP password for researcher agent"
   default: ""
   result: "{value}"
   secret: true
-  env_var: "RESEARCHER_GMAIL_APP_PASSWORD"
+  env_var: "RESEARCHER_SMTP_PASSWORD"
 
 # Research capabilities
 research_tools:
@@ -69,17 +69,26 @@ install_files:
 
 # Environment variables
 env_vars:
-  RESEARCHER_GMAIL_APP_PASSWORD: "{gmail_app_password}"
-  RESEARCHER_EMAIL: "{gmail_address}"
+  RESEARCHER_SMTP_PASSWORD: "{smtp_password}"
+  RESEARCHER_EMAIL: "{email_address}"
   CONTAINER_IP: "192.168.56.17"
   CONTAINER_NAME: "researcher"
   POLLING_INTERVAL: "{polling_interval}"
+
+# SMTP config for local mail
+smtp_config:
+  server: "localhost"
+  port: 25
+  tls: false
+  imap_server: "localhost"
+  imap_port: 143
 
 post_install_message: |
   Researcher container configured!
 
   Next steps:
   1. Set up the container at 192.168.56.17
-  2. Copy installed files to the container
-  3. Set environment variable: RESEARCHER_GMAIL_APP_PASSWORD
-  4. Start the agent runtime (polling mode)
+  2. Configure local mail server (Postfix/Dovecot)
+  3. Copy installed files to the container
+  4. Set environment variable: RESEARCHER_SMTP_PASSWORD
+  5. Start the agent runtime (polling mode)

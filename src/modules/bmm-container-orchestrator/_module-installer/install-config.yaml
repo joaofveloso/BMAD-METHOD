@@ -14,7 +14,7 @@ subheader: |
 
   Container IP: 192.168.56.11
   SSH Port: 2221
-  Email: orchestrator20251128@gmail.com
+  Email: orchestrator@localdomain
 
 # Dependencies
 requires:
@@ -28,31 +28,24 @@ container:
   ssh_port: 2221
   agent_file: "bmm-contractors/agents/orchestrator-agent.agent.yaml"
 
-# Gmail configuration
-gmail_address:
-  prompt: "Orchestrator Gmail address"
-  default: "orchestrator20251128@gmail.com"
+# Local SMTP configuration
+email_address:
+  prompt: "Orchestrator email address"
+  default: "orchestrator@localdomain"
   result: "{value}"
 
-gmail_app_password:
-  prompt: "Gmail App Password for orchestrator"
+smtp_password:
+  prompt: "SMTP password for orchestrator"
   default: ""
   result: "{value}"
   secret: true
-  env_var: "ORCHESTRATOR_GMAIL_APP_PASSWORD"
+  env_var: "ORCHESTRATOR_SMTP_PASSWORD"
 
 # Polling interval
 polling_interval:
   prompt: "Email polling interval (seconds)"
   default: "60"
   result: "{value}"
-  single-select:
-    - value: "30"
-      label: "30 seconds - Fast response"
-    - value: "60"
-      label: "60 seconds - Standard"
-    - value: "120"
-      label: "2 minutes - Lower resource usage"
 
 # Self-healing config
 max_iterations:
@@ -74,22 +67,31 @@ install_files:
 
 # Environment variables
 env_vars:
-  ORCHESTRATOR_GMAIL_APP_PASSWORD: "{gmail_app_password}"
-  ORCHESTRATOR_EMAIL: "{gmail_address}"
+  ORCHESTRATOR_SMTP_PASSWORD: "{smtp_password}"
+  ORCHESTRATOR_EMAIL: "{email_address}"
   CONTAINER_IP: "192.168.56.11"
   CONTAINER_NAME: "orchestrator"
   POLLING_INTERVAL: "{polling_interval}"
   MAX_ITERATIONS: "{max_iterations}"
   STORY_TIMEOUT_HOURS: "{story_timeout_hours}"
 
+# SMTP config for local mail
+smtp_config:
+  server: "localhost"
+  port: 25
+  tls: false
+  imap_server: "localhost"
+  imap_port: 143
+
 post_install_message: |
   Orchestrator container configured!
 
   Next steps:
   1. Set up the container at 192.168.56.11
-  2. Copy installed files to the container
-  3. Set environment variable: ORCHESTRATOR_GMAIL_APP_PASSWORD
-  4. Start the agent runtime (polling mode)
+  2. Configure local mail server (Postfix/Dovecot)
+  3. Copy installed files to the container
+  4. Set environment variable: ORCHESTRATOR_SMTP_PASSWORD
+  5. Start the agent runtime (polling mode)
 
   The orchestrator will:
   - Poll inbox every {polling_interval} seconds

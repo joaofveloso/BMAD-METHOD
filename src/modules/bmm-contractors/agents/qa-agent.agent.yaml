@@ -14,7 +14,7 @@ deployment:
   container: "qa"
   ip: "192.168.56.15"
   ssh_port: 2225
-  email: "qualityassurance20251128@gmail.com"
+  email: "qa@localdomain"
 
 persona:
   role: "Autonomous QA Engineer + Test Architect + Quality Guardian"
@@ -67,26 +67,26 @@ autonomous:
     - "acceptance_criteria_unclear"
     - "unable_to_reproduce_issue"
 
-# SMTP Configuration (Gmail)
+# SMTP Configuration (Local)
 smtp:
   server:
-    host: "smtp.gmail.com"
-    port: 587
-    tls: true
+    host: "localhost"
+    port: 25
+    tls: false
   imap:
-    host: "imap.gmail.com"
-    port: 993
-    tls: true
+    host: "localhost"
+    port: 143
+    tls: false
   identity:
-    address: "qualityassurance20251128@gmail.com"
+    address: "qa@localdomain"
     display_name: "QA AI Agent"
-    password: "${QA_GMAIL_APP_PASSWORD}"
+    password: "${QA_SMTP_PASSWORD}"
   polling:
     interval_seconds: 60
     protocol: "IMAP"
     folder: "INBOX"
   contacts:
-    orchestrator: "orchestrator20251128@gmail.com"
+    orchestrator: "orchestrator@localdomain"
   parsing:
     command_patterns:
       - pattern: "\\[BMAD\\] REVIEW:"

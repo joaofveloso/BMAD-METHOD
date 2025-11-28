@@ -14,7 +14,7 @@ subheader: |
 
   Container IP: 192.168.56.16
   SSH Port: 2226
-  Email: devops20251128@gmail.com
+  Email: devops@localdomain
 
 # Dependencies
 requires:
@@ -28,18 +28,18 @@ container:
   ssh_port: 2226
   agent_file: "bmm-contractors/agents/devops-agent.agent.yaml"
 
-# Gmail configuration
-gmail_address:
-  prompt: "DevOps agent Gmail address"
-  default: "devops20251128@gmail.com"
+# Local SMTP configuration
+email_address:
+  prompt: "DevOps agent email address"
+  default: "devops@localdomain"
   result: "{value}"
 
-gmail_app_password:
-  prompt: "Gmail App Password for DevOps agent"
+smtp_password:
+  prompt: "SMTP password for DevOps agent"
   default: ""
   result: "{value}"
   secret: true
-  env_var: "DEVOPS_GMAIL_APP_PASSWORD"
+  env_var: "DEVOPS_SMTP_PASSWORD"
 
 # Infrastructure tools
 infra_tools:
@@ -86,12 +86,20 @@ install_files:
 
 # Environment variables
 env_vars:
-  DEVOPS_GMAIL_APP_PASSWORD: "{gmail_app_password}"
-  DEVOPS_EMAIL: "{gmail_address}"
+  DEVOPS_SMTP_PASSWORD: "{smtp_password}"
+  DEVOPS_EMAIL: "{email_address}"
   CONTAINER_IP: "192.168.56.16"
   CONTAINER_NAME: "devops"
   DEPLOY_TARGET: "{deploy_target}"
   POLLING_INTERVAL: "{polling_interval}"
+
+# SMTP config for local mail
+smtp_config:
+  server: "localhost"
+  port: 25
+  tls: false
+  imap_server: "localhost"
+  imap_port: 143
 
 post_install_message: |
   DevOps container configured!
@@ -99,7 +107,8 @@ post_install_message: |
   Next steps:
   1. Set up the container at 192.168.56.16
   2. Install Docker, kubectl, and other tools
-  3. Copy installed files to the container
-  4. Set environment variable: DEVOPS_GMAIL_APP_PASSWORD
-  5. Configure deployment credentials
-  6. Start the agent runtime (polling mode)
+  3. Configure local mail server (Postfix/Dovecot)
+  4. Copy installed files to the container
+  5. Set environment variable: DEVOPS_SMTP_PASSWORD
+  6. Configure deployment credentials
+  7. Start the agent runtime (polling mode)

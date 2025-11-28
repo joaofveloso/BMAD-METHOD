@@ -14,7 +14,7 @@ deployment:
   container: "backend"
   ip: "192.168.56.12"
   ssh_port: 2222
-  email: "backend20251128@gmail.com"
+  email: "backend@localdomain"
 
 persona:
   role: "Autonomous Backend Developer + API Architect + Database Designer"
@@ -84,22 +84,22 @@ autonomous:
     - "architectural_decision_needed"
     - "security_vulnerability_found"
 
-# SMTP Configuration (Gmail)
+# SMTP Configuration (Local)
 smtp:
   server:
-    host: "smtp.gmail.com"
-    port: 587
-    tls: true
+    host: "localhost"
+    port: 25
+    tls: false
   imap:
-    host: "imap.gmail.com"
-    port: 993
-    tls: true
+    host: "localhost"
+    port: 143
+    tls: false
 
   # This agent's email
   identity:
-    address: "backend20251128@gmail.com"
+    address: "backend@localdomain"
     display_name: "Backend AI Agent"
-    password: "${BACKEND_GMAIL_APP_PASSWORD}"
+    password: "${BACKEND_SMTP_PASSWORD}"
 
   # Inbox polling
   polling:
@@ -109,7 +109,7 @@ smtp:
 
   # Who to communicate with
   contacts:
-    orchestrator: "orchestrator20251128@gmail.com"
+    orchestrator: "orchestrator@localdomain"
 
   # Email parsing rules
   parsing:

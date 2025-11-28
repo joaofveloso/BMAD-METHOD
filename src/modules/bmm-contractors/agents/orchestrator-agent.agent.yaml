@@ -14,7 +14,7 @@ deployment:
   container: "orchestrator"
   ip: "192.168.56.11"
   ssh_port: 2221
-  email: "orchestrator20251128@gmail.com"
+  email: "orchestrator@localdomain"
 
 persona:
   role: "Pipeline Orchestrator + Agent Coordinator + Automation Controller"
@@ -63,58 +63,58 @@ routing:
   # Agent email addresses
   agents:
     backend-agent:
-      email: "backend20251128@gmail.com"
+      email: "backend@localdomain"
       container_ip: "192.168.56.12"
     frontend-agent:
-      email: "frontend20251128@gmail.com"
+      email: "frontend@localdomain"
       container_ip: "192.168.56.13"
     mobile-agent:
-      email: "android20251128@outlook.com"
+      email: "android@localdomain"
       container_ip: "192.168.56.14"
     qa-agent:
-      email: "qualityassurance20251128@gmail.com"
+      email: "qa@localdomain"
       container_ip: "192.168.56.15"
     devops-agent:
-      email: "devops20251128@gmail.com"
+      email: "devops@localdomain"
       container_ip: "192.168.56.16"
     researcher-agent:
-      email: "joao.fodra.veloso@gmail.com"
+      email: "researcher@localdomain"
       container_ip: "192.168.56.17"
 
   # Founder email
   founder:
-    email: "founder20251128@gmail.com"
+    email: "founder@localdomain"
 
   # Map story types/labels to agents
   rules:
     - condition: "story.labels contains 'backend' OR story.type == 'api'"
       agent: "backend-agent"
-      email: "backend20251128@gmail.com"
+      email: "backend@localdomain"
       priority: 1
 
     - condition: "story.labels contains 'frontend' OR story.type == 'ui'"
       agent: "frontend-agent"
-      email: "frontend20251128@gmail.com"
+      email: "frontend@localdomain"
       priority: 1
 
     - condition: "story.labels contains 'mobile' OR story.type == 'android'"
       agent: "mobile-agent"
-      email: "android20251128@outlook.com"
+      email: "android@localdomain"
       priority: 1
 
     - condition: "story.labels contains 'devops' OR story.type == 'infrastructure'"
       agent: "devops-agent"
-      email: "devops20251128@gmail.com"
+      email: "devops@localdomain"
       priority: 1
 
     - condition: "story.labels contains 'documentation' OR story.type == 'research'"
       agent: "researcher-agent"
-      email: "joao.fodra.veloso@gmail.com"
+      email: "researcher@localdomain"
       priority: 1
 
     - condition: "story.labels contains 'qa' OR story.type == 'testing'"
       agent: "qa-agent"
-      email: "qualityassurance20251128@gmail.com"
+      email: "qa@localdomain"
       priority: 1
 
   # Multi-agent coordination (sequential emails)
@@ -303,22 +303,22 @@ self_healing:
     template: "founder-alert"
     subject: "[BMAD] ALERT: Self-healing failed after 3 attempts"
 
-# SMTP Configuration (Gmail)
+# SMTP Configuration (Local)
 smtp:
   server:
-    host: "smtp.gmail.com"
-    port: 587
-    tls: true
+    host: "localhost"
+    port: 25
+    tls: false
   imap:
-    host: "imap.gmail.com"
-    port: 993
-    tls: true
+    host: "localhost"
+    port: 143
+    tls: false
 
   # This agent's email
   identity:
-    address: "orchestrator20251128@gmail.com"
+    address: "orchestrator@localdomain"
     display_name: "BMAD Orchestrator"
-    password: "${ORCHESTRATOR_GMAIL_APP_PASSWORD}"
+    password: "${ORCHESTRATOR_SMTP_PASSWORD}"
 
   # Inbox polling
   polling:

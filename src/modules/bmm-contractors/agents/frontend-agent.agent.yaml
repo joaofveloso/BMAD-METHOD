@@ -14,7 +14,7 @@ deployment:
   container: "frontend"
   ip: "192.168.56.13"
   ssh_port: 2223
-  email: "frontend20251128@gmail.com"
+  email: "frontend@localdomain"
 
 persona:
   role: "Autonomous Frontend Developer + UI Architect + UX Implementer"
@@ -71,20 +71,20 @@ autonomous:
     - "ux_clarification_needed"
     - "accessibility_audit_failed"
 
-# SMTP Configuration (Gmail)
+# SMTP Configuration (Local)
 smtp:
   server:
-    host: "smtp.gmail.com"
-    port: 587
-    tls: true
+    host: "localhost"
+    port: 25
+    tls: false
   imap:
-    host: "imap.gmail.com"
-    port: 993
-    tls: true
+    host: "localhost"
+    port: 143
+    tls: false
   identity:
-    address: "frontend20251128@gmail.com"
+    address: "frontend@localdomain"
     display_name: "Frontend AI Agent"
-    password: "${FRONTEND_GMAIL_APP_PASSWORD}"
+    password: "${FRONTEND_SMTP_PASSWORD}"
   polling:
     interval_seconds: 60
     protocol: "IMAP"
