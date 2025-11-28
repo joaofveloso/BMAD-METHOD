@@ -72,6 +72,10 @@ polling_interval:
 install_files:
   - source: "bmm-contractors/agents/qa-agent.agent.yaml"
     destination: "agents/qa-agent.agent.yaml"
+  - source: "bmm-contractors/scripts/email_processor.py"
+    destination: "scripts/email_processor.py"
+  - source: "bmm-contractors/scripts/email_manager.py"
+    destination: "scripts/email_manager.py"
 
 # Environment variables
 env_vars:
