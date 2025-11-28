@@ -169,6 +169,14 @@ smtp_communication:
 
 # Agents provided by this module
 agents:
+  # Founder (interactive strategic agent)
+  - name: founder-agent
+    file: agents/founder-agent.agent.yaml
+    description: "Interactive AI agent that helps founder organize work and command the pipeline"
+    icon: "👑"
+    type: "ai-founder-agent"
+    autonomous: false  # Interactive mode - founder drives it
+
   # Orchestrator (central coordinator)
   - name: orchestrator-agent
     file: agents/orchestrator-agent.agent.yaml
