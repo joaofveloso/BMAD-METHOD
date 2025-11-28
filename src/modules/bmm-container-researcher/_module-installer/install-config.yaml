@@ -14,7 +14,7 @@ subheader: |
 
   Container IP: 192.168.56.17
   SSH Port: 2227
-  Email: researcher20251128@gmail.com
+  Email: joao.fodra.veloso@gmail.com
 
 # Dependencies
 requires:
@@ -31,7 +31,7 @@ container:
 # Gmail configuration
 gmail_address:
   prompt: "Researcher agent Gmail address"
-  default: "researcher20251128@gmail.com"
+  default: "joao.fodra.veloso@gmail.com"
   result: "{value}"
 
 gmail_app_password:

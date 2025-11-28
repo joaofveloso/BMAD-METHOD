@@ -105,8 +105,8 @@ containers:
   mobile:
     ip: "192.168.56.14"
     ssh_port: 2224
-    email: "joao.veloso.fodra@gmail.com"
-    password_env: "MOBILE_GMAIL_APP_PASSWORD"
+    email: "android20251128@outlook.com"
+    password_env: "MOBILE_OUTLOOK_APP_PASSWORD"
     purpose: "Android/Kotlin mobile development"
 
   qa:
@@ -126,7 +126,7 @@ containers:
   researcher:
     ip: "192.168.56.17"
     ssh_port: 2227
-    email: "researcher20251128@gmail.com"
+    email: "joao.fodra.veloso@gmail.com"
     password_env: "RESEARCHER_GMAIL_APP_PASSWORD"
     purpose: "Documentation and research"
 

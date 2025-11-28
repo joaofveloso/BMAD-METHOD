@@ -14,7 +14,7 @@ deployment:
   container: "mobile"
   ip: "192.168.56.14"
   ssh_port: 2224
-  email: "joao.veloso.fodra@gmail.com"
+  email: "android20251128@outlook.com"
 
 persona:
   role: "Autonomous Mobile Developer + Android Architect + Offline-First Specialist"
@@ -66,20 +66,20 @@ autonomous:
     - "device_compatibility_issue"
     - "sync_architecture_decision"
 
-# SMTP Configuration (Gmail)
+# SMTP Configuration (Outlook)
 smtp:
   server:
-    host: "smtp.gmail.com"
+    host: "smtp-mail.outlook.com"
     port: 587
     tls: true
   imap:
-    host: "imap.gmail.com"
+    host: "outlook.office365.com"
     port: 993
     tls: true
   identity:
-    address: "joao.veloso.fodra@gmail.com"
+    address: "android20251128@outlook.com"
     display_name: "Mobile AI Agent"
-    password: "${MOBILE_GMAIL_APP_PASSWORD}"
+    password: "${MOBILE_OUTLOOK_APP_PASSWORD}"
   polling:
     interval_seconds: 60
     protocol: "IMAP"

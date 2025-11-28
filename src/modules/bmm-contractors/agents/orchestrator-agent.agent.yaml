@@ -69,7 +69,7 @@ routing:
       email: "frontend20251128@gmail.com"
       container_ip: "192.168.56.13"
     mobile-agent:
-      email: "joao.veloso.fodra@gmail.com"
+      email: "android20251128@outlook.com"
       container_ip: "192.168.56.14"
     qa-agent:
       email: "qualityassurance20251128@gmail.com"
@@ -78,7 +78,7 @@ routing:
       email: "devops20251128@gmail.com"
       container_ip: "192.168.56.16"
     researcher-agent:
-      email: "researcher20251128@gmail.com"
+      email: "joao.fodra.veloso@gmail.com"
       container_ip: "192.168.56.17"
 
   # Founder email
@@ -99,7 +99,7 @@ routing:
 
     - condition: "story.labels contains 'mobile' OR story.type == 'android'"
       agent: "mobile-agent"
-      email: "joao.veloso.fodra@gmail.com"
+      email: "android20251128@outlook.com"
       priority: 1
 
     - condition: "story.labels contains 'devops' OR story.type == 'infrastructure'"
@@ -109,7 +109,7 @@ routing:
 
     - condition: "story.labels contains 'documentation' OR story.type == 'research'"
       agent: "researcher-agent"
-      email: "researcher20251128@gmail.com"
+      email: "joao.fodra.veloso@gmail.com"
       priority: 1
 
     - condition: "story.labels contains 'qa' OR story.type == 'testing'"
