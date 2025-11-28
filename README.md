@@ -50,6 +50,7 @@ With **BMad Builder**, you can architect both simple agents and vastly complex d
 
 ### 1. Install BMad Method
 
+**Option A: NPM (Quick Install)**
 ```bash
 # Install v6 Alpha (recommended)
 npx bmad-method@alpha install
@@ -57,6 +58,21 @@ npx bmad-method@alpha install
 # Or stable v4 for production
 npx bmad-method install
 ```
+
+**Option B: From Cloned Source**
+```bash
+# Clone the repository
+git clone https://github.com/joaofveloso/BMAD-METHOD.git
+cd BMAD-METHOD
+
+# Install dependencies
+npm install
+
+# Run the installer
+npm run install-bmad
+```
+
+This launches the interactive installer where you can select modules to install.
 
 ### 2. Initialize Your Project
 
