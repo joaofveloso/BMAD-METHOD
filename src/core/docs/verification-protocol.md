@@ -156,4 +156,153 @@ These principles are mandatory for all architectural and implementation decision
 
 ---
 
+## Agent Workflow Instructions - Task Management System
+
+All agents must participate in the shared folder task workflow system.
+
+### System Overview
+
+Tasks flow through three stages: **BACKLOG → WIP → DONE**
+
+- All tasks are stored as JSON files in the shared directory `/workspace/shared/`
+- Each agent has their own workspace: `/workspace/shared/<agent_name>/`
+
+### Folder Structure
+
+```
+/workspace/shared/
+├── BACKLOG/           # All unassigned tasks go here
+├── founder/           # Founder workspace
+│   ├── WIP/          # Tasks currently in progress
+│   └── DONE/         # Completed tasks
+├── orchestrator/
+├── backend/
+├── frontend/
+├── mobile/
+├── qa/
+├── devops/
+└── researcher/
+```
+
+### Method 1: Manual Commands
+
+```bash
+cd /workspace/shared
+
+# See all available tasks in BACKLOG
+ls BACKLOG/
+
+# Claim your next available task (highest priority first)
+python3 workflow_manager.py claim <your_name>
+
+# See your current WIP tasks
+ls <your_name>/WIP/
+
+# Complete a task (move it to DONE)
+python3 workflow_manager.py complete <your_name> <task_id>
+
+# Check overall workflow status
+python3 workflow_manager.py status
+
+# Check if there's still work available
+python3 workflow_manager.py has_work
+```
+
+### Method 2: Automated Worker
+
+```bash
+cd /workspace/shared
+
+# Start your automated worker (runs continuously)
+python3 agent_worker.py <your_name>
+
+# Worker will:
+# 1. Automatically claim available tasks
+# 2. Process them with simulated work
+# 3. Complete tasks and move to DONE
+# 4. Continue until no work remains
+```
+
+### Task Lifecycle
+
+**1. Claiming Tasks**
+- Tasks are claimed by priority: high → normal → low
+- If assigned specifically to you, only you can claim it
+- If unassigned, any agent can claim it
+- System automatically moves task from `BACKLOG/` to `<your_name>/WIP/`
+
+**2. Working on Tasks**
+- Task details stored in JSON at: `<your_name>/WIP/<task_id>.json`
+- Contains: task name, description, priority, timestamps
+- You can modify the task file to track your progress
+- Never move files manually - always use the workflow manager
+
+**3. Completing Tasks**
+- Use: `python3 workflow_manager.py complete <your_name> <task_id>`
+- System automatically moves task from `WIP/` to `DONE/`
+- Updates completion timestamp
+- Task is now considered finished
+
+### Agent Identities
+
+| Agent | Role |
+|-------|------|
+| founder | Project leadership and architecture |
+| orchestrator | System coordination and workflow management |
+| backend | Server-side development and APIs |
+| frontend | User interface and client-side development |
+| mobile | Mobile application development |
+| qa | Quality assurance and testing |
+| devops | Infrastructure and deployment |
+| researcher | Research and analysis tasks |
+
+### Workflow Completion
+
+The system continues until:
+- No tasks remain in `BACKLOG/`
+- No tasks remain in any agent's `WIP/`
+- All tasks are in various agents' `DONE/` folders
+
+### Example Session
+
+```bash
+# 1. Check what's available
+python3 workflow_manager.py status
+
+# 2. Claim your next task
+python3 workflow_manager.py claim frontend
+
+# Output: 🚀 frontend claimed task: Design new landing page
+
+# 3. Do your work (inspect task file)
+cat frontend/WIP/task_123_Design_new_landing_page.json
+
+# 4. Complete when done
+python3 workflow_manager.py complete frontend task_123_Design_new_landing_page
+
+# Output: ✅ frontend completed task: Design new landing page
+```
+
+### Important Rules
+
+- **Always use workflow manager** - never move files manually
+- **Check status first** before claiming tasks
+- **Complete your WIP tasks** before claiming new ones
+- **One task at a time** per agent (unless parallel work is needed)
+- **Respect task assignments** - don't claim tasks assigned to others
+
+### Getting Help
+
+```bash
+# See all available commands
+python3 workflow_manager.py
+python3 agent_worker.py
+
+# Check current state
+python3 workflow_manager.py status
+python3 workflow_manager.py has_work
+```
+
+---
+
 **This protocol applies to all BMAD modules, agents, and workflows without exception.**
