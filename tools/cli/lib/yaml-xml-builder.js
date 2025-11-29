@@ -91,43 +91,43 @@ class YamlXmlBuilder {
         }
 
         // Merge metadata (only non-empty values)
-        if (customizeYaml.agent && customizeYaml.agent.metadata) {
+        if (customizeYaml.metadata) {
           const nonEmptyMetadata = {};
-          for (const [key, value] of Object.entries(customizeYaml.agent.metadata)) {
+          for (const [key, value] of Object.entries(customizeYaml.metadata)) {
             if (value !== '' && value !== null) {
               nonEmptyMetadata[key] = value;
             }
           }
-          merged.agent.metadata = { ...merged.agent.metadata, ...nonEmptyMetadata };
+          merged.metadata = { ...(merged.metadata || {}), ...nonEmptyMetadata };
         }
 
         // Append menu items (support both 'menu' and legacy 'commands')
         const customMenuItems = customizeYaml.menu || customizeYaml.commands;
         if (customMenuItems) {
           // Determine if base uses 'menu' or 'commands'
-          if (merged.agent.menu) {
-            merged.agent.menu = [...merged.agent.menu, ...customMenuItems];
-          } else if (merged.agent.commands) {
-            merged.agent.commands = [...merged.agent.commands, ...customMenuItems];
+          if (merged.menu) {
+            merged.menu = [...merged.menu, ...customMenuItems];
+          } else if (merged.commands) {
+            merged.commands = [...merged.commands, ...customMenuItems];
           } else {
             // Default to 'menu' for new agents
-            merged.agent.menu = customMenuItems;
+            merged.menu = customMenuItems;
           }
         }
 
         // Append critical actions
         if (customizeYaml.critical_actions) {
-          merged.agent.critical_actions = [...(merged.agent.critical_actions || []), ...customizeYaml.critical_actions];
+          merged.critical_actions = [...(merged.critical_actions || []), ...customizeYaml.critical_actions];
         }
 
         // Append prompts
         if (customizeYaml.prompts) {
-          merged.agent.prompts = [...(merged.agent.prompts || []), ...customizeYaml.prompts];
+          merged.prompts = [...(merged.prompts || []), ...customizeYaml.prompts];
         }
 
         // Append memories
         if (customizeYaml.memories) {
-          merged.agent.memories = [...(merged.agent.memories || []), ...customizeYaml.memories];
+          merged.memories = [...(merged.memories || []), ...customizeYaml.memories];
         }
       }
     }
