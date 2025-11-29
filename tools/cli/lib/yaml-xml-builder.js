@@ -74,7 +74,7 @@ class YamlXmlBuilder {
       if (customizeYaml) {
         // Special handling: persona fields are merged, but only non-empty values override
         if (customizeYaml.persona) {
-          const basePersona = merged.agent.persona || {};
+          const basePersona = merged.persona || {};
           const customPersona = {};
 
           // Only copy non-empty customize values
@@ -86,7 +86,7 @@ class YamlXmlBuilder {
 
           // Merge non-empty customize values over base
           if (Object.keys(customPersona).length > 0) {
-            merged.agent.persona = { ...basePersona, ...customPersona };
+            merged.persona = { ...basePersona, ...customPersona };
           }
         }
 
