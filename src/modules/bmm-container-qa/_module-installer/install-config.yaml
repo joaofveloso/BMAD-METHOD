@@ -1,6 +1,9 @@
 # BMM-Container-QA Module Installer Configuration
 # Autonomous AI QA Agent Container Deployment
 # Test automation and quality validation via SMTP
+#
+# IMPORTANT: All agents must follow the Verification Protocol
+# See: src/core/docs/verification-protocol.md
 
 code: bmm-container-qa
 name: "Container: QA (192.168.56.15)"

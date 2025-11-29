@@ -1,6 +1,9 @@
 # BMM-Container-Founder Module Installer Configuration
 # Autonomous AI Founder Agent Container Deployment
 # Interactive agent for organizing work and commanding the pipeline
+#
+# IMPORTANT: All agents must follow the Verification Protocol
+# See: src/core/docs/verification-protocol.md
 
 code: bmm-container-founder
 name: "Container: Founder (192.168.56.10)"

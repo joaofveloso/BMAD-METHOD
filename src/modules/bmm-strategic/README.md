@@ -412,3 +412,15 @@ When extending this module:
 3. Register handlers in subscriptions.yaml
 4. Update this README
 5. Add workflow documentation
+6. **Follow the [Verification Protocol](../../core/docs/verification-protocol.md)**
+
+---
+
+## Verification Protocol
+
+All bmm-strategic agents and workflows must follow the **[Verification Protocol](../../core/docs/verification-protocol.md)**.
+
+- Never claim success without actual verification
+- Distinguish between "configured" and "confirmed working"
+- Test end-to-end flows, not just individual components
+- Report clearly what was verified vs. what remains untested

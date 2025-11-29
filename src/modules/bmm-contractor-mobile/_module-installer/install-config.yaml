@@ -1,6 +1,9 @@
 # BMM-Contractor-Mobile Module Installer Configuration
 # Execution Layer - Mobile Developer Persona
 # Android/Kotlin development via SMTP and Git
+#
+# IMPORTANT: All agents must follow the Verification Protocol
+# See: src/core/docs/verification-protocol.md
 
 code: bmm-contractor-mobile
 name: "Contractor: Mobile Developer (Android/Kotlin)"

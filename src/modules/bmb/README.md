@@ -191,4 +191,15 @@ BMB components integrate with:
 
 ---
 
+## Verification Protocol
+
+All BMB agents and workflows must follow the **[Verification Protocol](../../core/docs/verification-protocol.md)**.
+
+- Never claim success without actual verification
+- Distinguish between "configured" and "confirmed working"
+- Test end-to-end flows, not just individual components
+- Report clearly what was verified vs. what remains untested
+
+---
+
 BMB empowers you to extend BMad Method for your specific needs while maintaining framework consistency and power.

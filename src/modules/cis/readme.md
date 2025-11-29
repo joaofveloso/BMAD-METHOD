@@ -150,4 +150,15 @@ CIS workflows integrate with:
 
 ---
 
+## Verification Protocol
+
+All CIS agents and workflows must follow the **[Verification Protocol](../../core/docs/verification-protocol.md)**.
+
+- Never claim success without actual verification
+- Distinguish between "configured" and "confirmed working"
+- Test end-to-end flows, not just individual components
+- Report clearly what was verified vs. what remains untested
+
+---
+
 Part of BMad Method v6.0 - Transform creative potential through expert AI facilitation.

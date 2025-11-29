@@ -112,6 +112,18 @@ Modules are installed to `{project-root}/.bmad/{module-name}/` and include:
 - `roadmap.milestone.completed` - Milestone achieved
 - `roadmap.at.risk` - Timeline at risk
 
+## Verification Protocol
+
+All BMAD modules must follow the **[Verification Protocol](../core/docs/verification-protocol.md)**.
+
+**Key requirements:**
+- Never claim success without actual verification
+- Distinguish between "configured" and "confirmed working"
+- Test end-to-end flows, not just individual components
+- Report clearly what was verified vs. what remains untested
+
+---
+
 ## Contributing
 
 When adding new modules:
@@ -120,3 +132,4 @@ When adding new modules:
 3. Register handlers in events/subscriptions.yaml
 4. Document published events in events/publications.yaml
 5. Create agent with menu and workflows
+6. **Follow the [Verification Protocol](../core/docs/verification-protocol.md)**

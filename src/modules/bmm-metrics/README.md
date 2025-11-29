@@ -173,6 +173,17 @@ dashboard:
 - **BMM Module**: Story and sprint data
 - **Core Events**: Event publishing infrastructure
 
+## Verification Protocol
+
+All bmm-metrics agents and workflows must follow the **[Verification Protocol](../../core/docs/verification-protocol.md)**.
+
+- Never claim success without actual verification
+- Distinguish between "configured" and "confirmed working"
+- Test end-to-end flows, not just individual components
+- Report clearly what was verified vs. what remains untested
+
+---
+
 ## Author
 
 Created as part of BMAD SaaS Extension - November 2024

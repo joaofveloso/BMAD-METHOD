@@ -1,6 +1,9 @@
 # BMM-Contractor-Frontend Module Installer Configuration
 # Execution Layer - Frontend Developer Persona
 # React/TypeScript development via SMTP and Git
+#
+# IMPORTANT: All agents must follow the Verification Protocol
+# See: src/core/docs/verification-protocol.md
 
 code: bmm-contractor-frontend
 name: "Contractor: Frontend Developer (React/TypeScript)"

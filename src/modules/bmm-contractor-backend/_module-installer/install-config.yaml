@@ -1,6 +1,9 @@
 # BMM-Contractor-Backend Module Installer Configuration
 # Execution Layer - Backend Developer Persona
 # Java/Spring API development via SMTP and Git
+#
+# IMPORTANT: All agents must follow the Verification Protocol
+# See: src/core/docs/verification-protocol.md
 
 code: bmm-contractor-backend
 name: "Contractor: Backend Developer (Java/Spring)"

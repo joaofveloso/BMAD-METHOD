@@ -1,6 +1,9 @@
 # BMM-Container-Mobile Module Installer Configuration
 # Autonomous AI Mobile Agent Container Deployment
 # Android/Kotlin mobile development via SMTP
+#
+# IMPORTANT: All agents must follow the Verification Protocol
+# See: src/core/docs/verification-protocol.md
 
 code: bmm-container-mobile
 name: "Container: Mobile (192.168.56.14)"

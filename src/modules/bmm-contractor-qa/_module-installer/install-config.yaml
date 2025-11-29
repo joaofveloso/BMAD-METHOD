@@ -1,6 +1,9 @@
 # BMM-Contractor-QA Module Installer Configuration
 # Execution Layer - QA Engineer Persona
 # Test automation via SMTP and Git
+#
+# IMPORTANT: All agents must follow the Verification Protocol
+# See: src/core/docs/verification-protocol.md
 
 code: bmm-contractor-qa
 name: "Contractor: QA Engineer (Test Automation)"

@@ -117,6 +117,17 @@ Use party mode to engage all 19+ agents (from BMM, CIS, BMB, custom modules) in 
 
 ---
 
+## Verification Protocol
+
+All BMM agents and workflows must follow the **[Verification Protocol](../../core/docs/verification-protocol.md)**.
+
+- Never claim success without actual verification
+- Distinguish between "configured" and "confirmed working"
+- Test end-to-end flows, not just individual components
+- Report clearly what was verified vs. what remains untested
+
+---
+
 ## 🤝 Community
 
 - **[Discord](https://discord.gg/gk8jAdXWmj)** - Get help, share feedback (#general-dev, #bugs-issues)

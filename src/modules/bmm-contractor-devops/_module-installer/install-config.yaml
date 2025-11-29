@@ -1,6 +1,9 @@
 # BMM-Contractor-DevOps Module Installer Configuration
 # Execution Layer - DevOps Engineer Persona
 # Infrastructure, CI/CD, and deployment via SMTP and Git
+#
+# IMPORTANT: All agents must follow the Verification Protocol
+# See: src/core/docs/verification-protocol.md
 
 code: bmm-contractor-devops
 name: "Contractor: DevOps Engineer (Infrastructure & CI/CD)"

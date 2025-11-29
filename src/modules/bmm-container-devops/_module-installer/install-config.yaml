@@ -1,6 +1,9 @@
 # BMM-Container-DevOps Module Installer Configuration
 # Autonomous AI DevOps Agent Container Deployment
 # Infrastructure and deployment via SMTP
+#
+# IMPORTANT: All agents must follow the Verification Protocol
+# See: src/core/docs/verification-protocol.md
 
 code: bmm-container-devops
 name: "Container: DevOps (192.168.56.16)"

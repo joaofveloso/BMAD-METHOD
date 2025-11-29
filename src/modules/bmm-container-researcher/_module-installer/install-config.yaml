@@ -1,6 +1,9 @@
 # BMM-Container-Researcher Module Installer Configuration
 # Autonomous AI Researcher Agent Container Deployment
 # Documentation and research via SMTP
+#
+# IMPORTANT: All agents must follow the Verification Protocol
+# See: src/core/docs/verification-protocol.md
 
 code: bmm-container-researcher
 name: "Container: Researcher (192.168.56.17)"

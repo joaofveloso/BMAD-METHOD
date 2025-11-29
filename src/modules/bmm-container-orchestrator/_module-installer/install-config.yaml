@@ -1,6 +1,9 @@
 # BMM-Container-Orchestrator Module Installer Configuration
 # Autonomous AI Orchestrator Agent Container Deployment
 # Central coordinator that routes work to AI agents via SMTP
+#
+# IMPORTANT: All agents must follow the Verification Protocol
+# See: src/core/docs/verification-protocol.md
 
 code: bmm-container-orchestrator
 name: "Container: Orchestrator (192.168.56.11)"

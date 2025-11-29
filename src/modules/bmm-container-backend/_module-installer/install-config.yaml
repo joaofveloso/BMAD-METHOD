@@ -1,6 +1,9 @@
 # BMM-Container-Backend Module Installer Configuration
 # Autonomous AI Backend Agent Container Deployment
 # Java/Spring backend development via SMTP
+#
+# IMPORTANT: All agents must follow the Verification Protocol
+# See: src/core/docs/verification-protocol.md
 
 code: bmm-container-backend
 name: "Container: Backend (192.168.56.12)"
