@@ -51,6 +51,18 @@ async function main(customProjectRoot) {
       const fileContent = fs.readFileSync(filePath, 'utf8');
       const agentData = yaml.load(fileContent);
 
+      // Skip AI coding agents and SaaS event-driven agents (different schema)
+      // These agents have 'type', 'deployment', 'smtp', 'activation', or 'events' at root level
+      // and don't use the standard 'agent:' wrapper
+      if (
+        agentData &&
+        !agentData.agent &&
+        (agentData.type || agentData.deployment || agentData.smtp || agentData.activation || agentData.events)
+      ) {
+        console.log(`⏭️  ${relativePath} (ai-coding/event-driven agent, different schema)`);
+        continue;
+      }
+
       // Convert absolute path to relative src/ path for module detection
       const srcRelativePath = relativePath.startsWith('src/') ? relativePath : path.relative(project_root, filePath).replaceAll('\\', '/');
 
