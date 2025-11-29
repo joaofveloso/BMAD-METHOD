@@ -2091,11 +2091,16 @@ If AgentVibes party mode is enabled, immediately trigger TTS with agent's voice:
           const folderName = path.basename(folder);
           const backupPath = path.join(backupDir, folderName);
 
-          // If backup already exists, add timestamp
+          // If backup already exists, add timestamp with time to ensure uniqueness
           let finalBackupPath = backupPath;
           if (await fs.pathExists(backupPath)) {
-            const timestamp = new Date().toISOString().replaceAll(/[:.]/g, '-').split('T')[0];
+            const timestamp = new Date().toISOString().replaceAll(/[:.]/g, '-');
             finalBackupPath = path.join(backupDir, `${folderName}-${timestamp}`);
+          }
+          // Handle edge case where timestamped path also exists
+          while (await fs.pathExists(finalBackupPath)) {
+            const timestamp = new Date().toISOString().replaceAll(/[:.]/g, '-');
+            finalBackupPath = path.join(backupDir, `${folderName}-${timestamp}-${Math.random().toString(36).slice(2, 6)}`);
           }
 
           await fs.move(folder, finalBackupPath, { overwrite: false });
