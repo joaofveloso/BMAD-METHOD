@@ -118,6 +118,7 @@ by [key mechanism / approach]
 **Framework: Differentiation Analysis**
 
 For each potential differentiator, evaluate:
+
 - Is it meaningful to customers?
 - Is it believable/credible?
 - Is it defensible over time?
@@ -151,12 +152,14 @@ For each potential differentiator, evaluate:
 **Vision Statement Framework**
 
 A vision statement describes the future state we're creating. It should be:
+
 - **Aspirational:** Describes an inspiring future
 - **Clear:** Easy to understand and remember
 - **Timeless:** Doesn't change frequently
 - **Motivating:** Energizes the team
 
 Template:
+
 ```
 To [achieve this future state/outcome]
 for [target beneficiaries]
@@ -164,6 +167,7 @@ by [our approach/mechanism]
 ```
 
 Examples:
+
 - "To organize the world's information and make it universally accessible"
 - "To accelerate the world's transition to sustainable energy"
 - "To give everyone the power to create and share ideas instantly"
@@ -171,11 +175,13 @@ Examples:
 **Mission Statement Framework**
 
 A mission statement describes how we achieve the vision day-to-day:
+
 - **Actionable:** Describes what we do
 - **Focused:** Specific enough to guide decisions
 - **Measurable:** Progress can be assessed
 
 Template:
+
 ```
 We [action verb] [target customers]
 [achieve outcome]
@@ -207,6 +213,7 @@ through [our approach]
 4. Are there any red flags or concerns?
 
 **Refinement:**
+
 - Read it aloud - does it sound natural?
 - Remove jargon and buzzwords
 - Simplify wherever possible
@@ -215,16 +222,17 @@ through [our approach]
 **Final Output:**
 
 Document in config.yaml:
+
 ```yaml
 vision:
-  statement: "[Final vision statement]"
-  mission: "[Final mission statement]"
-  value_proposition: "[Clear value prop]"
+  statement: '[Final vision statement]'
+  mission: '[Final mission statement]'
+  value_proposition: '[Clear value prop]'
   differentiators:
-    - "[Differentiator 1]"
-    - "[Differentiator 2]"
-    - "[Differentiator 3]"
-  target_customer: "[Customer segment]"
+    - '[Differentiator 1]'
+    - '[Differentiator 2]'
+    - '[Differentiator 3]'
+  target_customer: '[Customer segment]'
 ```
 
 ---
@@ -232,16 +240,18 @@ vision:
 ## Events Published
 
 On completion:
+
 - `vision.defined` - If this is a new vision
 - `vision.updated` - If updating existing vision
 
 Event payload:
+
 ```yaml
-vision_statement: "[statement]"
-mission: "[mission]"
-value_proposition: "[value prop]"
+vision_statement: '[statement]'
+mission: '[mission]'
+value_proposition: '[value prop]'
 differentiators: [list]
-target_customer: "[segment]"
+target_customer: '[segment]'
 ```
 
 ---
@@ -249,6 +259,7 @@ target_customer: "[segment]"
 ## Next Steps
 
 After defining vision:
+
 1. **Set Priorities** → `*priorities` - Define what we focus on first
 2. **Market Positioning** → `*positioning` - Align market messaging
 3. **Communicate** → Share with team and stakeholders

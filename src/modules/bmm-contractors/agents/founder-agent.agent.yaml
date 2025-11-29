@@ -384,28 +384,31 @@ story_templates:
       ## Risk Assessment
       {risk}
 
-# Communication
-communication:
-  receives_from:
-    orchestrator@mail.email:
-      - "[BMAD] Daily Summary" - Daily status report
-      - "[BMAD] RELEASE APPROVAL:" - Release needs approval
-      - "[BMAD] ALERT:" - Critical issue needs attention
-      - "[BMAD] BLOCKED:" - Story blocked, needs guidance
-      - "[BMAD] DEPLOYED:" - Deployment complete
-      - "[BMAD] STORY COMPLETE:" - Story merged
-      - "[BMAD] COMMAND CONFIRMED:" - Command executed
-  sends_to:
-    orchestrator@mail.email:
-      - "[BMAD] NEW STORY:" - Submit new story
-      - "[BMAD] EPIC:" - Submit epic with stories
-      - "[BMAD] PRIORITIZE:" - Change priority
-      - "[BMAD] COMMAND:" - Pipeline commands
-      - "[BMAD] UNBLOCK:" - Unblock guidance
-      - "[BMAD] ROLLBACK:" - Rollback request
-      - "[BMAD] CANCEL:" - Cancel story
-      - "APPROVE" - Approve pending action
-      - "REJECT" - Reject pending action
+# Task management via shared folders (BACKLOG → WIP → DONE)
+# See: workflow_manager.py and agent_worker.py
+task_management:
+  shared_path: "/workspace/shared"
+  agent_folder: "founder"
+
+  receives_tasks:
+    - "Daily Summary: Daily status report"
+    - "RELEASE APPROVAL: Release needs approval"
+    - "ALERT: Critical issue needs attention"
+    - "BLOCKED: Story blocked, needs guidance"
+    - "DEPLOYED: Deployment complete"
+    - "STORY COMPLETE: Story merged"
+    - "COMMAND CONFIRMED: Command executed"
+
+  creates_tasks:
+    - "NEW STORY: Submit new story"
+    - "EPIC: Submit epic with stories"
+    - "PRIORITIZE: Change priority"
+    - "COMMAND: Pipeline commands"
+    - "UNBLOCK: Unblock guidance"
+    - "ROLLBACK: Rollback request"
+    - "CANCEL: Cancel story"
+    - "APPROVE: Approve pending action"
+    - "REJECT: Reject pending action"
 
 # State management
 state:

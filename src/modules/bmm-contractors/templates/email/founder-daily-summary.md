@@ -1,16 +1,20 @@
 # Daily Summary Email Template
+
 # Sent to founder every morning with pipeline status
 
 ---
+
 subject: "[BMAD] Daily Summary - {{date}}"
 to: "{{founder_email}}"
 from: "BMAD Orchestrator <{{smtp_from_address}}>"
 priority: "normal"
+
 ---
 
 ## Pipeline Status - {{date}}
 
 ### Summary
+
 - **Stories Completed Today:** {{stories_completed_today}}
 - **Stories In Progress:** {{stories_in_progress}}
 - **Stories Blocked:** {{stories_blocked}}
@@ -21,7 +25,8 @@ priority: "normal"
 ### Agent Performance
 
 | Agent | Stories | Cycle Time | Pass Rate | Status |
-|-------|---------|------------|-----------|--------|
+| ----- | ------- | ---------- | --------- | ------ |
+
 {{#each agents}}
 | {{icon}} {{name}} | {{stories_completed}} | {{avg_cycle_time}}h | {{pass_rate}}% | {{status}} |
 {{/each}}
@@ -32,11 +37,12 @@ priority: "normal"
 
 {{#if completed_stories}}
 {{#each completed_stories}}
+
 - **STORY-{{id}}**: {{title}} ({{agent}}, {{cycle_time}}h)
-{{/each}}
-{{else}}
-No stories completed today.
-{{/if}}
+  {{/each}}
+  {{else}}
+  No stories completed today.
+  {{/if}}
 
 ---
 
@@ -44,14 +50,15 @@ No stories completed today.
 
 {{#if in_progress_stories}}
 {{#each in_progress_stories}}
+
 - **STORY-{{id}}**: {{title}}
   - Agent: {{agent}}
   - Started: {{started_at}}
   - Progress: {{progress}}%
-{{/each}}
-{{else}}
-No stories in progress.
-{{/if}}
+    {{/each}}
+    {{else}}
+    No stories in progress.
+    {{/if}}
 
 ---
 
@@ -61,7 +68,9 @@ No stories in progress.
 **ACTION REQUIRED:**
 
 {{#each blocked_items}}
+
 #### STORY-{{id}}: {{title}}
+
 - **Blocked Since:** {{blocked_since}}
 - **Reason:** {{blocker_reason}}
 - **Agent:** {{agent}}
@@ -69,6 +78,7 @@ No stories in progress.
 Reply with: `UNBLOCK STORY-{{id}} <instructions>` to provide guidance.
 
 ---
+
 {{/each}}
 {{else}}
 No blocked items.
@@ -96,11 +106,13 @@ No blocked items.
 ### Quick Commands
 
 Reply to this email with:
+
 - `STATUS` - Get immediate status update
 - `PAUSE` - Pause all automation
 - `RESUME` - Resume automation
 - `PRIORITY STORY-{id} high` - Change story priority
 
 ---
-*Generated automatically by BMAD Orchestrator*
-*Pipeline running autonomously. Reply only if action needed.*
+
+_Generated automatically by BMAD Orchestrator_
+_Pipeline running autonomously. Reply only if action needed._

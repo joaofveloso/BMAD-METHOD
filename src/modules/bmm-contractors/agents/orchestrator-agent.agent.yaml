@@ -121,11 +121,11 @@ routing:
   multi_agent:
     - condition: "story.labels contains 'fullstack'"
       agents: ["backend-agent", "frontend-agent"]
-      coordination: "sequential"  # Email backend first, wait for DONE, then email frontend
+      coordination: "sequential" # Email backend first, wait for DONE, then email frontend
 
     - condition: "story.labels contains 'feature'"
       agents: ["backend-agent", "frontend-agent", "qa-agent"]
-      coordination: "pipeline"  # Backend → Frontend → QA (each waits for previous DONE)
+      coordination: "pipeline" # Backend → Frontend → QA (each waits for previous DONE)
 
 # SMTP-based message handlers
 # All communication happens via email parsing
@@ -367,7 +367,7 @@ founder_smtp:
   # Scheduled reports
   scheduled_reports:
     daily_summary:
-      schedule: "0 9 * * *"  # 9am daily in founder's timezone
+      schedule: "0 9 * * *" # 9am daily in founder's timezone
       template: "founder-daily-summary"
 
   # Immediate alerts (sent immediately, not batched)
@@ -467,12 +467,12 @@ communication_flow:
       to: "orchestrator@bmad.local"
       body_contains: "QUALITY PASS" # or "QUALITY FAIL"
 
-    - step: 3a  # On pass
+    - step: 3a # On pass
       from: "orchestrator@bmad.local"
       to: "{agent}@bmad.local"
       subject: "[BMAD] COMPLETE: STORY-{id}"
 
-    - step: 3b  # On fail
+    - step: 3b # On fail
       from: "orchestrator@bmad.local"
       to: "{agent}@bmad.local"
       subject: "[BMAD] REVISION: STORY-{id}"
@@ -483,9 +483,9 @@ state:
   database: "/var/lib/bmad/orchestrator.db"
 
   tracked:
-    - active_stories         # Stories currently assigned
-    - agent_assignments      # Which agent has which story
-    - iteration_counts       # Self-healing iteration count per story
-    - pending_approvals      # Awaiting founder response
-    - email_threads          # Track email conversations by correlation_id
-    - daily_metrics          # Metrics for daily summary
+    - active_stories # Stories currently assigned
+    - agent_assignments # Which agent has which story
+    - iteration_counts # Self-healing iteration count per story
+    - pending_approvals # Awaiting founder response
+    - email_threads # Track email conversations by correlation_id
+    - daily_metrics # Metrics for daily summary

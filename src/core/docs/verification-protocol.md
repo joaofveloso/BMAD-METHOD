@@ -45,15 +45,15 @@ All agents must follow this protocol before claiming success or completion.
 
 Before claiming any task is complete, verify:
 
-| Claim | Required Verification |
-|-------|----------------------|
-| "It works" | Run the actual command/test and show output |
-| "Credentials are valid" | Authenticate with them and confirm access |
-| "Service is running" | Query it and get a successful response |
-| "Configuration complete" | Verify the config is loaded and functional |
-| "Tests pass" | Run tests and show passing output |
-| "Build succeeds" | Execute build and show success output |
-| "Deployment complete" | Access the deployed resource and confirm |
+| Claim                    | Required Verification                       |
+| ------------------------ | ------------------------------------------- |
+| "It works"               | Run the actual command/test and show output |
+| "Credentials are valid"  | Authenticate with them and confirm access   |
+| "Service is running"     | Query it and get a successful response      |
+| "Configuration complete" | Verify the config is loaded and functional  |
+| "Tests pass"             | Run tests and show passing output           |
+| "Build succeeds"         | Execute build and show success output       |
+| "Deployment complete"    | Access the deployed resource and confirm    |
 
 ---
 
@@ -226,18 +226,21 @@ python3 agent_worker.py <your_name>
 ### Task Lifecycle
 
 **1. Claiming Tasks**
+
 - Tasks are claimed by priority: high → normal → low
 - If assigned specifically to you, only you can claim it
 - If unassigned, any agent can claim it
 - System automatically moves task from `BACKLOG/` to `<your_name>/WIP/`
 
 **2. Working on Tasks**
+
 - Task details stored in JSON at: `<your_name>/WIP/<task_id>.json`
 - Contains: task name, description, priority, timestamps
 - You can modify the task file to track your progress
 - Never move files manually - always use the workflow manager
 
 **3. Completing Tasks**
+
 - Use: `python3 workflow_manager.py complete <your_name> <task_id>`
 - System automatically moves task from `WIP/` to `DONE/`
 - Updates completion timestamp
@@ -245,20 +248,21 @@ python3 agent_worker.py <your_name>
 
 ### Agent Identities
 
-| Agent | Role |
-|-------|------|
-| founder | Project leadership and architecture |
+| Agent        | Role                                        |
+| ------------ | ------------------------------------------- |
+| founder      | Project leadership and architecture         |
 | orchestrator | System coordination and workflow management |
-| backend | Server-side development and APIs |
-| frontend | User interface and client-side development |
-| mobile | Mobile application development |
-| qa | Quality assurance and testing |
-| devops | Infrastructure and deployment |
-| researcher | Research and analysis tasks |
+| backend      | Server-side development and APIs            |
+| frontend     | User interface and client-side development  |
+| mobile       | Mobile application development              |
+| qa           | Quality assurance and testing               |
+| devops       | Infrastructure and deployment               |
+| researcher   | Research and analysis tasks                 |
 
 ### Workflow Completion
 
 The system continues until:
+
 - No tasks remain in `BACKLOG/`
 - No tasks remain in any agent's `WIP/`
 - All tasks are in various agents' `DONE/` folders

@@ -7,14 +7,14 @@ output_folder: "docs"
 # Roadmap settings
 roadmap:
   # Planning horizon
-  horizon: "quarterly"  # quarterly, half-year, annual
-  
+  horizon: "quarterly" # quarterly, half-year, annual
+
   # Sprint length in days
   sprint_length_days: 14
-  
+
   # Planning buffer percentage
   planning_buffer: 20
-  
+
   # Milestone types
   milestone_types:
     - mvp
@@ -26,13 +26,13 @@ roadmap:
 capacity:
   # Use velocity from bmm-metrics
   use_velocity_data: true
-  
+
   # Default velocity if no data
   default_velocity: 20
-  
+
   # Team size for planning
   team_size: 5
-  
+
   # Account for holidays/PTO
   availability_factor: 0.85
 
@@ -42,7 +42,7 @@ visualization:
   formats:
     - markdown
     - mermaid
-  
+
   # Show dependencies
   show_dependencies: true
 
@@ -53,7 +53,7 @@ events:
     - "metrics.velocity.calculated"
     - "release.deployed"
     - "sprint.ended"
-    
+
   publish:
     - "roadmap.updated"
     - "roadmap.milestone.completed"

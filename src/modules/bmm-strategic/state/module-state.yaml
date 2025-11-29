@@ -42,7 +42,7 @@ vision:
   # Pivot considerations
   pivot_evaluation:
     last_evaluated: null
-    status: null  # "persevere" | "considering" | "pivoting"
+    status: null # "persevere" | "considering" | "pivoting"
     notes: null
 
 # =============================================================================
@@ -197,7 +197,7 @@ ux:
   nps:
     current_score: null
     last_survey_date: null
-    trend: null  # "improving" | "stable" | "declining"
+    trend: null # "improving" | "stable" | "declining"
     response_count: 0
 
 # =============================================================================
@@ -211,7 +211,7 @@ growth:
     target: null
     current: null
     last_updated: null
-    trend: null  # "up" | "flat" | "down"
+    trend: null # "up" | "flat" | "down"
 
   # Funnel metrics
   funnel:
@@ -289,4 +289,4 @@ pending_reviews:
 quarterly_review:
   last_completed: null
   next_scheduled: null
-  status: null  # "upcoming" | "in-progress" | "overdue"
+  status: null # "upcoming" | "in-progress" | "overdue"

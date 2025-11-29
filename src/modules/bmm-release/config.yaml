@@ -10,25 +10,25 @@ output_folder: "docs"
 release:
   # Versioning scheme: semver, calver, custom
   versioning: "semver"
-  
+
   # Version format for semver
   semver_format: "MAJOR.MINOR.PATCH"
-  
+
   # Version format for calver (e.g., YYYY.MM.DD, YY.MM.PATCH)
   calver_format: "YYYY.MM.PATCH"
-  
+
   # Automatically create release candidate when sprint ends
   auto_create_on_sprint_end: false
-  
+
   # Require quality gates to pass before release
   require_quality_gates: true
-  
+
   # Require changelog/release notes
   require_changelog: true
-  
+
   # Release branch naming
   branch_prefix: "release/"
-  
+
   # Tag format (supports {version} placeholder)
   tag_format: "v{version}"
 
@@ -36,10 +36,10 @@ release:
 candidate:
   # How long a candidate is valid before expiring
   expiry_hours: 72
-  
+
   # Auto-include stories marked done since last release
   auto_include_done_stories: true
-  
+
   # Minimum stories required for release
   min_stories: 1
 
@@ -51,7 +51,7 @@ deployment:
       order: 1
       auto_deploy: true
       approval_required: false
-      
+
     - name: "production"
       order: 2
       auto_deploy: false
@@ -59,10 +59,10 @@ deployment:
       approvers:
         - "tech_lead"
         - "product_owner"
-  
+
   # Deployment strategy: rolling, blue_green, canary
   strategy: "rolling"
-  
+
   # Health check settings
   health_check:
     enabled: true
@@ -75,13 +75,13 @@ deployment:
 rollback:
   # Automatically rollback on deployment failure
   auto_rollback_on_failure: true
-  
+
   # Keep N previous releases for rollback
   keep_releases: 5
-  
+
   # Health check timeout before triggering rollback
   health_check_timeout: 300
-  
+
   # Notification on rollback
   notify_on_rollback:
     - "team_lead"
@@ -97,13 +97,13 @@ release_notes:
     - breaking_changes
     - security_updates
     - deprecations
-    
+
   # Categorize by story type
   categorize_by_type: true
-  
+
   # Include contributor names
   include_contributors: true
-  
+
   # Template to use
   template: "templates/release-notes-template.md"
 
@@ -134,7 +134,7 @@ events:
     - "metrics.quality.fail"
     - "story.done"
     - "sprint.ended"
-    
+
   publish:
     - "release.candidate.created"
     - "release.approved"

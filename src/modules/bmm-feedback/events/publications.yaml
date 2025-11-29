@@ -37,7 +37,7 @@ publications:
     trigger: "Pattern threshold reached"
     payload_schema:
       insight_id: { type: string, required: true }
-      type: { type: string, required: true }  # bug_pattern, feature_demand, usability_issue
+      type: { type: string, required: true } # bug_pattern, feature_demand, usability_issue
       title: { type: string, required: true }
       description: { type: string, required: true }
       feedback_count: { type: number, required: true }
@@ -70,7 +70,7 @@ publications:
     description: "Significant sentiment change detected"
     trigger: "Sentiment threshold breach"
     payload_schema:
-      alert_type: { type: string, required: true }  # negative_spike, trend_change
+      alert_type: { type: string, required: true } # negative_spike, trend_change
       category: { type: string, required: false }
       current_sentiment: { type: number, required: true }
       previous_sentiment: { type: number, required: true }

@@ -15,7 +15,7 @@ delivery:
     breach_threshold: 7
     blocking: false
     unit: "days"
-    
+
   sprint_completion_rate:
     name: "Sprint Completion Rate"
     description: "Minimum percentage of committed stories completed"
@@ -26,7 +26,7 @@ delivery:
     breach_threshold: 60
     blocking: false
     unit: "percent"
-    
+
   pr_review_turnaround:
     name: "PR Review Turnaround"
     description: "Maximum hours to first review"
@@ -50,7 +50,7 @@ quality:
     breach_threshold: 60
     blocking: true
     unit: "percent"
-    
+
   test_pass_rate:
     name: "Test Pass Rate"
     description: "Minimum test pass rate"
@@ -61,7 +61,7 @@ quality:
     breach_threshold: 95
     blocking: true
     unit: "percent"
-    
+
   code_review_coverage:
     name: "Code Review Coverage"
     description: "Minimum percentage of changes reviewed"
@@ -72,7 +72,7 @@ quality:
     breach_threshold: 90
     blocking: true
     unit: "percent"
-    
+
   defect_escape_rate:
     name: "Defect Escape Rate"
     description: "Maximum defects escaping to production"
@@ -96,7 +96,7 @@ security:
     breach_threshold: 1
     blocking: true
     unit: "count"
-    
+
   high_vulnerabilities:
     name: "High Vulnerabilities"
     description: "Maximum high severity vulnerabilities"
@@ -121,7 +121,7 @@ operations:
     blocking: false
     unit: "percent"
     measurement_window: "monthly"
-    
+
   mttr:
     name: "Mean Time to Recovery"
     description: "Maximum average recovery time"
@@ -132,7 +132,7 @@ operations:
     breach_threshold: 24
     blocking: false
     unit: "hours"
-    
+
   incident_response_p1:
     name: "P1 Incident Response"
     description: "Maximum time to acknowledge critical incident"
@@ -166,26 +166,26 @@ alerting:
       - dashboard
       - email
     timing:
-      remind_every: 24  # hours
+      remind_every: 24 # hours
 
   breach:
     channels:
       - dashboard
       - email
     timing:
-      remind_every: 4  # hours
-      escalate_after: 24  # hours
+      remind_every: 4 # hours
+      escalate_after: 24 # hours
 
 # Escalation Defaults
 escalation:
   level_1:
     after_hours: 0
     notify: "team_lead"
-    
+
   level_2:
     after_hours: 24
     notify: "engineering_manager"
-    
+
   level_3:
     after_hours: 72
     notify: "director"

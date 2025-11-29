@@ -176,7 +176,7 @@ code_generation:
     - "k6/**"
 
   forbidden_paths:
-    - "src/main/**"  # QA doesn't modify production code
+    - "src/main/**" # QA doesn't modify production code
     - "app/src/main/**"
     - "infrastructure/**"
 
@@ -238,19 +238,23 @@ workflow:
           Tests: {test_count} passed
           Issues: {issues_found}
 
-communication:
-  receives_from:
-    orchestrator@mail.email:
-      - "[BMAD] REVIEW:" - PR review request
-      - "[BMAD] ASSIGN:" - Test writing assignment
-      - "[BMAD] STATUS CHECK:" - Health check ping
-  sends_to:
-    orchestrator@mail.email:
-      - "QA PASS" - Review passed
-      - "QA FAIL" - Review failed with issues
-      - "ACKNOWLEDGED" - Starting work
-      - "SUBMITTED" - Tests ready
-      - "BLOCKED" - Cannot proceed
+# Task management via shared folders (BACKLOG → WIP → DONE)
+# See: workflow_manager.py and agent_worker.py
+task_management:
+  shared_path: "/workspace/shared"
+  agent_folder: "qa"
+
+  receives_tasks:
+    - "REVIEW: PR review request"
+    - "ASSIGN: Test writing assignment"
+    - "STATUS CHECK: Health check ping"
+
+  completes_with:
+    - "QA PASS: Review passed"
+    - "QA FAIL: Review failed with issues"
+    - "ACKNOWLEDGED: Starting work"
+    - "SUBMITTED: Tests ready"
+    - "BLOCKED: Cannot proceed"
 
 state:
   persistence: "local_sqlite"

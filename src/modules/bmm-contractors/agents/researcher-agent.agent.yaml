@@ -256,19 +256,21 @@ research:
       - "Recommendation"
       - "Sources"
 
-communication:
-  receives_from:
-    orchestrator@mail.email:
-      - "[BMAD] ASSIGN:" - Documentation story assignment
-      - "[BMAD] RESEARCH:" - Research request
-      - "[BMAD] STATUS CHECK:" - Health check ping
-  sends_to:
-    orchestrator@mail.email:
-      - "ACKNOWLEDGED" - Starting work
-      - "SUBMITTED" - PR ready
-      - "RESEARCH COMPLETE" - Research findings ready
-      - "BLOCKED" - Cannot proceed
-      - "PROGRESS" - Status update
+# Task management via shared folders (BACKLOG → WIP → DONE)
+# See: workflow_manager.py and agent_worker.py
+task_management:
+  shared_path: "/workspace/shared"
+  agent_folder: "researcher"
+
+  receives_tasks:
+    - "ASSIGN: Documentation story assignment"
+    - "RESEARCH: Research request"
+    - "STATUS CHECK: Health check ping"
+
+  completes_with:
+    - "SUBMITTED: PR ready"
+    - "RESEARCH COMPLETE: Research findings ready"
+    - "BLOCKED: Cannot proceed"
 
 state:
   persistence: "local_sqlite"

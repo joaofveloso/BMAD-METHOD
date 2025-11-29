@@ -26,7 +26,7 @@ events:
     - feedback.insight.generated
     - metrics.velocity.calculated
     - story.done
-    
+
   publishes:
     - priority.updated
     - priority.queue.reordered
@@ -43,7 +43,7 @@ workflows:
     path: workflows/prioritize-backlog
     description: "Score and prioritize backlog items"
     standalone: true
-    
+
   - name: priority-review
     path: workflows/priority-review
     description: "Review and adjust priorities"
@@ -53,7 +53,7 @@ slash_commands:
   - name: "priority-score"
     workflow: "prioritize-backlog"
     description: "Score and prioritize items"
-    
+
   - name: "priority-review"
     workflow: "priority-review"
     description: "Review priorities"

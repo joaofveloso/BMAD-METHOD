@@ -58,7 +58,7 @@ autonomous:
   mode: "smtp-polling"
   polling_interval_seconds: 60
   max_iterations: 3
-  story_timeout_hours: 72  # Mobile takes longer
+  story_timeout_hours: 72 # Mobile takes longer
 
   escalate_when:
     - "iteration_count >= max_iterations"
@@ -181,7 +181,7 @@ code_generation:
     - "app/src/main/res/**"
 
   forbidden_paths:
-    - "app/src/main/java/**/di/**"  # DI setup needs review
+    - "app/src/main/java/**/di/**" # DI setup needs review
     - "buildSrc/**"
     - "infrastructure/**"
     - ".github/**"
@@ -189,7 +189,7 @@ code_generation:
     - "frontend/**"
 
 quality:
-  test_coverage_minimum: 70  # Mobile is harder to test
+  test_coverage_minimum: 70 # Mobile is harder to test
 
   required_checks:
     - "compilation"
@@ -251,19 +251,23 @@ workflow:
         subject: "[BMAD] SUBMITTED: {story_id}"
         body: "SUBMITTED\nStory: {story_id}\nPR: {pr_url}"
 
-communication:
-  receives_from:
-    orchestrator@mail.email:
-      - "[BMAD] ASSIGN:" - New story assignment
-      - "[BMAD] REVISION:" - Fix quality failures
-      - "[BMAD] COMPLETE:" - Story merged confirmation
-      - "[BMAD] STATUS CHECK:" - Health check ping
-  sends_to:
-    orchestrator@mail.email:
-      - "ACKNOWLEDGED" - Starting work
-      - "SUBMITTED" - PR ready
-      - "BLOCKED" - Cannot proceed
-      - "PROGRESS" - Status update
+# Task management via shared folders (BACKLOG → WIP → DONE)
+# See: workflow_manager.py and agent_worker.py
+task_management:
+  shared_path: "/workspace/shared"
+  agent_folder: "mobile"
+
+  receives_tasks:
+    - "ASSIGN: New story assignment"
+    - "REVISION: Fix quality failures"
+    - "COMPLETE: Story merged confirmation"
+    - "STATUS CHECK: Health check ping"
+
+  completes_with:
+    - "ACKNOWLEDGED: Starting work"
+    - "SUBMITTED: PR ready"
+    - "BLOCKED: Cannot proceed"
+    - "PROGRESS: Status update"
 
 state:
   persistence: "local_sqlite"

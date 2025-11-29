@@ -69,7 +69,7 @@ assignment:
     - "api"
     - "database"
 
-  complexity_limit: "L"  # Can handle up to Large stories
+  complexity_limit: "L" # Can handle up to Large stories
 
   excluded_types:
     - "frontend"

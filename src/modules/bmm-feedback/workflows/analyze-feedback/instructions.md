@@ -1,9 +1,11 @@
 # Analyze Feedback Instructions
 
 ## Objective
+
 Analyze feedback items to determine sentiment, categorize by theme, identify patterns, and generate actionable insights.
 
 ## Prerequisites
+
 - Feedback items collected (via `*collect`)
 - Category definitions in config
 
@@ -81,13 +83,15 @@ Very Positive [+0.5 to +1.0]: ████████████ {{very_positi
 
 **Category Distribution:**
 
-| Category | Count | % | Avg Sentiment |
-|----------|-------|---|---------------|
+| Category | Count | %   | Avg Sentiment |
+| -------- | ----- | --- | ------------- |
+
 {{#each categories}}
 | {{name}} | {{count}} | {{percent}}% | {{avg_sentiment}} |
 {{/each}}
 
 **Top Categories:**
+
 1. {{top_category_1.name}}: {{top_category_1.count}} items
 2. {{top_category_2.name}}: {{top_category_2.count}} items
 3. {{top_category_3.name}}: {{top_category_3.count}} items
@@ -107,13 +111,15 @@ Very Positive [+0.5 to +1.0]: ████████████ {{very_positi
 **Emerging Themes:**
 
 {{#each themes}}
+
 ### {{rank}}. {{name}}
+
 - **Mentions:** {{count}}
 - **Sentiment:** {{sentiment}}
 - **Sample Quotes:**
   {{#each sample_quotes}}
   > "{{quote}}" - {{source}}
-  {{/each}}
+  > {{/each}}
 
 {{/each}}
 
@@ -132,7 +138,8 @@ Very Positive [+0.5 to +1.0]: ████████████ {{very_positi
 **Linked to Stories:**
 
 | Feedback ID | Story ID | Confidence |
-|-------------|----------|------------|
+| ----------- | -------- | ---------- |
+
 {{#each linked_feedback}}
 | {{feedback_id}} | {{story_id}} | {{confidence}}% |
 {{/each}}
@@ -227,15 +234,15 @@ Very Positive [+0.5 to +1.0]: ████████████ {{very_positi
 
 {{#each analyzed_items}}
 <publish event="feedback.analyzed">
-  <payload>
-    <feedback_id>{{id}}</feedback_id>
-    <category>{{category}}</category>
-    <sentiment_score>{{sentiment_score}}</sentiment_score>
-    <sentiment_label>{{sentiment_label}}</sentiment_label>
-    <themes>{{themes}}</themes>
-    <priority_score>{{priority_score}}</priority_score>
-    <linked_stories>{{linked_stories}}</linked_stories>
-  </payload>
+<payload>
+<feedback_id>{{id}}</feedback_id>
+<category>{{category}}</category>
+<sentiment_score>{{sentiment_score}}</sentiment_score>
+<sentiment_label>{{sentiment_label}}</sentiment_label>
+<themes>{{themes}}</themes>
+<priority_score>{{priority_score}}</priority_score>
+<linked_stories>{{linked_stories}}</linked_stories>
+</payload>
 </publish>
 {{/each}}
 
@@ -248,6 +255,7 @@ Very Positive [+0.5 to +1.0]: ████████████ {{very_positi
 Feedback analysis complete.
 
 **Summary:**
+
 - Items Analyzed: {{analyzed_count}}
 - Average Sentiment: {{average_sentiment}} ({{sentiment_label}})
 - Top Category: {{top_category}}
@@ -256,13 +264,15 @@ Feedback analysis complete.
 
 **Attention Needed:**
 {{#if negative_spike}}
+
 - Negative sentiment spike detected
-{{/if}}
-{{#if high_volume_theme}}
+  {{/if}}
+  {{#if high_volume_theme}}
 - High volume theme: {{high_volume_theme}}
-{{/if}}
+  {{/if}}
 
 **Next Steps:**
+
 1. Review generated insights
 2. Generate report with `*report`
 3. Address priority suggestions

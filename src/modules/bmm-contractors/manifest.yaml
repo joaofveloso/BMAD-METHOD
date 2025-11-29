@@ -44,7 +44,7 @@ communication:
 
 # Automation mode
 automation:
-  mode: "full"  # full | supervised | manual
+  mode: "full" # full | supervised | manual
   description: |
     Full E2E automation with SMTP-only communication:
     - AI agents write code autonomously
@@ -175,7 +175,7 @@ agents:
     description: "Interactive AI agent that helps founder organize work and command the pipeline"
     icon: "👑"
     type: "ai-founder-agent"
-    autonomous: false  # Interactive mode - founder drives it
+    autonomous: false # Interactive mode - founder drives it
 
   # Orchestrator (central coordinator)
   - name: orchestrator-agent

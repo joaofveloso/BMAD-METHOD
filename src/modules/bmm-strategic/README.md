@@ -34,11 +34,13 @@ The BMM-Strategic module sits at the **strategic layer** of the BMAD framework, 
 ## Agents
 
 ### 🚀 Founder Agent
+
 **Role:** Visionary Product Leader
 
 The Founder agent drives product vision, strategic priorities, and major decisions.
 
 **Key Capabilities:**
+
 - Define and refine product vision
 - Set quarterly strategic priorities
 - Make go/no-go decisions on initiatives
@@ -46,6 +48,7 @@ The Founder agent drives product vision, strategic priorities, and major decisio
 - Generate investor updates
 
 **Commands:**
+
 - `*vision` - Define product vision
 - `*priorities` - Set strategic priorities
 - `*decide` - Go/no-go decision framework
@@ -55,11 +58,13 @@ The Founder agent drives product vision, strategic priorities, and major decisio
 ---
 
 ### ☁️ SaaS Specialist Agent
+
 **Role:** SaaS Domain Expert + Platform Architect
 
 Deep expertise in SaaS business models, multi-tenancy, pricing, and subscription economics.
 
 **Key Capabilities:**
+
 - Design multi-tenant architecture
 - Define pricing strategy and tiers
 - Design user onboarding flows
@@ -67,6 +72,7 @@ Deep expertise in SaaS business models, multi-tenancy, pricing, and subscription
 - Plan integration strategy
 
 **Commands:**
+
 - `*tenancy` - Design multi-tenant architecture
 - `*pricing` - Define pricing strategy
 - `*onboarding` - Design onboarding flow
@@ -76,11 +82,13 @@ Deep expertise in SaaS business models, multi-tenancy, pricing, and subscription
 ---
 
 ### 📈 Market Strategist Agent
+
 **Role:** Competitive Intelligence + Growth Strategist
 
 Focused on market dynamics, competitive positioning, and growth opportunities.
 
 **Key Capabilities:**
+
 - Analyze competitors
 - Define market positioning
 - Create ideal customer profile (ICP)
@@ -88,6 +96,7 @@ Focused on market dynamics, competitive positioning, and growth opportunities.
 - Go-to-market strategy
 
 **Commands:**
+
 - `*competitors` - Competitor analysis
 - `*positioning` - Market positioning
 - `*icp` - Ideal customer profile
@@ -97,11 +106,13 @@ Focused on market dynamics, competitive positioning, and growth opportunities.
 ---
 
 ### 🛡️ Compliance Officer Agent
+
 **Role:** Security + Privacy + Regulatory Guardian
 
 Ensures compliance with GDPR, SOC2, and other regulatory frameworks.
 
 **Key Capabilities:**
+
 - GDPR compliance assessment
 - SOC2 audit preparation
 - Data flow mapping
@@ -109,6 +120,7 @@ Ensures compliance with GDPR, SOC2, and other regulatory frameworks.
 - Policy management
 
 **Commands:**
+
 - `*gdpr` - GDPR assessment
 - `*soc2` - SOC2 preparation
 - `*data-map` - Data flow mapping
@@ -118,11 +130,13 @@ Ensures compliance with GDPR, SOC2, and other regulatory frameworks.
 ---
 
 ### 🎯 UX Strategist Agent
+
 **Role:** User Experience + Retention Specialist
 
 Focused on user experience, retention, and product stickiness.
 
 **Key Capabilities:**
+
 - User journey mapping
 - Friction analysis
 - Retention analysis
@@ -130,6 +144,7 @@ Focused on user experience, retention, and product stickiness.
 - Persona development
 
 **Commands:**
+
 - `*journey` - User journey mapping
 - `*friction` - Friction analysis
 - `*retention` - Retention analysis
@@ -139,11 +154,13 @@ Focused on user experience, retention, and product stickiness.
 ---
 
 ### 🔬 Growth Engineer Agent
+
 **Role:** Growth Hacker + Analytics Expert
 
 Data-driven growth through experimentation and funnel optimization.
 
 **Key Capabilities:**
+
 - Funnel analysis
 - Experiment design
 - Analytics setup
@@ -151,6 +168,7 @@ Data-driven growth through experimentation and funnel optimization.
 - Growth modeling
 
 **Commands:**
+
 - `*funnel` - Funnel analysis
 - `*experiment` - Design experiments
 - `*analytics` - Analytics tracking plan
@@ -165,25 +183,25 @@ The strategic module integrates with other BMAD modules through events:
 
 ### Events Published
 
-| Event | Agent | Description |
-|-------|-------|-------------|
-| `vision.defined` | Founder | Vision has been defined |
-| `priority.set` | Founder | Priorities have been set |
-| `decision.go` | Founder | Go decision on initiative |
-| `saas.pricing.defined` | SaaS Specialist | Pricing strategy defined |
-| `market.positioning.defined` | Market Strategist | Positioning defined |
-| `compliance.flag.raised` | Compliance | Compliance issue identified |
-| `ux.friction.identified` | UX Strategist | Friction point found |
-| `growth.experiment.completed` | Growth Engineer | Experiment finished |
+| Event                         | Agent             | Description                 |
+| ----------------------------- | ----------------- | --------------------------- |
+| `vision.defined`              | Founder           | Vision has been defined     |
+| `priority.set`                | Founder           | Priorities have been set    |
+| `decision.go`                 | Founder           | Go decision on initiative   |
+| `saas.pricing.defined`        | SaaS Specialist   | Pricing strategy defined    |
+| `market.positioning.defined`  | Market Strategist | Positioning defined         |
+| `compliance.flag.raised`      | Compliance        | Compliance issue identified |
+| `ux.friction.identified`      | UX Strategist     | Friction point found        |
+| `growth.experiment.completed` | Growth Engineer   | Experiment finished         |
 
 ### Events Subscribed
 
-| Event | Source | Handlers |
-|-------|--------|----------|
-| `metrics.kpi.updated` | bmm-metrics | Founder, Growth Engineer |
-| `feedback.insight.generated` | bmm-feedback | Founder, UX Strategist |
-| `roadmap.at.risk` | bmm-roadmap | Founder, Market Strategist |
-| `release.deployed` | bmm-release | Growth Engineer, Compliance |
+| Event                        | Source       | Handlers                    |
+| ---------------------------- | ------------ | --------------------------- |
+| `metrics.kpi.updated`        | bmm-metrics  | Founder, Growth Engineer    |
+| `feedback.insight.generated` | bmm-feedback | Founder, UX Strategist      |
+| `roadmap.at.risk`            | bmm-roadmap  | Founder, Market Strategist  |
+| `release.deployed`           | bmm-release  | Growth Engineer, Compliance |
 
 ---
 
@@ -209,28 +227,28 @@ After installation, configure the module in `.bmad/bmm-strategic/config.yaml`:
 
 ```yaml
 company:
-  name: "Your Company"
-  stage: "mvp"  # idea, mvp, growth, scale, mature
+  name: 'Your Company'
+  stage: 'mvp' # idea, mvp, growth, scale, mature
 
 vision:
-  statement: "Your vision statement"
-  mission: "Your mission"
+  statement: 'Your vision statement'
+  mission: 'Your mission'
 
 market:
-  segment: "smb"  # smb, mid-market, enterprise, consumer
+  segment: 'smb' # smb, mid-market, enterprise, consumer
   competitors:
-    - "Competitor A"
-    - "Competitor B"
+    - 'Competitor A'
+    - 'Competitor B'
 
 compliance:
   frameworks:
-    - "gdpr"
-    - "soc2"
+    - 'gdpr'
+    - 'soc2'
 
 growth:
   north_star:
-    metric: "Weekly Active Users"
-    target: "10000"
+    metric: 'Weekly Active Users'
+    target: '10000'
 ```
 
 ---
@@ -238,21 +256,25 @@ growth:
 ## Quick Start
 
 1. **Install the module**
+
    ```bash
    npm run bmad:install
    ```
 
 2. **Activate the Founder agent**
+
    ```
    /bmad:bmm-strategic:agents:founder
    ```
 
 3. **Define your vision**
+
    ```
    *vision
    ```
 
 4. **Set priorities**
+
    ```
    *priorities
    ```
@@ -323,18 +345,23 @@ After experiment runs:
 ## Best Practices
 
 ### 1. Start with Vision
+
 Always begin with the Founder agent to establish vision and priorities before diving into details.
 
 ### 2. Regular Compliance Checks
+
 Run compliance assessments before major releases and quarterly regardless.
 
 ### 3. Data-Driven Decisions
+
 Use Growth Engineer to quantify impact before making major product decisions.
 
 ### 4. User-Centric Design
+
 Engage UX Strategist early in feature planning, not just for polish.
 
 ### 5. Market Awareness
+
 Regularly update competitive intelligence via Market Strategist.
 
 ---

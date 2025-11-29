@@ -22,32 +22,32 @@ This workflow handles requesting code revisions from contractors via SMTP email.
 
 ```yaml
 submission:
-  story_id: "STORY-123"
-  story_title: "Implement user authentication API"
-  contractor_id: "backend-001"
-  contractor_name: "Backend Developer"
-  contractor_email: "backend@contractor.example"
+  story_id: 'STORY-123'
+  story_title: 'Implement user authentication API'
+  contractor_id: 'backend-001'
+  contractor_name: 'Backend Developer'
+  contractor_email: 'backend@contractor.example'
   pr_number: 456
-  pr_url: "https://github.com/org/repo/pull/456"
-  branch: "story/STORY-123-implement-user-auth"
-  submitted_at: "2025-11-29T15:00:00Z"
-  iteration: 1  # First submission
+  pr_url: 'https://github.com/org/repo/pull/456'
+  branch: 'story/STORY-123-implement-user-auth'
+  submitted_at: '2025-11-29T15:00:00Z'
+  iteration: 1 # First submission
 ```
 
 **Load Review Results:**
 
 ```yaml
 review:
-  reviewer: "contractor-coordinator"
-  reviewed_at: "2025-11-30T10:00:00Z"
-  decision: "request_revisions"
+  reviewer: 'contractor-coordinator'
+  reviewed_at: '2025-11-30T10:00:00Z'
+  decision: 'request_revisions'
   issues_found:
     blockers: 2
     major: 1
     minor: 3
     suggestions: 2
-  test_coverage: "85%"
-  security_scan: "2 medium issues"
+  test_coverage: '85%'
+  security_scan: '2 medium issues'
 ```
 
 **Load Previous Iterations (if any):**
@@ -55,9 +55,9 @@ review:
 ```yaml
 previous_revisions:
   - iteration: 0
-    submitted_at: "2025-11-28T12:00:00Z"
+    submitted_at: '2025-11-28T12:00:00Z'
     issues_found: 5
-    status: "revision_requested"
+    status: 'revision_requested'
 ```
 
 **Output:** Complete submission context
@@ -70,34 +70,34 @@ previous_revisions:
 
 **Issue Severity:**
 
-| Severity | Definition | Required? |
-|----------|------------|-----------|
-| 🚫 Blocker | Security vulnerability, breaking bug, or fundamental flaw | Must fix |
-| ⚠️ Major | Significant issue affecting functionality or maintainability | Must fix |
-| 📝 Minor | Code quality, style, or minor improvements | Should fix |
-| 💡 Suggestion | Optional improvements or alternative approaches | Optional |
+| Severity      | Definition                                                   | Required?  |
+| ------------- | ------------------------------------------------------------ | ---------- |
+| 🚫 Blocker    | Security vulnerability, breaking bug, or fundamental flaw    | Must fix   |
+| ⚠️ Major      | Significant issue affecting functionality or maintainability | Must fix   |
+| 📝 Minor      | Code quality, style, or minor improvements                   | Should fix |
+| 💡 Suggestion | Optional improvements or alternative approaches              | Optional   |
 
 **Issue Categories:**
 
-| Category | Examples |
-|----------|----------|
-| Security | Input validation, injection vulnerabilities, auth issues |
-| Functionality | Logic errors, missing requirements, edge cases |
-| Performance | N+1 queries, inefficient algorithms, resource leaks |
-| Code Quality | Naming, structure, DRY violations, complexity |
-| Testing | Missing tests, inadequate coverage, flaky tests |
-| Documentation | Missing docs, outdated comments, unclear APIs |
+| Category      | Examples                                                 |
+| ------------- | -------------------------------------------------------- |
+| Security      | Input validation, injection vulnerabilities, auth issues |
+| Functionality | Logic errors, missing requirements, edge cases           |
+| Performance   | N+1 queries, inefficient algorithms, resource leaks      |
+| Code Quality  | Naming, structure, DRY violations, complexity            |
+| Testing       | Missing tests, inadequate coverage, flaky tests          |
+| Documentation | Missing docs, outdated comments, unclear APIs            |
 
 **Categorized Issue List:**
 
 ```yaml
 issues:
   blockers:
-    - id: "REV-001"
-      category: "security"
-      severity: "blocker"
-      title: "SQL Injection in user search"
-      location: "src/repository/UserRepository.java:45"
+    - id: 'REV-001'
+      category: 'security'
+      severity: 'blocker'
+      title: 'SQL Injection in user search'
+      location: 'src/repository/UserRepository.java:45'
       description: |
         Raw SQL query concatenates user input without sanitization.
         This allows SQL injection attacks.
@@ -108,39 +108,39 @@ issues:
         String query = "SELECT * FROM users WHERE name = ?";
         jdbcTemplate.query(query, new Object[]{name}, rowMapper);
       references:
-        - "OWASP SQL Injection: https://owasp.org/..."
+        - 'OWASP SQL Injection: https://owasp.org/...'
 
-    - id: "REV-002"
-      category: "security"
-      severity: "blocker"
-      title: "Refresh token not invalidated on logout"
-      location: "src/service/AuthService.java:89"
+    - id: 'REV-002'
+      category: 'security'
+      severity: 'blocker'
+      title: 'Refresh token not invalidated on logout'
+      location: 'src/service/AuthService.java:89'
       description: |
         Logout does not invalidate the refresh token, allowing reuse.
 
   major:
-    - id: "REV-003"
-      category: "functionality"
-      severity: "major"
-      title: "Missing error handling for expired tokens"
-      location: "src/controller/AuthController.java:67"
+    - id: 'REV-003'
+      category: 'functionality'
+      severity: 'major'
+      title: 'Missing error handling for expired tokens'
+      location: 'src/controller/AuthController.java:67'
       description: |
         When token is expired, returns 500 instead of proper 401.
 
   minor:
-    - id: "REV-004"
-      category: "code_quality"
-      severity: "minor"
-      title: "Hardcoded token expiry value"
-      location: "src/config/JwtConfig.java:23"
+    - id: 'REV-004'
+      category: 'code_quality'
+      severity: 'minor'
+      title: 'Hardcoded token expiry value'
+      location: 'src/config/JwtConfig.java:23'
       description: |
         Token expiry is hardcoded. Should be configurable.
 
   suggestions:
-    - id: "REV-005"
-      category: "code_quality"
-      severity: "suggestion"
-      title: "Consider extracting token validation to utility"
+    - id: 'REV-005'
+      category: 'code_quality'
+      severity: 'suggestion'
+      title: 'Consider extracting token validation to utility'
       description: |
         Token validation logic is duplicated across 3 places.
 ```
@@ -178,7 +178,7 @@ Optional Improvements: 2
 
 **Feedback Structure:**
 
-```markdown
+````markdown
 ## Required Changes (Must Fix)
 
 ### 🚫 REV-001: SQL Injection in user search [BLOCKER]
@@ -189,12 +189,15 @@ Optional Improvements: 2
 Raw SQL query concatenates user input without sanitization, allowing SQL injection attacks.
 
 **Current Code:**
+
 ```java
 String query = "SELECT * FROM users WHERE name = '" + name + "'";
 ```
+````
 
 **Fix Required:**
 Use parameterized queries to prevent SQL injection:
+
 ```java
 String query = "SELECT * FROM users WHERE name = ?";
 jdbcTemplate.query(query, new Object[]{name}, rowMapper);
@@ -214,6 +217,7 @@ The logout method does not invalidate the refresh token, allowing it to be reuse
 
 **Fix Required:**
 Add refresh token invalidation to logout:
+
 ```java
 public void logout(String refreshToken) {
     refreshTokenRepository.invalidate(refreshToken);  // Add this
@@ -238,7 +242,8 @@ public void logout(String refreshToken) {
 ### 💡 REV-005: Consider extracting token validation to utility
 
 ...
-```
+
+````
 
 **Positive Feedback (if any):**
 
@@ -248,7 +253,7 @@ public void logout(String refreshToken) {
 - Clean separation of concerns in the controller layer
 - Good test coverage for happy path scenarios
 - Clear API documentation with examples
-```
+````
 
 **Output:** Structured feedback document
 
@@ -260,12 +265,12 @@ public void logout(String refreshToken) {
 
 **Deadline Calculation:**
 
-| Issue Count | Severity | Estimated Effort | Deadline |
-|-------------|----------|------------------|----------|
-| 1-2 blockers | Critical | 2-4 hours | 24 hours |
-| 3-5 issues | High | 4-8 hours | 48 hours |
-| 5-10 issues | Medium | 1-2 days | 72 hours |
-| 10+ issues | Complex | 2-4 days | 5 days |
+| Issue Count  | Severity | Estimated Effort | Deadline |
+| ------------ | -------- | ---------------- | -------- |
+| 1-2 blockers | Critical | 2-4 hours        | 24 hours |
+| 3-5 issues   | High     | 4-8 hours        | 48 hours |
+| 5-10 issues  | Medium   | 1-2 days         | 72 hours |
+| 10+ issues   | Complex  | 2-4 days         | 5 days   |
 
 **Factors to Consider:**
 
@@ -274,10 +279,10 @@ deadline_factors:
   issue_count: 8
   blocker_count: 2
   estimated_effort_hours: 6
-  contractor_availability: "full-time"
-  contractor_timezone: "UTC+5:30"
-  original_story_deadline: "2025-12-01"
-  current_date: "2025-11-30"
+  contractor_availability: 'full-time'
+  contractor_timezone: 'UTC+5:30'
+  original_story_deadline: '2025-12-01'
+  current_date: '2025-11-30'
   business_days_remaining: 1
 ```
 
@@ -285,12 +290,12 @@ deadline_factors:
 
 ```yaml
 revision_deadline:
-  due_date: "2025-12-02T17:00:00Z"
-  due_date_local: "2025-12-02 22:30 IST"  # Contractor's timezone
+  due_date: '2025-12-02T17:00:00Z'
+  due_date_local: '2025-12-02 22:30 IST' # Contractor's timezone
   hours_from_now: 48
-  reasoning: "6 hours estimated effort + buffer for questions"
+  reasoning: '6 hours estimated effort + buffer for questions'
   extends_story_deadline: true
-  new_story_deadline: "2025-12-03"
+  new_story_deadline: '2025-12-03'
 ```
 
 **Output:** Revision deadline set
@@ -303,7 +308,7 @@ revision_deadline:
 
 **Revision Request Email:**
 
-```markdown
+````markdown
 Subject: [PROJECT] [STORY-123] 🔄 Revisions Requested - Implement user auth API
 
 Hi Backend Developer,
@@ -314,14 +319,14 @@ Thank you for your submission on STORY-123. After review, we've identified some 
 
 ## Summary
 
-| Metric | Value |
-|--------|-------|
-| PR | #456 |
-| Issues Found | 8 |
-| Required Changes | 3 |
-| Recommended Changes | 3 |
-| Optional | 2 |
-| Revision Deadline | Dec 2, 2025 (48 hours) |
+| Metric              | Value                  |
+| ------------------- | ---------------------- |
+| PR                  | #456                   |
+| Issues Found        | 8                      |
+| Required Changes    | 3                      |
+| Recommended Changes | 3                      |
+| Optional            | 2                      |
+| Revision Deadline   | Dec 2, 2025 (48 hours) |
 
 ---
 
@@ -335,11 +340,14 @@ Thank you for your submission on STORY-123. After review, we've identified some 
 Raw SQL query concatenates user input without sanitization. This is a critical security vulnerability.
 
 **Current Code:**
+
 ```java
 String query = "SELECT * FROM users WHERE name = '" + name + "'";
 ```
+````
 
 **Fix:**
+
 ```java
 String query = "SELECT * FROM users WHERE name = ?";
 jdbcTemplate.query(query, new Object[]{name}, rowMapper);
@@ -426,11 +434,13 @@ Best regards,
 Project Coordinator
 
 ---
+
 PR: https://github.com/org/repo/pull/456
 Branch: story/STORY-123-implement-user-auth
 Correlation ID: revision-STORY-123-iter2
 Iteration: 2
-```
+
+````
 
 **Send Email:**
 
@@ -448,7 +458,7 @@ email:
     deadline: "2025-12-02T17:00:00Z"
     iteration: 2
   correlation_id: "revision-STORY-123-iter2"
-```
+````
 
 **Output:** Revision request email sent
 
@@ -462,7 +472,7 @@ email:
 
 ```yaml
 pr_update:
-  action: "request_changes"
+  action: 'request_changes'
   pr_number: 456
   comment: |
     ## 🔄 Changes Requested
@@ -483,18 +493,18 @@ pr_update:
 
     **Deadline:** Dec 2, 2025
   labels:
-    add: ["changes-requested", "iteration-2"]
-    remove: ["needs-review"]
+    add: ['changes-requested', 'iteration-2']
+    remove: ['needs-review']
 ```
 
 **Update Story Status:**
 
 ```yaml
 story_update:
-  story_id: "STORY-123"
-  status: "revision_requested"
+  story_id: 'STORY-123'
+  status: 'revision_requested'
   revision_iteration: 2
-  revision_deadline: "2025-12-02T17:00:00Z"
+  revision_deadline: '2025-12-02T17:00:00Z'
   issues_count: 8
   blockers_count: 2
 ```
@@ -504,20 +514,20 @@ story_update:
 ```yaml
 state_update:
   revisions:
-    - story_id: "STORY-123"
-      contractor_id: "backend-001"
+    - story_id: 'STORY-123'
+      contractor_id: 'backend-001'
       pr_number: 456
       iteration: 2
-      requested_at: "2025-11-30T10:30:00Z"
-      deadline: "2025-12-02T17:00:00Z"
+      requested_at: '2025-11-30T10:30:00Z'
+      deadline: '2025-12-02T17:00:00Z'
       issues:
         blockers: 2
         major: 1
         minor: 3
         suggestions: 2
       email_sent: true
-      email_correlation_id: "revision-STORY-123-iter2"
-      status: "awaiting_revision"
+      email_correlation_id: 'revision-STORY-123-iter2'
+      status: 'awaiting_revision'
 ```
 
 **Output:** All systems updated
@@ -527,10 +537,11 @@ state_update:
 ## Events Published
 
 **contractor.revision.requested:**
+
 ```yaml
-story_id: "STORY-123"
-contractor_id: "backend-001"
-contractor_email: "backend@contractor.example"
+story_id: 'STORY-123'
+contractor_id: 'backend-001'
+contractor_email: 'backend@contractor.example'
 pr_number: 456
 iteration: 2
 issues:
@@ -538,9 +549,9 @@ issues:
   major: 1
   minor: 3
   suggestions: 2
-deadline: "2025-12-02T17:00:00Z"
-email_correlation_id: "revision-STORY-123-iter2"
-requested_at: "2025-11-30T10:30:00Z"
+deadline: '2025-12-02T17:00:00Z'
+email_correlation_id: 'revision-STORY-123-iter2'
+requested_at: '2025-11-30T10:30:00Z'
 ```
 
 ---
@@ -551,18 +562,18 @@ requested_at: "2025-11-30T10:30:00Z"
 
 ```yaml
 revision_history:
-  story_id: "STORY-123"
+  story_id: 'STORY-123'
   iterations:
     - iteration: 1
-      submitted_at: "2025-11-29T15:00:00Z"
-      reviewed_at: "2025-11-30T10:00:00Z"
+      submitted_at: '2025-11-29T15:00:00Z'
+      reviewed_at: '2025-11-30T10:00:00Z'
       issues_found: 8
-      outcome: "revisions_requested"
+      outcome: 'revisions_requested'
 
     - iteration: 2
-      submitted_at: null  # Awaiting
-      deadline: "2025-12-02T17:00:00Z"
-      expected_issues_resolved: 3  # Required only
+      submitted_at: null # Awaiting
+      deadline: '2025-12-02T17:00:00Z'
+      expected_issues_resolved: 3 # Required only
 ```
 
 **Max Iterations:**
@@ -570,8 +581,8 @@ revision_history:
 ```yaml
 revision_policy:
   max_iterations: 3
-  after_max_iterations: "escalate_to_coordinator"
-  pattern_detection: true  # Track repeated issues
+  after_max_iterations: 'escalate_to_coordinator'
+  pattern_detection: true # Track repeated issues
 ```
 
 ---
@@ -582,17 +593,17 @@ revision_policy:
 
 ```yaml
 reminders:
-  - trigger: "deadline - 24h"
-    action: "send_reminder"
-    template: "revision-reminder"
+  - trigger: 'deadline - 24h'
+    action: 'send_reminder'
+    template: 'revision-reminder'
 
-  - trigger: "deadline"
-    action: "check_submission"
-    if_not_submitted: "send_urgent_reminder"
+  - trigger: 'deadline'
+    action: 'check_submission'
+    if_not_submitted: 'send_urgent_reminder'
 
-  - trigger: "deadline + 24h"
-    action: "escalate"
-    template: "revision-overdue"
+  - trigger: 'deadline + 24h'
+    action: 'escalate'
+    template: 'revision-overdue'
 ```
 
 **Reminder Email:**

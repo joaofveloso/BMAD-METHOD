@@ -103,7 +103,6 @@ event_envelope:
 # Defines all known event types with their payload schemas
 
 event_types:
-
   # ============================================
   # Core Story Lifecycle Events (from existing BMM)
   # ============================================

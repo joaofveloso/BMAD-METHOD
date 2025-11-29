@@ -1,9 +1,11 @@
 # Track Metrics Instructions
 
 ## Objective
+
 Collect current metric values, calculate KPIs, check SLA compliance, and generate a metrics report with actionable insights.
 
 ## Prerequisites
+
 - KPIs defined (via `*define-kpis`)
 - SLAs defined (via `*define-slas`)
 - Access to source data (stories, sprints, test results)
@@ -67,13 +69,14 @@ Period: </ask>
 
 **Current Sprint Velocity:**
 
-| Metric | Value | Target | Status |
-|--------|-------|--------|--------|
-| Stories Completed | {{stories_completed}} | {{stories_planned}} | {{completion_status}} |
-| Points Completed | {{points_completed}} | {{points_planned}} | {{points_status}} |
-| Completion Rate | {{completion_rate}}% | {{target_completion}}% | {{rate_status}} |
+| Metric            | Value                 | Target                 | Status                |
+| ----------------- | --------------------- | ---------------------- | --------------------- |
+| Stories Completed | {{stories_completed}} | {{stories_planned}}    | {{completion_status}} |
+| Points Completed  | {{points_completed}}  | {{points_planned}}     | {{points_status}}     |
+| Completion Rate   | {{completion_rate}}%  | {{target_completion}}% | {{rate_status}}       |
 
 **Velocity Trend:**
+
 - Current: {{current_velocity}}
 - Rolling Average (6 sprints): {{rolling_average}}
 - Trend: {{velocity_trend}}
@@ -96,12 +99,13 @@ Period: </ask>
 
 **Cycle Time Analysis:**
 
-| Metric | P50 | P90 | Target | Status |
-|--------|-----|-----|--------|--------|
+| Metric           | P50            | P90            | Target            | Status           |
+| ---------------- | -------------- | -------------- | ----------------- | ---------------- |
 | Story Cycle Time | {{cycle_p50}}d | {{cycle_p90}}d | {{cycle_target}}d | {{cycle_status}} |
-| PR Review Time | {{pr_p50}}h | {{pr_p90}}h | {{pr_target}}h | {{pr_status}} |
+| PR Review Time   | {{pr_p50}}h    | {{pr_p90}}h    | {{pr_target}}h    | {{pr_status}}    |
 
 **Deployment Frequency:**
+
 - Deployments this period: {{deployment_count}}
 - Average per week: {{deployments_per_week}}
 - Target: {{deployment_target}}
@@ -133,19 +137,21 @@ Period: </ask>
 
 **Quality Dashboard:**
 
-| Metric | Current | Target | Status |
-|--------|---------|--------|--------|
-| Test Coverage | {{test_coverage}}% | {{coverage_target}}% | {{coverage_status}} |
-| Test Pass Rate | {{test_pass_rate}}% | 100% | {{test_status}} |
-| Code Review Coverage | {{review_coverage}}% | 100% | {{review_status}} |
+| Metric               | Current              | Target               | Status              |
+| -------------------- | -------------------- | -------------------- | ------------------- |
+| Test Coverage        | {{test_coverage}}%   | {{coverage_target}}% | {{coverage_status}} |
+| Test Pass Rate       | {{test_pass_rate}}%  | 100%                 | {{test_status}}     |
+| Code Review Coverage | {{review_coverage}}% | 100%                 | {{review_status}}   |
 
 **Defects:**
+
 - Critical: {{critical_defects}}
 - High: {{high_defects}}
 - Medium: {{medium_defects}}
 - Low: {{low_defects}}
 
 **Security:**
+
 - Critical Vulnerabilities: {{critical_vulns}}
 - High Vulnerabilities: {{high_vulns}}
 
@@ -179,7 +185,8 @@ Period: </ask>
 **KPI Health Dashboard:**
 
 | KPI | Current | Target | Status | Trend |
-|-----|---------|--------|--------|-------|
+| --- | ------- | ------ | ------ | ----- |
+
 {{#each kpis}}
 | {{name}} | {{current_value}} | {{target}} | {{status_emoji}} {{status}} | {{trend_arrow}} |
 {{/each}}
@@ -202,7 +209,8 @@ Period: </ask>
 **SLA Compliance Status:**
 
 | SLA | Threshold | Current | Compliant | Blocking |
-|-----|-----------|---------|-----------|----------|
+| --- | --------- | ------- | --------- | -------- |
+
 {{#each slas}}
 | {{name}} | {{threshold}} | {{current_value}} | {{compliant_emoji}} | {{blocking}} |
 {{/each}}
@@ -213,7 +221,7 @@ Period: </ask>
   **SLA Breaches Detected:**
   {{breached_slas_list}}
 
-  <action>Trigger notifications per alerting config</action>
+<action>Trigger notifications per alerting config</action>
 </check>
 
 </step>
@@ -268,6 +276,7 @@ Generate a comprehensive metrics report including:
 Metrics tracking complete for **{{reporting_period}}**.
 
 **Summary:**
+
 - **KPI Health:** {{overall_health_percentage}}%
 - **SLA Compliance:** {{sla_compliance_percentage}}%
 - **Metrics Updated:** {{metrics_updated_count}}
@@ -275,10 +284,11 @@ Metrics tracking complete for **{{reporting_period}}**.
 
 **Attention Needed:**
 {{#if red_kpis}}
+
 - {{red_count}} KPIs off-track: {{red_kpis_list}}
-{{/if}}
-{{#if breached_slas}}
+  {{/if}}
+  {{#if breached_slas}}
 - {{breach_count}} SLA breaches: {{breached_slas_list}}
-{{/if}}
+  {{/if}}
 
 Use `*metrics-review` for deeper trend analysis.

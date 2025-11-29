@@ -1,9 +1,11 @@
 # Define KPIs Instructions
 
 ## Objective
+
 Define meaningful Key Performance Indicators (KPIs) for product and engineering metrics that align with business objectives and drive actionable improvements.
 
 ## Prerequisites
+
 - Understanding of business objectives and success criteria
 - Access to historical data for baseline calculation (if available)
 - Stakeholder input on what matters most
@@ -50,13 +52,13 @@ For each product KPI, we need:
 
 **Recommended Product KPIs:**
 
-| KPI | Description | Typical Target |
-|-----|-------------|----------------|
-| User Activation Rate | % of new users completing key action | 40-60% |
-| Feature Adoption Rate | % of users using new features | 20-40% |
-| User Retention (D7/D30) | % of users returning after 7/30 days | 40%/20% |
-| NPS Score | Net Promoter Score | >30 |
-| Time to Value | Time for user to achieve first success | <5 min |
+| KPI                     | Description                            | Typical Target |
+| ----------------------- | -------------------------------------- | -------------- |
+| User Activation Rate    | % of new users completing key action   | 40-60%         |
+| Feature Adoption Rate   | % of users using new features          | 20-40%         |
+| User Retention (D7/D30) | % of users returning after 7/30 days   | 40%/20%        |
+| NPS Score               | Net Promoter Score                     | >30            |
+| Time to Value           | Time for user to achieve first success | <5 min         |
 
 <ask>Which product KPIs would you like to track?
 Select by letter or provide custom KPIs:
@@ -73,6 +75,7 @@ Selection: </ask>
 <action>For each selected KPI, gather target and threshold values</action>
 
 <ask>For each selected KPI, provide:
+
 - Target value (green zone)
 - Warning threshold (yellow zone)
 - Critical threshold (red zone)
@@ -91,21 +94,21 @@ Format: KPI: target / warning / critical</ask>
 
 **DORA Metrics (Industry Standard):**
 
-| Metric | Description | Elite | High | Medium | Low |
-|--------|-------------|-------|------|--------|-----|
-| Deployment Frequency | How often code deploys to production | On-demand | Daily-Weekly | Weekly-Monthly | Monthly+ |
-| Lead Time for Changes | Time from commit to production | <1 hour | 1 day-1 week | 1 week-1 month | 1-6 months |
-| Change Failure Rate | % of deployments causing failures | 0-15% | 16-30% | 31-45% | 46-60% |
-| Mean Time to Recovery | Time to restore service | <1 hour | <1 day | <1 week | 1 week+ |
+| Metric                | Description                          | Elite     | High         | Medium         | Low        |
+| --------------------- | ------------------------------------ | --------- | ------------ | -------------- | ---------- |
+| Deployment Frequency  | How often code deploys to production | On-demand | Daily-Weekly | Weekly-Monthly | Monthly+   |
+| Lead Time for Changes | Time from commit to production       | <1 hour   | 1 day-1 week | 1 week-1 month | 1-6 months |
+| Change Failure Rate   | % of deployments causing failures    | 0-15%     | 16-30%       | 31-45%         | 46-60%     |
+| Mean Time to Recovery | Time to restore service              | <1 hour   | <1 day       | <1 week        | 1 week+    |
 
 **Velocity Metrics:**
 
-| Metric | Description | Typical Range |
-|--------|-------------|---------------|
-| Sprint Velocity | Story points completed per sprint | Varies by team |
-| Story Cycle Time | Days from start to done | 2-5 days |
-| PR Review Time | Hours to first review | <4 hours |
-| Build Success Rate | % of builds that pass | >95% |
+| Metric             | Description                       | Typical Range  |
+| ------------------ | --------------------------------- | -------------- |
+| Sprint Velocity    | Story points completed per sprint | Varies by team |
+| Story Cycle Time   | Days from start to done           | 2-5 days       |
+| PR Review Time     | Hours to first review             | <4 hours       |
+| Build Success Rate | % of builds that pass             | >95%           |
 
 <ask>Which engineering KPIs would you like to track?
 
@@ -141,14 +144,14 @@ Target tier: </ask>
 
 ### Quality KPIs
 
-| Metric | Description | Typical Target |
-|--------|-------------|----------------|
-| Test Coverage | % of code covered by tests | >80% |
-| Test Pass Rate | % of tests passing | 100% |
-| Defect Escape Rate | Defects found in production vs total | <5% |
-| Code Review Coverage | % of PRs with reviews | 100% |
-| Security Vulnerability Count | Open high/critical vulns | 0 |
-| Technical Debt Ratio | Debt time vs dev time | <5% |
+| Metric                       | Description                          | Typical Target |
+| ---------------------------- | ------------------------------------ | -------------- |
+| Test Coverage                | % of code covered by tests           | >80%           |
+| Test Pass Rate               | % of tests passing                   | 100%           |
+| Defect Escape Rate           | Defects found in production vs total | <5%            |
+| Code Review Coverage         | % of PRs with reviews                | 100%           |
+| Security Vulnerability Count | Open high/critical vulns             | 0              |
+| Technical Debt Ratio         | Debt time vs dev time                | <5%            |
 
 <ask>Which quality KPIs would you like to track?
 
@@ -168,6 +171,7 @@ Selection: </ask>
 Format: KPI: target
 
 Example:
+
 - Test Coverage: 85%
 - Defect Escape Rate: <3%
 
@@ -195,6 +199,7 @@ Response: </ask>
 Format: metric_name: baseline_value
 
 Example:
+
 - deployment_frequency: 2/week
 - test_coverage: 72%
 
@@ -224,6 +229,7 @@ Each KPI needs:
 </template-guidance>
 
 <ask>Who should own each category of KPIs?
+
 - Product KPIs owner:
 - Engineering KPIs owner:
 - Quality KPIs owner:
@@ -263,6 +269,7 @@ Generate a YAML file containing:
 </template-output>
 
 **Generated KPI Definition:**
+
 - File: {{output_file_path}}
 - Total KPIs defined: {{total_kpi_count}}
 - Categories: {{categories_list}}
@@ -298,12 +305,14 @@ Generate a YAML file containing:
 KPI definition complete.
 
 **Summary:**
+
 - **Total KPIs Defined:** {{total_kpi_count}}
 - **Categories:** {{categories_list}}
 - **Review Frequency:** {{review_frequency}}
 - **Definition File:** {{output_file_path}}
 
 **Next Steps:**
+
 1. Share KPI definitions with stakeholders for review
 2. Configure dashboards to display KPI values
 3. Set up alerting for threshold breaches

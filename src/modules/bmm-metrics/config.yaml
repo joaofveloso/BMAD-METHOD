@@ -18,7 +18,7 @@ communication_language: "{config_source}:communication_language"
 # Metric Collection Settings
 collection:
   # How often to automatically collect metrics
-  frequency: daily  # daily, weekly, on_event
+  frequency: daily # daily, weekly, on_event
 
   # How long to retain historical metric data
   retention_days: 90
@@ -108,8 +108,8 @@ quality_gates:
 sla:
   # Default thresholds for SLA alerts
   defaults:
-    warning_threshold_percent: 80   # Alert at 80% of limit
-    critical_threshold_percent: 95  # Critical at 95% of limit
+    warning_threshold_percent: 80 # Alert at 80% of limit
+    critical_threshold_percent: 95 # Critical at 95% of limit
 
   # Standard SLA definitions
   definitions:
@@ -149,7 +149,7 @@ dashboard:
   refresh_interval_minutes: 15
 
   # Default time range for charts
-  default_time_range: 30d  # 7d, 14d, 30d, 90d
+  default_time_range: 30d # 7d, 14d, 30d, 90d
 
   # Widgets to display
   widgets:
@@ -203,9 +203,9 @@ alerts:
 
   channels:
     # Where to send alerts
-    - type: "event"  # Publish as event
+    - type: "event" # Publish as event
       enabled: true
-    - type: "log"    # Log to metrics log
+    - type: "log" # Log to metrics log
       enabled: true
 
   rules:

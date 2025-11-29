@@ -36,7 +36,7 @@ events:
     - sprint.ended
     - deploy.completed
     - deploy.failed
-    
+
   publishes:
     - release.candidate.created
     - release.candidate.expired
@@ -66,12 +66,12 @@ workflows:
       - module: bmm-metrics
         workflow: quality-gate-check
         event: release.candidate.created
-        
+
   - name: release-notes
     path: workflows/release-notes
     description: "Generate release notes"
     standalone: true
-    
+
   - name: rollback-planning
     path: workflows/rollback-planning
     description: "Create rollback procedure"
@@ -83,7 +83,7 @@ event_handlers:
     file: events/handlers/on-quality-pass.xml
     event: metrics.quality.pass
     description: "Proceed with release when quality gates pass"
-    
+
   - name: on-quality-fail
     file: events/handlers/on-quality-fail.xml
     event: metrics.quality.fail
@@ -100,16 +100,16 @@ config_schema:
   project_name:
     type: string
     required: true
-    
+
   user_name:
     type: string
     required: true
-    
+
   output_folder:
     type: string
     required: true
     default: "docs"
-    
+
   release:
     type: object
     properties:
@@ -117,13 +117,13 @@ config_schema:
       auto_create_on_sprint_end: { type: boolean, default: false }
       require_quality_gates: { type: boolean, default: true }
       require_changelog: { type: boolean, default: true }
-      
+
   deployment:
     type: object
     properties:
       environments: { type: array }
       strategy: { type: string, default: "rolling" }
-      
+
   rollback:
     type: object
     properties:
@@ -144,11 +144,11 @@ slash_commands:
   - name: "release-plan"
     workflow: "release-planning"
     description: "Create a new release candidate"
-    
+
   - name: "release-notes"
     workflow: "release-notes"
     description: "Generate release notes"
-    
+
   - name: "release-rollback"
     workflow: "rollback-planning"
     description: "Create or execute rollback plan"

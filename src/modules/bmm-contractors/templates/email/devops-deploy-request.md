@@ -1,13 +1,17 @@
 # DevOps Deployment Request Email Template
+
 # Sent from orchestrator to devops-agent when release is approved
+
 # Machine-parseable format for autonomous processing
 
 ---
+
 subject: "[BMAD] DEPLOY: Release {{version}} to {{environment}}"
 to: "devops@bmad.local"
 from: "BMAD Orchestrator <orchestrator@bmad.local>"
 priority: "high"
 correlation_id: "{{correlation_id}}"
+
 ---
 
 ## DEPLOYMENT REQUEST
@@ -21,21 +25,22 @@ correlation_id: "{{correlation_id}}"
 
 ### Release Details
 
-| Field | Value |
-|-------|-------|
-| Version | {{version}} |
+| Field            | Value                |
+| ---------------- | -------------------- |
+| Version          | {{version}}          |
 | Previous Version | {{previous_version}} |
-| Git Tag | `{{git_tag}}` |
-| Commit | {{release_commit}} |
-| Stories Included | {{story_count}} |
+| Git Tag          | `{{git_tag}}`        |
+| Commit           | {{release_commit}}   |
+| Stories Included | {{story_count}}      |
 
 ---
 
 ### Stories in This Release
 
 {{#each stories}}
+
 - **{{id}}**: {{title}} ({{type}})
-{{/each}}
+  {{/each}}
 
 ---
 
@@ -46,11 +51,13 @@ correlation_id: "{{correlation_id}}"
 **Health Check Required:** Yes
 
 {{#if deployment_config}}
+
 ### Custom Configuration
 
 ```yaml
-{{deployment_config}}
+{ { deployment_config } }
 ```
+
 {{/if}}
 
 ---
@@ -81,8 +88,9 @@ Execute before deployment:
 ### Health Check Endpoints
 
 {{#each health_endpoints}}
+
 - `{{method}}` {{url}} - Expected: {{expected_status}}
-{{/each}}
+  {{/each}}
 
 ---
 
@@ -90,6 +98,7 @@ Execute before deployment:
 
 **Duration:** 15 minutes post-deployment
 **Metrics to Watch:**
+
 - Error rate (threshold: < 1%)
 - Response time (threshold: < {{max_response_time}}ms)
 - CPU usage (threshold: < 80%)
@@ -100,6 +109,7 @@ Execute before deployment:
 ### Rollback Triggers
 
 Auto-rollback if:
+
 - Error rate > 5% for 5 minutes
 - Service health check fails 3 consecutive times
 - Critical alert triggered
@@ -140,6 +150,6 @@ Cannot proceed until: <condition>
 
 ---
 
-*Correlation ID: {{correlation_id}}*
-*Deployment requested by BMAD Orchestrator*
-*Founder approval: {{approval_id}}*
+_Correlation ID: {{correlation_id}}_
+_Deployment requested by BMAD Orchestrator_
+_Founder approval: {{approval_id}}_

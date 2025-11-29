@@ -1,13 +1,17 @@
 # Quality Check Request Email Template
+
 # Sent from orchestrator to metrics system when PR is submitted
+
 # Machine-parseable format for autonomous processing
 
 ---
+
 subject: "[BMAD] QUALITY CHECK: PR#{{pr_number}} - {{story_id}}"
 to: "metrics@bmad.local"
 from: "BMAD Orchestrator <orchestrator@bmad.local>"
 priority: "normal"
 correlation_id: "{{correlation_id}}"
+
 ---
 
 ## QUALITY CHECK REQUEST
@@ -20,13 +24,13 @@ correlation_id: "{{correlation_id}}"
 
 ### PR Information
 
-| Field | Value |
-|-------|-------|
-| Repository | {{repository}} |
-| Branch | `{{branch_name}}` |
+| Field       | Value             |
+| ----------- | ----------------- |
+| Repository  | {{repository}}    |
+| Branch      | `{{branch_name}}` |
 | Base Branch | `{{base_branch}}` |
-| PR URL | {{pr_url}} |
-| Commit SHA | {{head_sha}} |
+| PR URL      | {{pr_url}}        |
+| Commit SHA  | {{head_sha}}      |
 
 ---
 
@@ -61,13 +65,13 @@ Execute the following quality gates:
 
 ### Thresholds
 
-| Metric | Minimum | Blocking |
-|--------|---------|----------|
-| Test Coverage | {{min_coverage}}% | Yes |
-| Test Pass Rate | 100% | Yes |
-| Lint Errors | 0 | Yes |
-| Security Critical | 0 | Yes |
-| Security High | {{max_security_high}} | Yes |
+| Metric            | Minimum               | Blocking |
+| ----------------- | --------------------- | -------- |
+| Test Coverage     | {{min_coverage}}%     | Yes      |
+| Test Pass Rate    | 100%                  | Yes      |
+| Lint Errors       | 0                     | Yes      |
+| Security Critical | 0                     | Yes      |
+| Security High     | {{max_security_high}} | Yes      |
 
 ---
 
@@ -96,5 +100,5 @@ Failures:
 
 ---
 
-*Correlation ID: {{correlation_id}}*
-*Check requested by BMAD Orchestrator*
+_Correlation ID: {{correlation_id}}_
+_Check requested by BMAD Orchestrator_

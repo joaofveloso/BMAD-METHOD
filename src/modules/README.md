@@ -4,17 +4,18 @@ This directory contains the event-driven SaaS operations modules for the BMAD Me
 
 ## Module Overview
 
-| Module | Description | Agent | Key Events |
-|--------|-------------|-------|------------|
-| **bmm-metrics** | KPIs, SLAs, and Quality Gates | Metrics Analyst 📊 | `metrics.quality.*`, `metrics.kpi.*` |
-| **bmm-release** | Release Management | Release Manager 🚀 | `release.*` |
-| **bmm-feedback** | Customer Feedback Loop | Feedback Analyst 📣 | `feedback.*` |
-| **bmm-priority** | Backlog Prioritization | Priority Manager 📊 | `priority.*` |
-| **bmm-roadmap** | Product Roadmap Planning | Roadmap Planner 🗺️ | `roadmap.*` |
+| Module           | Description                   | Agent               | Key Events                           |
+| ---------------- | ----------------------------- | ------------------- | ------------------------------------ |
+| **bmm-metrics**  | KPIs, SLAs, and Quality Gates | Metrics Analyst 📊  | `metrics.quality.*`, `metrics.kpi.*` |
+| **bmm-release**  | Release Management            | Release Manager 🚀  | `release.*`                          |
+| **bmm-feedback** | Customer Feedback Loop        | Feedback Analyst 📣 | `feedback.*`                         |
+| **bmm-priority** | Backlog Prioritization        | Priority Manager 📊 | `priority.*`                         |
+| **bmm-roadmap**  | Product Roadmap Planning      | Roadmap Planner 🗺️  | `roadmap.*`                          |
 
 ## Event-Driven Architecture
 
 All modules communicate through events, enabling:
+
 - **Loose Coupling**: Modules don't depend on each other directly
 - **Async Processing**: Events are processed independently
 - **Scalability**: Add new modules without modifying existing ones
@@ -57,6 +58,7 @@ Located in `src/core/events/`:
 ## Module Installation
 
 Modules are installed to `{project-root}/.bmad/{module-name}/` and include:
+
 - Configuration files
 - Agent definitions (compiled to .md)
 - Workflow files
@@ -72,15 +74,18 @@ Modules are installed to `{project-root}/.bmad/{module-name}/` and include:
 ## Event Types Reference
 
 ### Story Events (Core)
+
 - `story.started` - Story work begins
 - `story.done` - Story completed
 - `story.ready` - Story ready for development
 
 ### Sprint Events (Core)
+
 - `sprint.started` - Sprint begins
 - `sprint.ended` - Sprint completes
 
 ### Metrics Events (bmm-metrics)
+
 - `metrics.kpi.defined` - KPIs configured
 - `metrics.kpi.updated` - KPI values updated
 - `metrics.sla.defined` - SLAs configured
@@ -90,6 +95,7 @@ Modules are installed to `{project-root}/.bmad/{module-name}/` and include:
 - `metrics.velocity.calculated` - Sprint velocity calculated
 
 ### Release Events (bmm-release)
+
 - `release.candidate.created` - New release candidate
 - `release.approved` - Release approved
 - `release.deployed` - Release deployed
@@ -98,16 +104,19 @@ Modules are installed to `{project-root}/.bmad/{module-name}/` and include:
 - `release.rollback.completed` - Rollback finished
 
 ### Feedback Events (bmm-feedback)
+
 - `feedback.received` - New feedback submitted
 - `feedback.analyzed` - Feedback analyzed
 - `feedback.insight.generated` - Insight identified
 - `feedback.priority.suggested` - Priority change suggested
 
 ### Priority Events (bmm-priority)
+
 - `priority.updated` - Story priority changed
 - `priority.queue.reordered` - Backlog reordered
 
 ### Roadmap Events (bmm-roadmap)
+
 - `roadmap.updated` - Roadmap modified
 - `roadmap.milestone.completed` - Milestone achieved
 - `roadmap.at.risk` - Timeline at risk
@@ -117,6 +126,7 @@ Modules are installed to `{project-root}/.bmad/{module-name}/` and include:
 All BMAD modules must follow the **[Verification Protocol](../core/docs/verification-protocol.md)**.
 
 **Key requirements:**
+
 - Never claim success without actual verification
 - Distinguish between "configured" and "confirmed working"
 - Test end-to-end flows, not just individual components
@@ -127,6 +137,7 @@ All BMAD modules must follow the **[Verification Protocol](../core/docs/verifica
 ## Contributing
 
 When adding new modules:
+
 1. Follow the directory structure pattern
 2. Define events in manifest.yaml
 3. Register handlers in events/subscriptions.yaml

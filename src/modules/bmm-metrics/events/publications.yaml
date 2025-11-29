@@ -5,7 +5,6 @@ module: bmm-metrics
 schema_version: "1.0"
 
 publications:
-
   # ============================================
   # KPI Events
   # ============================================
@@ -34,7 +33,7 @@ publications:
           format: ISO8601
           required: true
     subscribers:
-      - bmm-roadmap  # For capacity planning
+      - bmm-roadmap # For capacity planning
       - bmm-priority # For value tracking
 
   - event_type: "metrics.kpi.updated"
@@ -67,7 +66,7 @@ publications:
           format: ISO8601
           required: true
     subscribers:
-      - bmm-roadmap  # For tracking progress
+      - bmm-roadmap # For tracking progress
       - bmm-priority # For priority adjustments
 
   # ============================================
@@ -105,8 +104,8 @@ publications:
           required: false
           description: "Suggested action to address breach"
     subscribers:
-      - bmm-release  # May block releases
-      - bmm-roadmap  # For planning adjustments
+      - bmm-release # May block releases
+      - bmm-roadmap # For planning adjustments
 
   # ============================================
   # Quality Gate Events
@@ -146,7 +145,7 @@ publications:
           format: ISO8601
           required: true
     subscribers:
-      - bmm-release  # Triggers release process
+      - bmm-release # Triggers release process
 
   - event_type: "metrics.quality.fail"
     description: "Published when one or more quality gates fail"
@@ -180,7 +179,7 @@ publications:
           format: ISO8601
           required: true
     subscribers:
-      - bmm-release  # Blocks release process
+      - bmm-release # Blocks release process
 
   # ============================================
   # Velocity Events
@@ -217,7 +216,7 @@ publications:
           format: ISO8601
           required: true
     subscribers:
-      - bmm-roadmap  # For capacity planning
+      - bmm-roadmap # For capacity planning
 
   # ============================================
   # Dashboard Events
@@ -240,7 +239,7 @@ publications:
         next_refresh:
           type: string
           format: ISO8601
-    subscribers: []  # Informational only
+    subscribers: [] # Informational only
 
 # Publishing Configuration
 publishing:
@@ -258,4 +257,4 @@ publishing:
   # Logging
   logging:
     log_all_publications: true
-    include_payload: false  # Don't log payload for privacy
+    include_payload: false # Don't log payload for privacy

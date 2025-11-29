@@ -5,6 +5,7 @@ Product Roadmap Planning module for the BMAD Method. Creates and maintains capac
 ## Overview
 
 The bmm-roadmap module provides:
+
 - **Roadmap Planning**: Create quarterly/annual roadmaps
 - **Capacity Planning**: Velocity-aware timeline estimation
 - **Milestone Tracking**: Track progress against roadmap
@@ -13,19 +14,21 @@ The bmm-roadmap module provides:
 ## Event-Driven Architecture
 
 ### Events Subscribed
-| Event | Action |
-|-------|--------|
-| `priority.queue.reordered` | Refresh roadmap with new priorities |
-| `metrics.velocity.calculated` | Update capacity projections |
-| `release.deployed` | Update milestone completion |
-| `sprint.ended` | Update roadmap progress |
+
+| Event                         | Action                              |
+| ----------------------------- | ----------------------------------- |
+| `priority.queue.reordered`    | Refresh roadmap with new priorities |
+| `metrics.velocity.calculated` | Update capacity projections         |
+| `release.deployed`            | Update milestone completion         |
+| `sprint.ended`                | Update roadmap progress             |
 
 ### Events Published
-| Event | Description |
-|-------|-------------|
-| `roadmap.updated` | Roadmap has been modified |
-| `roadmap.milestone.completed` | Milestone achieved |
-| `roadmap.at.risk` | Timeline at risk based on velocity |
+
+| Event                         | Description                        |
+| ----------------------------- | ---------------------------------- |
+| `roadmap.updated`             | Roadmap has been modified          |
+| `roadmap.milestone.completed` | Milestone achieved                 |
+| `roadmap.at.risk`             | Timeline at risk based on velocity |
 
 ## Directory Structure
 

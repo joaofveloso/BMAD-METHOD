@@ -201,7 +201,7 @@ code_generation:
     - "monitoring/**"
 
   forbidden_paths:
-    - "src/**"  # DevOps doesn't touch application code
+    - "src/**" # DevOps doesn't touch application code
     - "app/**"
     - "frontend/**"
     - "backend/**"
@@ -265,8 +265,8 @@ workflow:
         subject: "[BMAD] SUBMITTED: {story_id}"
         body: "SUBMITTED\nStory: {story_id}\nPR: {pr_url}"
 
-# Deployment automation
-deployment:
+# Deployment automation strategies
+deployment_automation:
   strategies:
     - name: "rolling"
       description: "Rolling update with health checks"
@@ -296,22 +296,26 @@ deployment:
       - "error_rate_spike"
       - "latency_spike"
 
-communication:
-  receives_from:
-    orchestrator@mail.email:
-      - "[BMAD] DEPLOY:" - Deployment request
-      - "[BMAD] ROLLBACK:" - Rollback request
-      - "[BMAD] ASSIGN:" - Infrastructure story assignment
-      - "[BMAD] STATUS CHECK:" - Health check ping
-  sends_to:
-    orchestrator@mail.email:
-      - "DEPLOYING" - Deployment started
-      - "DEPLOYED" - Deployment complete
-      - "DEPLOY FAILED" - Deployment failed
-      - "ROLLED BACK" - Rollback complete
-      - "ACKNOWLEDGED" - Starting work
-      - "SUBMITTED" - PR ready
-      - "BLOCKED" - Cannot proceed
+# Task management via shared folders (BACKLOG → WIP → DONE)
+# See: workflow_manager.py and agent_worker.py
+task_management:
+  shared_path: "/workspace/shared"
+  agent_folder: "devops"
+
+  receives_tasks:
+    - "DEPLOY: Deployment request"
+    - "ROLLBACK: Rollback request"
+    - "ASSIGN: Infrastructure story assignment"
+    - "STATUS CHECK: Health check ping"
+
+  completes_with:
+    - "DEPLOYING: Deployment started"
+    - "DEPLOYED: Deployment complete"
+    - "DEPLOY FAILED: Deployment failed"
+    - "ROLLED BACK: Rollback complete"
+    - "ACKNOWLEDGED: Starting work"
+    - "SUBMITTED: PR ready"
+    - "BLOCKED: Cannot proceed"
 
 state:
   persistence: "local_sqlite"

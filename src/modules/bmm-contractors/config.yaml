@@ -12,12 +12,12 @@ smtp:
   # SMTP server settings
   host: "smtp.example.com"
   port: 587
-  secure: true  # Use TLS
+  secure: true # Use TLS
 
   # Authentication
   auth:
-    user: "{{SMTP_USER}}"      # Set via environment variable
-    pass: "{{SMTP_PASS}}"      # Set via environment variable
+    user: "{{SMTP_USER}}" # Set via environment variable
+    pass: "{{SMTP_PASS}}" # Set via environment variable
 
   # Email identity
   from_address: "project@yourcompany.com"
@@ -49,10 +49,10 @@ imap:
   # Mailbox settings
   inbox: "INBOX"
   processed_folder: "Processed"
-  poll_interval_seconds: 300  # Check every 5 minutes
+  poll_interval_seconds: 300 # Check every 5 minutes
 
   # Reply parsing
-  parse_commands: true  # Look for SUBMITTED, BLOCKED, etc.
+  parse_commands: true # Look for SUBMITTED, BLOCKED, etc.
   strip_signatures: true
   max_attachment_size_mb: 25
 
@@ -62,7 +62,7 @@ imap:
 
 git:
   # Repository settings
-  provider: "github"  # github, gitlab, bitbucket
+  provider: "github" # github, gitlab, bitbucket
   organization: "your-org"
   repository: "your-repo"
 
@@ -189,7 +189,7 @@ contractors:
     availability: "full-time"
     timezone: "UTC+3"
     working_hours: "08:00-16:00"
-    response_sla_hours: 12  # Faster SLA for QA
+    response_sla_hours: 12 # Faster SLA for QA
     capacity_reviews_per_sprint: 10
     active: true
 
@@ -249,7 +249,7 @@ communication:
 
 assignment:
   # Auto-assignment based on story type
-  auto_assign: false  # Manual assignment by default
+  auto_assign: false # Manual assignment by default
 
   # Assignment rules (if auto_assign: true)
   rules:
@@ -265,7 +265,7 @@ assignment:
       assign_to: "researcher-001"
 
   # Load balancing
-  balance_by: "story_points"  # story_points, story_count, none
+  balance_by: "story_points" # story_points, story_count, none
   max_concurrent_stories: 3
 
   # Dependencies
@@ -283,7 +283,7 @@ review:
 
   # Review assignment
   qa_reviewer: "qa-001"
-  code_reviewer: "auto"  # Auto-assign based on expertise
+  code_reviewer: "auto" # Auto-assign based on expertise
 
   # Review SLAs
   review_sla_hours: 24

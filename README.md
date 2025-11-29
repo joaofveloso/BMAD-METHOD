@@ -51,6 +51,7 @@ With **BMad Builder**, you can architect both simple agents and vastly complex d
 ### 1. Install BMad Method
 
 **Option A: NPM (Quick Install)**
+
 ```bash
 # Install v6 Alpha (recommended)
 npx bmad-method@alpha install
@@ -60,6 +61,7 @@ npx bmad-method install
 ```
 
 **Option B: From Cloned Source**
+
 ```bash
 # Clone the repository
 git clone https://github.com/joaofveloso/BMAD-METHOD.git

@@ -1,9 +1,11 @@
 # Define SLAs Instructions
 
 ## Objective
+
 Define Service Level Agreements (SLAs) with clear thresholds, monitoring rules, and escalation procedures to ensure consistent delivery and quality standards.
 
 ## Prerequisites
+
 - KPIs defined (run `*define-kpis` first if not done)
 - Understanding of team capacity and realistic targets
 - Stakeholder agreement on acceptable service levels
@@ -39,30 +41,33 @@ Context: </ask>
 
 ### Delivery SLAs
 
-| SLA | Description | Typical Target |
-|-----|-------------|----------------|
-| Story Cycle Time | Max days from start to done | 5 days |
-| Sprint Completion Rate | Min % of committed stories completed | 80% |
-| Release Frequency | Min releases per period | 1/week |
-| PR Review Turnaround | Max hours to first review | 4 hours |
-| Bug Fix SLA | Max time to fix by severity | P1: 4h, P2: 24h, P3: 1w |
+| SLA                    | Description                          | Typical Target          |
+| ---------------------- | ------------------------------------ | ----------------------- |
+| Story Cycle Time       | Max days from start to done          | 5 days                  |
+| Sprint Completion Rate | Min % of committed stories completed | 80%                     |
+| Release Frequency      | Min releases per period              | 1/week                  |
+| PR Review Turnaround   | Max hours to first review            | 4 hours                 |
+| Bug Fix SLA            | Max time to fix by severity          | P1: 4h, P2: 24h, P3: 1w |
 
 <ask>Define your delivery SLAs:
 
 **Story Cycle Time**
-- Target (green): ___ days
-- Warning (yellow): ___ days
-- Breach (red): ___ days
+
+- Target (green): \_\_\_ days
+- Warning (yellow): \_\_\_ days
+- Breach (red): \_\_\_ days
 
 **Sprint Completion Rate**
-- Target (green): ____%
-- Warning (yellow): ____%
-- Breach (red): ____%
+
+- Target (green): \_\_\_\_%
+- Warning (yellow): \_\_\_\_%
+- Breach (red): \_\_\_\_%
 
 **PR Review Turnaround**
-- Target (green): ___ hours
-- Warning (yellow): ___ hours
-- Breach (red): ___ hours
+
+- Target (green): \_\_\_ hours
+- Warning (yellow): \_\_\_ hours
+- Breach (red): \_\_\_ hours
 
 Enter values: </ask>
 
@@ -85,33 +90,37 @@ Response: </ask>
 
 ### Quality SLAs
 
-| SLA | Description | Typical Target |
-|-----|-------------|----------------|
-| Test Coverage | Min code coverage percentage | 80% |
-| Test Pass Rate | Min tests passing | 100% |
-| Code Review Coverage | % of changes with review | 100% |
-| Defect Escape Rate | Max defects escaping to prod | <5% |
-| Security Scan Pass | No high/critical vulnerabilities | 0 |
+| SLA                  | Description                      | Typical Target |
+| -------------------- | -------------------------------- | -------------- |
+| Test Coverage        | Min code coverage percentage     | 80%            |
+| Test Pass Rate       | Min tests passing                | 100%           |
+| Code Review Coverage | % of changes with review         | 100%           |
+| Defect Escape Rate   | Max defects escaping to prod     | <5%            |
+| Security Scan Pass   | No high/critical vulnerabilities | 0              |
 
 <ask>Define your quality SLAs:
 
 **Test Coverage**
-- Target (green): ____%
-- Warning (yellow): ____%
-- Breach (red): ____%
+
+- Target (green): \_\_\_\_%
+- Warning (yellow): \_\_\_\_%
+- Breach (red): \_\_\_\_%
 
 **Test Pass Rate**
-- Target (green): ____%
-- Warning (yellow): ____%
-- Breach (red): ____%
+
+- Target (green): \_\_\_\_%
+- Warning (yellow): \_\_\_\_%
+- Breach (red): \_\_\_\_%
 
 **Code Review Coverage**
+
 - Required: [y/n]
 - Blocking for release: [y/n]
 
 **Security Vulnerabilities**
-- Max critical allowed: ___
-- Max high allowed: ___
+
+- Max critical allowed: \_\_\_
+- Max high allowed: \_\_\_
 
 Enter values: </ask>
 
@@ -125,33 +134,37 @@ Enter values: </ask>
 
 ### Operations SLAs
 
-| SLA | Description | Typical Target |
-|-----|-------------|----------------|
-| Service Uptime | Min availability percentage | 99.9% |
-| API Response Time | P95 response time | <200ms |
-| Incident Response | Max time to acknowledge | P1: 15m, P2: 1h |
-| MTTR | Mean time to recovery | <4 hours |
-| Error Rate | Max error percentage | <1% |
+| SLA               | Description                 | Typical Target  |
+| ----------------- | --------------------------- | --------------- |
+| Service Uptime    | Min availability percentage | 99.9%           |
+| API Response Time | P95 response time           | <200ms          |
+| Incident Response | Max time to acknowledge     | P1: 15m, P2: 1h |
+| MTTR              | Mean time to recovery       | <4 hours        |
+| Error Rate        | Max error percentage        | <1%             |
 
 <ask>Define your operations SLAs:
 
 **Service Uptime**
-- Target: ____%
+
+- Target: \_\_\_\_%
 - Measurement window: [daily/weekly/monthly]
 
 **API Response Time (P95)**
-- Target: ___ ms
-- Warning: ___ ms
-- Breach: ___ ms
+
+- Target: \_\_\_ ms
+- Warning: \_\_\_ ms
+- Breach: \_\_\_ ms
 
 **Incident Response Time**
-- P1 (Critical): ___ minutes
-- P2 (High): ___ hours
-- P3 (Medium): ___ hours
+
+- P1 (Critical): \_\_\_ minutes
+- P2 (High): \_\_\_ hours
+- P3 (Medium): \_\_\_ hours
 
 **MTTR Target**
-- Target: ___ hours
-- Max allowed: ___ hours
+
+- Target: \_\_\_ hours
+- Max allowed: \_\_\_ hours
 
 Enter values: </ask>
 
@@ -194,8 +207,9 @@ Recipients: </ask>
 <action>Store as {{notification_recipients}}</action>
 
 <ask>Set notification timing:
-- Warn at ___% of threshold (e.g., 80%)
-- Remind every ___ hours if breach persists
+
+- Warn at \_\_\_% of threshold (e.g., 80%)
+- Remind every \_\_\_ hours if breach persists
 
 Values: </ask>
 
@@ -212,16 +226,19 @@ Values: </ask>
 <ask>Define escalation for persistent breaches:
 
 **Level 1 (Immediate):**
-- Who: ___
-- Action: ___
 
-**Level 2 (After ___ hours):**
-- Who: ___
-- Action: ___
+- Who: \_\_\_
+- Action: \_\_\_
 
-**Level 3 (After ___ hours):**
-- Who: ___
-- Action: ___
+**Level 2 (After \_\_\_ hours):**
+
+- Who: \_\_\_
+- Action: \_\_\_
+
+**Level 3 (After \_\_\_ hours):**
+
+- Who: \_\_\_
+- Action: \_\_\_
 
 Escalation details: </ask>
 
@@ -248,6 +265,7 @@ Generate a YAML file containing:
 </template-output>
 
 **Generated SLA Definition:**
+
 - File: {{output_file_path}}
 - Total SLAs defined: {{total_sla_count}}
 - Blocking SLAs: {{blocking_sla_count}}
@@ -281,12 +299,14 @@ Generate a YAML file containing:
 SLA definition complete.
 
 **Summary:**
+
 - **Total SLAs Defined:** {{total_sla_count}}
 - **Blocking SLAs:** {{blocking_sla_count}}
 - **Categories:** {{categories_list}}
 - **Definition File:** {{output_file_path}}
 
 **Next Steps:**
+
 1. Review SLA definitions with stakeholders
 2. Configure monitoring dashboards
 3. Set up alerting integrations

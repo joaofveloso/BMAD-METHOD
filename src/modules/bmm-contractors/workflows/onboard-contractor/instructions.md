@@ -23,20 +23,20 @@ This workflow guides the onboarding of a new contractor to the project. It cover
 ```yaml
 contractor:
   # Identity
-  name: ""              # Display name
-  email: ""             # Primary email for communication
+  name: '' # Display name
+  email: '' # Primary email for communication
 
   # Role
-  role: ""              # backend-dev, frontend-dev, mobile-dev, qa-engineer, researcher
+  role: '' # backend-dev, frontend-dev, mobile-dev, qa-engineer, researcher
 
   # Technical
-  tech_stack: []        # Primary technologies/skills
-  specialties: []       # Areas of expertise
+  tech_stack: [] # Primary technologies/skills
+  specialties: [] # Areas of expertise
 
   # Availability
-  availability: ""      # full-time, part-time, on-call
-  timezone: ""          # e.g., "UTC+5:30"
-  working_hours: ""     # e.g., "09:00-17:00"
+  availability: '' # full-time, part-time, on-call
+  timezone: '' # e.g., "UTC+5:30"
+  working_hours: '' # e.g., "09:00-17:00"
 
   # Capacity
   capacity_story_points_per_sprint: 0
@@ -44,7 +44,7 @@ contractor:
 
   # Communication
   response_sla_hours: 24
-  preferred_contact: "email"  # SMTP email only
+  preferred_contact: 'email' # SMTP email only
 ```
 
 **Questions to Ask:**
@@ -90,29 +90,30 @@ Add to `config.yaml` contractors section:
 contractors:
   # ... existing contractors ...
 
-  - id: "backend-002"
-    name: "New Backend Developer"
-    email: "newdev@contractor.example"
-    role: "backend-dev"
+  - id: 'backend-002'
+    name: 'New Backend Developer'
+    email: 'newdev@contractor.example'
+    role: 'backend-dev'
     tech_stack:
-      - "Java 21"
-      - "Spring Boot"
-      - "PostgreSQL"
+      - 'Java 21'
+      - 'Spring Boot'
+      - 'PostgreSQL'
     specialties:
-      - "REST APIs"
-      - "Microservices"
-    availability: "full-time"
-    timezone: "UTC+5:30"
-    working_hours: "09:00-17:00"
+      - 'REST APIs'
+      - 'Microservices'
+    availability: 'full-time'
+    timezone: 'UTC+5:30'
+    working_hours: '09:00-17:00'
     response_sla_hours: 24
     capacity_story_points_per_sprint: 18
     active: true
-    onboarded_at: "2025-11-28T10:00:00Z"
+    onboarded_at: '2025-11-28T10:00:00Z'
 ```
 
 **Load Role Profile:**
 
 Based on role, load the profile template:
+
 - `backend-dev.profile.yaml` → Technical context, standards, checklist
 - `frontend-dev.profile.yaml` → UI standards, component patterns
 - etc.
@@ -129,21 +130,22 @@ Based on role, load the profile template:
 
 ```yaml
 git_access:
-  provider: "github"
-  organization: "your-org"
-  repository: "your-repo"
+  provider: 'github'
+  organization: 'your-org'
+  repository: 'your-repo'
 
   permissions:
     - read: true
-    - write: true  # To their branches only
+    - write: true # To their branches only
     - admin: false
 
   branch_rules:
-    - can_push_to: "story/*"
-    - cannot_push_to: ["main", "develop"]
+    - can_push_to: 'story/*'
+    - cannot_push_to: ['main', 'develop']
 ```
 
 **Actions:**
+
 1. [ ] Add contractor to GitHub organization (or invite as collaborator)
 2. [ ] Set up branch protection rules
 3. [ ] Create SSH key or personal access token instructions
@@ -163,6 +165,7 @@ communication:
 ```
 
 **Verification:**
+
 - [ ] Contractor can clone repository
 - [ ] Contractor can push to feature branches
 - [ ] Contractor can create pull requests
@@ -205,26 +208,26 @@ communication:
 ```yaml
 onboarding_docs:
   project:
-    - name: "Project README"
-      url: "https://github.com/org/repo/README.md"
-    - name: "Architecture Overview"
-      url: "docs/architecture.md"
+    - name: 'Project README'
+      url: 'https://github.com/org/repo/README.md'
+    - name: 'Architecture Overview'
+      url: 'docs/architecture.md'
 
   development:
-    - name: "Development Setup"
-      url: "docs/setup.md"
-    - name: "Coding Standards"
-      url: "docs/standards.md"
+    - name: 'Development Setup'
+      url: 'docs/setup.md'
+    - name: 'Coding Standards'
+      url: 'docs/standards.md'
 
   process:
-    - name: "Git Workflow"
-      url: "docs/git-workflow.md"
-    - name: "Communication Guide"
-      url: "docs/communication.md"
+    - name: 'Git Workflow'
+      url: 'docs/git-workflow.md'
+    - name: 'Communication Guide'
+      url: 'docs/communication.md'
 
   role_specific:
-    - name: "Backend Standards"
-      url: "docs/backend-guide.md"
+    - name: 'Backend Standards'
+      url: 'docs/backend-guide.md'
 ```
 
 **Output:** Documentation links compiled
@@ -237,7 +240,7 @@ onboarding_docs:
 
 **Welcome Email Content:**
 
-```markdown
+````markdown
 Subject: [PROJECT] Welcome to the Team - Getting Started Guide
 
 Hi {contractor_name},
@@ -246,12 +249,12 @@ Welcome to the {project_name} team! We're excited to have you on board as our {r
 
 ## Your Profile
 
-| Field | Value |
-|-------|-------|
+| Field         | Value           |
+| ------------- | --------------- |
 | Contractor ID | {contractor_id} |
-| Role | {role_title} |
-| Timezone | {timezone} |
-| Response SLA | {sla} hours |
+| Role          | {role_title}    |
+| Timezone      | {timezone}      |
+| Response SLA  | {sla} hours     |
 
 ## Getting Started
 
@@ -260,16 +263,19 @@ Welcome to the {project_name} team! We're excited to have you on board as our {r
 Repository: {repository_url}
 
 Clone the repository:
+
 ```bash
 git clone {clone_url}
 cd {repo_name}
 ```
+````
 
 ### 2. Development Setup
 
 Follow the setup guide: {setup_doc_url}
 
 Key steps:
+
 1. Install prerequisites
 2. Configure environment
 3. Run tests to verify setup
@@ -279,16 +285,19 @@ Key steps:
 All work coordination happens via email. Here's how it works:
 
 **Receiving Assignments:**
+
 - You'll receive story assignments via email
 - Each email contains full context and acceptance criteria
 - Reply with `ACKNOWLEDGED` when you receive an assignment
 
 **Reporting Progress:**
+
 - Reply with `PROGRESS - {status}` for updates
 - Reply with `QUESTION - {question}` if you need clarification
 - Reply with `BLOCKED - {description}` if you're stuck
 
 **Submitting Work:**
+
 - Push your code to your story branch
 - Create a Pull Request
 - Reply with `SUBMITTED - PR #{number}` to notify us
@@ -298,6 +307,7 @@ All work coordination happens via email. Here's how it works:
 Branch naming: `story/{story_id}-{slug}`
 
 Example:
+
 ```bash
 git checkout develop
 git pull origin develop
@@ -312,6 +322,7 @@ Please review the coding standards for your role:
 {standards_doc_url}
 
 Key requirements:
+
 - {quality_req_1}
 - {quality_req_2}
 - {quality_req_3}
@@ -331,6 +342,7 @@ Key requirements:
 4. [ ] Reply to this email confirming you're ready
 
 {#if first_assignment}
+
 ## Your First Assignment
 
 We have a starter story ready for you:
@@ -349,8 +361,10 @@ Best regards,
 Project Coordinator
 
 ---
+
 Correlation ID: {correlation_id}
-```
+
+````
 
 **Send Email:**
 Use `send-email` task with `welcome-onboarding` template.
@@ -427,13 +441,14 @@ Trigger the `assign-story` workflow with:
 - [ ] Contractor confirmed receipt
 - [ ] Contractor completed setup
 - [ ] Test commit successful
-```
+````
 
 ---
 
 ## Events Published
 
 **contractor.onboarded:**
+
 ```yaml
 contractor_id: "backend-002"
 contractor_name: "New Backend Developer"
@@ -458,9 +473,9 @@ After onboarding:
 
 ## Troubleshooting
 
-| Issue | Resolution |
-|-------|------------|
-| Email not received | Check spam, verify address |
-| Git access denied | Re-check permissions, SSH keys |
-| Setup issues | Provide additional documentation |
+| Issue                 | Resolution                        |
+| --------------------- | --------------------------------- |
+| Email not received    | Check spam, verify address        |
+| Git access denied     | Re-check permissions, SSH keys    |
+| Setup issues          | Provide additional documentation  |
 | No response after 48h | Follow up via alternative channel |

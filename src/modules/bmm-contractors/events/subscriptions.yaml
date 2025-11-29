@@ -5,7 +5,6 @@ schema_version: "1.0.0"
 module: bmm-contractors
 
 subscriptions:
-
   # =============================================================================
   # FROM BMM CORE - STORY LIFECYCLE
   # =============================================================================
@@ -204,21 +203,21 @@ trigger_conditions:
 
 scheduled_handlers:
   - name: "daily-standup"
-    schedule: "0 9 * * 1-5"  # 9am weekdays
+    schedule: "0 9 * * 1-5" # 9am weekdays
     action: "Generate standup request emails"
     workflow: "contractor-standup"
 
   - name: "reminder-check"
-    schedule: "0 */4 * * *"  # Every 4 hours
+    schedule: "0 */4 * * *" # Every 4 hours
     action: "Check for overdue acknowledgments, send reminders"
     task: "check-reminders"
 
   - name: "weekly-report"
-    schedule: "0 17 * * 5"  # Friday 5pm
+    schedule: "0 17 * * 5" # Friday 5pm
     action: "Generate weekly contractor report"
     workflow: "contractor-report"
 
   - name: "sla-check"
-    schedule: "0 * * * *"  # Every hour
+    schedule: "0 * * * *" # Every hour
     action: "Check for SLA breaches"
     task: "check-sla-breaches"

@@ -1,13 +1,17 @@
 # QA Review Request Email Template
+
 # Sent from orchestrator to qa-agent when PR is submitted
+
 # Machine-parseable format for autonomous processing
 
 ---
+
 subject: "[BMAD] REVIEW: PR#{{pr_number}} - {{story_id}}"
 to: "qa@bmad.local"
 from: "BMAD Orchestrator <orchestrator@bmad.local>"
 priority: "normal"
 correlation_id: "{{correlation_id}}"
+
 ---
 
 ## REVIEW REQUEST
@@ -21,13 +25,13 @@ correlation_id: "{{correlation_id}}"
 
 ### PR Details
 
-| Field | Value |
-|-------|-------|
-| Repository | {{repository}} |
-| Branch | `{{branch_name}}` |
-| Target | `{{target_branch}}` |
-| PR URL | {{pr_url}} |
-| Diff URL | {{diff_url}} |
+| Field      | Value               |
+| ---------- | ------------------- |
+| Repository | {{repository}}      |
+| Branch     | `{{branch_name}}`   |
+| Target     | `{{target_branch}}` |
+| PR URL     | {{pr_url}}          |
+| Diff URL   | {{diff_url}}        |
 
 ---
 
@@ -43,16 +47,18 @@ correlation_id: "{{correlation_id}}"
 ### Acceptance Criteria
 
 {{#each acceptance_criteria}}
+
 - [ ] {{this}}
-{{/each}}
+      {{/each}}
 
 ---
 
 ### Files Changed
 
 {{#each files_changed}}
+
 - `{{path}}` (+{{additions}} / -{{deletions}})
-{{/each}}
+  {{/each}}
 
 **Total:** {{total_files}} files, +{{total_additions}} / -{{total_deletions}}
 
@@ -97,5 +103,5 @@ Issues:
 
 ---
 
-*Correlation ID: {{correlation_id}}*
-*Review requested by BMAD Orchestrator*
+_Correlation ID: {{correlation_id}}_
+_Review requested by BMAD Orchestrator_

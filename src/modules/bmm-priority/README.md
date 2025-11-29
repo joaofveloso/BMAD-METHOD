@@ -5,6 +5,7 @@ Backlog Prioritization Engine for the BMAD Method. Provides data-driven prioriti
 ## Overview
 
 The bmm-priority module provides:
+
 - **Prioritization Frameworks**: WSJF, RICE, MoSCoW, custom scoring
 - **Priority Queue Management**: Ordered backlog management
 - **Signal Integration**: Incorporates feedback and metrics into priority decisions
@@ -13,18 +14,20 @@ The bmm-priority module provides:
 ## Event-Driven Architecture
 
 ### Events Subscribed
-| Event | Action |
-|-------|--------|
+
+| Event                         | Action                                  |
+| ----------------------------- | --------------------------------------- |
 | `feedback.priority.suggested` | Evaluate priority adjustment suggestion |
-| `feedback.insight.generated` | Consider insight for new backlog items |
-| `metrics.velocity.calculated` | Update capacity for prioritization |
-| `story.done` | Remove from priority queue |
+| `feedback.insight.generated`  | Consider insight for new backlog items  |
+| `metrics.velocity.calculated` | Update capacity for prioritization      |
+| `story.done`                  | Remove from priority queue              |
 
 ### Events Published
-| Event | Description |
-|-------|-------------|
-| `priority.updated` | Story priority changed |
-| `priority.queue.reordered` | Backlog reordering complete |
+
+| Event                       | Description                      |
+| --------------------------- | -------------------------------- |
+| `priority.updated`          | Story priority changed           |
+| `priority.queue.reordered`  | Backlog reordering complete      |
 | `priority.review.completed` | Priority review session complete |
 
 ## Directory Structure
@@ -50,16 +53,19 @@ bmm-priority/
 ## Prioritization Frameworks
 
 ### WSJF (Weighted Shortest Job First)
+
 ```
 WSJF Score = (Business Value + Time Criticality + Risk Reduction) / Job Size
 ```
 
 ### RICE
+
 ```
 RICE Score = (Reach × Impact × Confidence) / Effort
 ```
 
 ### MoSCoW
+
 - **Must Have**: Critical for release
 - **Should Have**: Important but not critical
 - **Could Have**: Nice to have

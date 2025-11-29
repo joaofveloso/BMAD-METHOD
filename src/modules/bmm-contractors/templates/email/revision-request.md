@@ -1,11 +1,14 @@
 # Revision Request Email Template
+
 # Variables: contractor_name, story_id, story_title, pr_number, pr_url,
-#            review_summary, required_changes, optional_suggestions,
-#            deadline, coordinator_name, project_name
+
+# review_summary, required_changes, optional_suggestions,
+
+# deadline, coordinator_name, project_name
 
 ---
-subject: "[{{project_name}}] [{{story_id}}] Revisions Requested - {{story_title}}"
----
+
+## subject: "[{{project_name}}] [{{story_id}}] Revisions Requested - {{story_title}}"
 
 Hi {{contractor_name}},
 
@@ -26,6 +29,7 @@ After review, we've identified some changes needed before this can be approved.
 These must be addressed before approval:
 
 {{#each required_changes}}
+
 ### {{@index}}. {{title}}
 
 {{description}}
@@ -36,9 +40,11 @@ These must be addressed before approval:
 
 {{#if example}}
 **Example:**
+
 ```{{language}}
 {{example}}
 ```
+
 {{/if}}
 
 {{/each}}
@@ -46,13 +52,15 @@ These must be addressed before approval:
 ---
 
 {{#if optional_suggestions}}
+
 ## Suggestions (Optional)
 
 These are recommendations that would improve the code but aren't blocking:
 
 {{#each optional_suggestions}}
+
 - {{this}}
-{{/each}}
+  {{/each}}
 
 {{/if}}
 
@@ -79,9 +87,11 @@ After making changes:
 2. Reply to this email with: `SUBMITTED - Revisions complete`
 
 If you have questions about any feedback:
+
 - Reply with: `QUESTION - [your question]`
 
 If you're blocked:
+
 - Reply with: `BLOCKED - [what's blocking you]`
 
 ---
@@ -96,4 +106,4 @@ Project Coordinator
 
 ---
 
-*Correlation ID: {{correlation_id}}*
+_Correlation ID: {{correlation_id}}_

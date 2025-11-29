@@ -1,9 +1,11 @@
 # Release Planning Instructions
 
 ## Objective
+
 Create a new release candidate by selecting stories, determining version number, and preparing for quality gate validation.
 
 ## Prerequisites
+
 - Stories marked as "done" available for release
 - Previous release version known (for version increment)
 - Quality gate configuration in bmm-metrics
@@ -56,7 +58,8 @@ Choice: </ask>
 **Pending Stories:**
 
 | Story ID | Title | Type | Points |
-|----------|-------|------|--------|
+| -------- | ----- | ---- | ------ |
+
 {{#each pending_stories}}
 | {{id}} | {{title}} | {{type}} | {{points}} |
 {{/each}}
@@ -102,18 +105,21 @@ Choice: </ask>
 
 **Features ({{features.length}}):**
 {{#each features}}
+
 - {{id}}: {{title}}
-{{/each}}
+  {{/each}}
 
 **Bug Fixes ({{bug_fixes.length}}):**
 {{#each bug_fixes}}
+
 - {{id}}: {{title}}
-{{/each}}
+  {{/each}}
 
 **Improvements ({{improvements.length}}):**
 {{#each improvements}}
+
 - {{id}}: {{title}}
-{{/each}}
+  {{/each}}
 
 <ask>Are there any breaking changes in this release?
 [y] Yes - describe them
@@ -161,16 +167,16 @@ Response: </ask>
 
 **Release Candidate Summary:**
 
-| Field | Value |
-|-------|-------|
-| Release ID | {{release_id}} |
-| Version | {{version}} |
-| Type | {{release_type}} |
-| Stories | {{selected_stories.length}} |
-| Points | {{total_points}} |
-| Owner | {{release_owner}} |
-| Target Date | {{target_date}} |
-| Expires | {{expiry_time}} |
+| Field       | Value                       |
+| ----------- | --------------------------- |
+| Release ID  | {{release_id}}              |
+| Version     | {{version}}                 |
+| Type        | {{release_type}}            |
+| Stories     | {{selected_stories.length}} |
+| Points      | {{total_points}}            |
+| Owner       | {{release_owner}}           |
+| Target Date | {{target_date}}             |
+| Expires     | {{expiry_time}}             |
 
 <ask>Create this release candidate?
 [y] Yes - create and trigger quality gates
@@ -243,6 +249,7 @@ Release candidate **{{version}}** created successfully.
 **Status:** Pending Quality Gate Validation
 
 **Next Steps:**
+
 1. Quality gates will be automatically validated (bmm-metrics will receive the event)
 2. Monitor for `metrics.quality.pass` or `metrics.quality.fail` event
 3. Once validated, run `*release-notes` to generate release notes

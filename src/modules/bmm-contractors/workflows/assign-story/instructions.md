@@ -32,6 +32,7 @@ Ready Stories:
 ```
 
 **Selection Criteria:**
+
 - Story is in "Ready" status
 - No unassigned blockers
 - Dependencies are resolved (or acceptable to work in parallel)
@@ -54,6 +55,7 @@ Ready Stories:
    - `documentation` → researcher
 
 2. **Capacity Check** - Contractor has available capacity
+
    ```
    Contractor: Backend Dev
    Current Load: 2 stories (10 points)
@@ -68,6 +70,7 @@ Ready Stories:
    ```
 
 **Available Contractors:**
+
 ```
 | Contractor | Role | Load | Capacity | Match |
 |------------|------|------|----------|-------|
@@ -107,18 +110,19 @@ Ready Stories:
    - Related PRs or code
 
 **Context Template Variables:**
+
 ```yaml
-story_id: "STORY-123"
-story_title: "Implement user authentication API"
+story_id: 'STORY-123'
+story_title: 'Implement user authentication API'
 story_description: |
   Create REST endpoints for user authentication including
   login, logout, token refresh, and password reset.
 
 acceptance_criteria:
-  - "POST /auth/login returns JWT token"
-  - "POST /auth/logout invalidates token"
-  - "POST /auth/refresh extends token"
-  - "95% test coverage"
+  - 'POST /auth/login returns JWT token'
+  - 'POST /auth/logout invalidates token'
+  - 'POST /auth/refresh extends token'
+  - '95% test coverage'
 
 technical_context: |
   ## Architecture
@@ -136,10 +140,10 @@ technical_context: |
   - See `SecurityConfig` for security setup
 
 resources:
-  - name: "Auth Design Doc"
-    url: "docs/auth-design.md"
-  - name: "API Spec"
-    url: "docs/api/auth.yaml"
+  - name: 'Auth Design Doc'
+    url: 'docs/auth-design.md'
+  - name: 'API Spec'
+    url: 'docs/api/auth.yaml'
 ```
 
 ---
@@ -157,6 +161,7 @@ Base: develop
 ```
 
 **Git Operations:**
+
 ```bash
 # Automated by workflow
 git checkout develop
@@ -166,6 +171,7 @@ git push -u origin story/STORY-123-implement-user-auth-api
 ```
 
 **Branch Protection:**
+
 - Branch created from latest `develop`
 - No direct pushes to `develop` or `main`
 - PR required for merge
@@ -181,6 +187,7 @@ git push -u origin story/STORY-123-implement-user-auth-api
 **Email Components:**
 
 1. **Subject Line:**
+
    ```
    [PROJECT] [STORY-123] Implement user authentication API
    ```
@@ -204,6 +211,7 @@ git push -u origin story/STORY-123-implement-user-auth-api
 Display formatted email for review before sending.
 
 **Customization:**
+
 - Allow editing subject/body if needed
 - Add/remove attachments
 - Adjust deadline
@@ -215,6 +223,7 @@ Display formatted email for review before sending.
 **Objective:** Final review and send.
 
 **Confirmation Checklist:**
+
 - [ ] Story ID correct
 - [ ] Contractor correct
 - [ ] Acceptance criteria clear
@@ -224,11 +233,13 @@ Display formatted email for review before sending.
 - [ ] Attachments included
 
 **Send Options:**
+
 - **Send Now** - Send immediately
 - **Schedule** - Send at specific time (respect contractor timezone)
 - **Save Draft** - Save without sending
 
 **On Send:**
+
 1. Email sent via SMTP
 2. Story status updated to "In Progress"
 3. Assignment recorded in state
@@ -239,16 +250,17 @@ Display formatted email for review before sending.
 ## Events Published
 
 **contractor.story.assigned:**
+
 ```yaml
 type: contractor.story.assigned
 payload:
-  story_id: "STORY-123"
-  contractor_id: "backend-001"
-  contractor_email: "backend@contractor.example"
-  branch_name: "story/STORY-123-implement-user-auth-api"
-  deadline: "2025-12-05T17:00:00Z"
-  assigned_at: "2025-11-28T10:30:00Z"
-  correlation_id: "uuid-xxx"
+  story_id: 'STORY-123'
+  contractor_id: 'backend-001'
+  contractor_email: 'backend@contractor.example'
+  branch_name: 'story/STORY-123-implement-user-auth-api'
+  deadline: '2025-12-05T17:00:00Z'
+  assigned_at: '2025-11-28T10:30:00Z'
+  correlation_id: 'uuid-xxx'
 ```
 
 ---
@@ -262,6 +274,7 @@ After assignment, the system:
 3. **Escalates** if no response after 72 hours
 
 **Expected Contractor Response:**
+
 ```
 ACKNOWLEDGED - I'll start working on this tomorrow.
 ```
@@ -281,9 +294,9 @@ If contractor needs to be changed:
 
 ## Error Handling
 
-| Error | Recovery |
-|-------|----------|
-| SMTP send fails | Retry 3x, then alert coordinator |
-| Branch creation fails | Manual branch creation instructions |
-| Contractor unavailable | Suggest alternative contractor |
-| Story not ready | Block assignment, show blockers |
+| Error                  | Recovery                            |
+| ---------------------- | ----------------------------------- |
+| SMTP send fails        | Retry 3x, then alert coordinator    |
+| Branch creation fails  | Manual branch creation instructions |
+| Contractor unavailable | Suggest alternative contractor      |
+| Story not ready        | Block assignment, show blockers     |

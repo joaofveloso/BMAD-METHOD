@@ -10,7 +10,6 @@ handler_type: "automation"
 # =============================================================================
 
 handlers:
-
   # When a story is ready, auto-assign to appropriate AI agent
   auto_assign_story:
     event: "story.ready"
@@ -71,9 +70,9 @@ handlers:
           story_id: "{submission.story_id}"
           agent: "{submission.agent}"
 
-# =============================================================================
-# QUALITY GATE AUTOMATION
-# =============================================================================
+  # =============================================================================
+  # QUALITY GATE AUTOMATION
+  # =============================================================================
 
   # Quality gates passed - auto-merge
   auto_merge_on_quality_pass:
@@ -130,9 +129,9 @@ handlers:
           reason: "max_iterations_exceeded"
           failure_history: "{failure_history}"
 
-# =============================================================================
-# RELEASE AUTOMATION
-# =============================================================================
+  # =============================================================================
+  # RELEASE AUTOMATION
+  # =============================================================================
 
   # Sprint ended - create release candidate
   auto_create_release:
@@ -221,9 +220,9 @@ handlers:
           error: "{failure.error}"
           rollback_status: "initiated"
 
-# =============================================================================
-# ESCALATION AUTOMATION
-# =============================================================================
+  # =============================================================================
+  # ESCALATION AUTOMATION
+  # =============================================================================
 
   # Agent blocked - attempt resolution or escalate
   handle_agent_blocked:
@@ -274,9 +273,9 @@ handlers:
       - event: "escalation.required"
         condition: "timeout_count >= 3"
 
-# =============================================================================
-# FOUNDER COMMUNICATION
-# =============================================================================
+  # =============================================================================
+  # FOUNDER COMMUNICATION
+  # =============================================================================
 
   # Process founder email reply
   process_founder_reply:
@@ -311,7 +310,7 @@ handlers:
     automation:
       enabled: true
       mode: "scheduled"
-      schedule: "0 9 * * *"  # 9am daily
+      schedule: "0 9 * * *" # 9am daily
     action: |
       1. Aggregate daily metrics
       2. Collect completed stories

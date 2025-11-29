@@ -1,11 +1,14 @@
 # Alert Email Template
+
 # Sent to founder for critical issues requiring immediate attention
 
 ---
+
 subject: "[BMAD] 🚨 ALERT: {{alert_type}}"
 to: "{{founder_email}}"
 from: "BMAD Orchestrator <{{smtp_from_address}}>"
 priority: "urgent"
+
 ---
 
 ## 🚨 ALERT: {{alert_title}}
@@ -27,16 +30,18 @@ priority: "urgent"
 {{#if affected_stories}}
 **Affected Stories:**
 {{#each affected_stories}}
+
 - STORY-{{id}}: {{title}}
-{{/each}}
-{{/if}}
+  {{/each}}
+  {{/if}}
 
 {{#if affected_services}}
 **Affected Services:**
 {{#each affected_services}}
+
 - {{name}}: {{status}}
-{{/each}}
-{{/if}}
+  {{/each}}
+  {{/if}}
 
 **Business Impact:** {{business_impact}}
 
@@ -66,31 +71,42 @@ priority: "urgent"
 
 {{#if options}}
 {{#each options}}
+
 ### {{label}}
+
 {{description}}
+
 ```
 {{command}}
 ```
 
 {{/each}}
 {{else}}
+
 ### ✅ APPROVE
+
 Proceed with recommended action.
+
 ```
 APPROVE
 ```
 
 ### ❌ REJECT
+
 Do not proceed. Wait for manual intervention.
+
 ```
 REJECT
 ```
 
 ### 🔍 INVESTIGATE
+
 Provide more details before deciding.
+
 ```
 INVESTIGATE
 ```
+
 {{/if}}
 
 ---
@@ -108,5 +124,6 @@ Automation is {{automation_status}} until resolved.
 - **Iteration:** {{iteration_count}}
 
 ---
-*Generated automatically by BMAD Orchestrator*
-*Immediate response requested.*
+
+_Generated automatically by BMAD Orchestrator_
+_Immediate response requested._

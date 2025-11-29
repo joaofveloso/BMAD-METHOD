@@ -11,7 +11,7 @@ subscriptions:
     description: "Trigger post-release feedback collection"
     condition: "config.auto_collect.on_release == true"
     action: "schedule_feedback_collection"
-    
+
   # Story done - optionally collect feature feedback
   - event_type: "story.done"
     handler: "handlers/on-story-done.xml"

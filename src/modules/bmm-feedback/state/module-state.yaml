@@ -34,7 +34,7 @@ analysis:
   last_analysis: null
   items_analyzed: 0
   average_sentiment: null
-  
+
   # Category counts
   categories:
     bug: 0

@@ -7,6 +7,7 @@ This workflow provides a structured framework for making major product decisions
 ## When to Use This Workflow
 
 Use this for decisions that are:
+
 - **Significant:** More than a few days of work
 - **Strategic:** Affects product direction or positioning
 - **Irreversible:** Hard to undo once started
@@ -14,11 +15,11 @@ Use this for decisions that are:
 
 ## Decision Options
 
-| Decision | Meaning | When to Use |
-|----------|---------|-------------|
-| **GO** | Commit resources, proceed | High confidence, strategic fit, acceptable risk |
-| **NO-GO** | Reject, do not proceed | Poor fit, high risk, better alternatives exist |
-| **DEFER** | Not now, revisit later | Need more information, timing not right |
+| Decision  | Meaning                   | When to Use                                     |
+| --------- | ------------------------- | ----------------------------------------------- |
+| **GO**    | Commit resources, proceed | High confidence, strategic fit, acceptable risk |
+| **NO-GO** | Reject, do not proceed    | Poor fit, high risk, better alternatives exist  |
+| **DEFER** | Not now, revisit later    | Need more information, timing not right         |
 
 ---
 
@@ -45,6 +46,7 @@ Use this for decisions that are:
    - Resource requirements
 
 **Clarity Check:**
+
 - Can you explain this to someone unfamiliar in 30 seconds?
 - Is there ambiguity about what we'd actually build?
 - Do we have clear acceptance criteria?
@@ -59,31 +61,33 @@ Use this for decisions that are:
 
 **Strategic Alignment Scorecard:**
 
-| Question | Score (1-5) | Notes |
-|----------|-------------|-------|
-| Does this align with our vision? | | |
-| Does this serve our target customer? | | |
-| Does this strengthen our differentiation? | | |
-| Does this align with current priorities? | | |
-| Would this help or hurt focus? | | |
+| Question                                  | Score (1-5) | Notes |
+| ----------------------------------------- | ----------- | ----- |
+| Does this align with our vision?          |             |       |
+| Does this serve our target customer?      |             |       |
+| Does this strengthen our differentiation? |             |       |
+| Does this align with current priorities?  |             |       |
+| Would this help or hurt focus?            |             |       |
 
 **Scoring:**
+
 - 5: Strongly supports
 - 3: Neutral
 - 1: Works against
 
 **Priority Conflict Check:**
+
 - Does this compete with current priorities for resources?
 - Would this delay existing commitments?
 - Is this more important than what we're already doing?
 
 **Strategic Fit Score:** [Sum / 25] = X%
 
-| Score | Interpretation |
-|-------|----------------|
-| 80%+ | Strong strategic fit |
-| 60-79% | Moderate fit, consider tradeoffs |
-| <60% | Weak fit, needs strong justification |
+| Score  | Interpretation                       |
+| ------ | ------------------------------------ |
+| 80%+   | Strong strategic fit                 |
+| 60-79% | Moderate fit, consider tradeoffs     |
+| <60%   | Weak fit, needs strong justification |
 
 **Output:** Strategic fit assessment
 
@@ -95,26 +99,27 @@ Use this for decisions that are:
 
 **Positive Impact Assessment:**
 
-| Impact Area | Expected Impact | Confidence | Evidence |
-|-------------|-----------------|------------|----------|
-| Revenue | [High/Med/Low] | [High/Med/Low] | [What evidence?] |
-| User acquisition | | | |
-| User retention | | | |
-| User satisfaction | | | |
-| Competitive position | | | |
-| Technical capability | | | |
+| Impact Area          | Expected Impact | Confidence     | Evidence         |
+| -------------------- | --------------- | -------------- | ---------------- |
+| Revenue              | [High/Med/Low]  | [High/Med/Low] | [What evidence?] |
+| User acquisition     |                 |                |                  |
+| User retention       |                 |                |                  |
+| User satisfaction    |                 |                |                  |
+| Competitive position |                 |                |                  |
+| Technical capability |                 |                |                  |
 
 **Negative Impact Assessment:**
 
-| Risk | Potential Impact | Likelihood | Mitigation |
-|------|------------------|------------|------------|
-| Technical debt | | | |
-| Scope creep | | | |
-| Customer confusion | | | |
-| Team burnout | | | |
-| Opportunity cost | | | |
+| Risk               | Potential Impact | Likelihood | Mitigation |
+| ------------------ | ---------------- | ---------- | ---------- |
+| Technical debt     |                  |            |            |
+| Scope creep        |                  |            |            |
+| Customer confusion |                  |            |            |
+| Team burnout       |                  |            |            |
+| Opportunity cost   |                  |            |            |
 
 **Opportunity Cost:**
+
 > "What are we NOT doing by doing this?"
 
 - [Alternative 1 we won't pursue]
@@ -132,34 +137,39 @@ Use this for decisions that are:
 **Risk Categories:**
 
 **1. Execution Risk**
+
 - Do we have the skills to build this?
 - Is the timeline realistic?
 - Are there technical unknowns?
 
 **2. Market Risk**
+
 - Will customers actually want this?
 - Is the timing right?
 - Will competitors respond?
 
 **3. Business Risk**
+
 - Can we afford this investment?
 - What if it fails?
 - Are there regulatory concerns?
 
 **Risk Matrix:**
 
-| Risk | Likelihood (1-5) | Impact (1-5) | Score | Mitigation |
-|------|------------------|--------------|-------|------------|
-| [Risk 1] | | | | |
-| [Risk 2] | | | | |
-| [Risk 3] | | | | |
+| Risk     | Likelihood (1-5) | Impact (1-5) | Score | Mitigation |
+| -------- | ---------------- | ------------ | ----- | ---------- |
+| [Risk 1] |                  |              |       |            |
+| [Risk 2] |                  |              |       |            |
+| [Risk 3] |                  |              |       |            |
 
 **Risk Tolerance Check:**
+
 - What's the worst case scenario?
 - Can we survive the worst case?
 - Is this a reversible or irreversible decision?
 
 **Reversibility Assessment:**
+
 - **Easily reversible:** Low-risk, can experiment
 - **Partially reversible:** Some sunk cost but can pivot
 - **Irreversible:** High commitment, proceed carefully
@@ -185,6 +195,7 @@ Impact          │         │ NO-GO   │
 ```
 
 **GO Criteria (all must be true):**
+
 - [ ] Strategic fit score ≥ 60%
 - [ ] Expected impact justifies investment
 - [ ] Risks are acceptable and mitigated
@@ -193,6 +204,7 @@ Impact          │         │ NO-GO   │
 - [ ] Not conflicting with higher priorities
 
 **NO-GO Criteria (any is sufficient):**
+
 - [ ] Poor strategic fit (<50%)
 - [ ] Unacceptable or unmitigatable risks
 - [ ] Better alternatives exist
@@ -200,6 +212,7 @@ Impact          │         │ NO-GO   │
 - [ ] Would derail critical priorities
 
 **DEFER Criteria:**
+
 - [ ] Good idea but timing is wrong
 - [ ] Need more information to decide
 - [ ] Waiting on external dependencies
@@ -215,42 +228,42 @@ Impact          │         │ NO-GO   │
 
 ```yaml
 decision:
-  id: "[DECISION-XXX]"
-  date: "[Date]"
-  initiative: "[Name]"
-  decision: "[GO | NO-GO | DEFER]"
+  id: '[DECISION-XXX]'
+  date: '[Date]'
+  initiative: '[Name]'
+  decision: '[GO | NO-GO | DEFER]'
 
   rationale: |
     [2-3 sentences explaining why]
 
   # If GO:
   next_steps:
-    - "[Action 1]"
-    - "[Action 2]"
-  owner: "[Name]"
-  deadline: "[Date]"
+    - '[Action 1]'
+    - '[Action 2]'
+  owner: '[Name]'
+  deadline: '[Date]'
   success_criteria:
-    - "[Criterion 1]"
-    - "[Criterion 2]"
+    - '[Criterion 1]'
+    - '[Criterion 2]'
 
   # If NO-GO:
   alternatives_considered:
-    - "[Alternative 1]"
-  revisit_conditions: "[What would change our mind]"
+    - '[Alternative 1]'
+  revisit_conditions: '[What would change our mind]'
 
   # If DEFER:
-  revisit_date: "[Date]"
+  revisit_date: '[Date]'
   information_needed:
-    - "[What we need to know]"
+    - '[What we need to know]'
 ```
 
 **Communication:**
 
-| Audience | What to Share |
-|----------|---------------|
-| Team | Decision + rationale + impact on them |
-| Stakeholders | Decision + high-level rationale |
-| Requestor | Decision + detailed rationale |
+| Audience     | What to Share                         |
+| ------------ | ------------------------------------- |
+| Team         | Decision + rationale + impact on them |
+| Stakeholders | Decision + high-level rationale       |
+| Requestor    | Decision + detailed rationale         |
 
 ---
 
@@ -259,33 +272,36 @@ decision:
 Based on decision:
 
 **If GO:**
+
 ```yaml
 type: decision.go
 payload:
-  initiative: "[Name]"
-  rationale: "[Why]"
-  owner: "[Name]"
-  deadline: "[Date]"
+  initiative: '[Name]'
+  rationale: '[Why]'
+  owner: '[Name]'
+  deadline: '[Date]'
   success_criteria: [list]
 ```
 
 **If NO-GO:**
+
 ```yaml
 type: decision.no-go
 payload:
-  initiative: "[Name]"
-  rationale: "[Why]"
+  initiative: '[Name]'
+  rationale: '[Why]'
   alternatives_considered: [list]
-  revisit_conditions: "[Conditions]"
+  revisit_conditions: '[Conditions]'
 ```
 
 **If DEFER:**
+
 ```yaml
 type: decision.defer
 payload:
-  initiative: "[Name]"
-  reason: "[Why]"
-  revisit_date: "[Date]"
+  initiative: '[Name]'
+  reason: '[Why]'
+  revisit_date: '[Date]'
   information_needed: [list]
 ```
 
@@ -293,11 +309,11 @@ payload:
 
 ## Downstream Effects
 
-| Decision | Other Agents |
-|----------|--------------|
-| GO | Compliance reviews, Growth plans measurement, UX plans design |
-| NO-GO | No downstream actions |
-| DEFER | Calendar reminder set for revisit |
+| Decision | Other Agents                                                  |
+| -------- | ------------------------------------------------------------- |
+| GO       | Compliance reviews, Growth plans measurement, UX plans design |
+| NO-GO    | No downstream actions                                         |
+| DEFER    | Calendar reminder set for revisit                             |
 
 ---
 

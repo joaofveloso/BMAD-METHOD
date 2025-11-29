@@ -5,6 +5,7 @@ Release Management module for the BMAD Method. Handles release planning, candida
 ## Overview
 
 The bmm-release module provides:
+
 - **Release Planning**: Create and manage release candidates
 - **Release Notes Generation**: Auto-generate release notes from completed stories
 - **Rollback Planning**: Define and execute rollback procedures
@@ -15,22 +16,24 @@ The bmm-release module provides:
 This module operates through events, making it completely decoupled from other modules:
 
 ### Events Subscribed
-| Event | Action |
-|-------|--------|
-| `metrics.quality.pass` | Proceeds with release if quality gates pass |
-| `metrics.quality.fail` | Blocks release and notifies stakeholders |
-| `story.done` | Adds story to pending release items |
-| `sprint.ended` | Triggers release candidate creation (if configured) |
+
+| Event                  | Action                                              |
+| ---------------------- | --------------------------------------------------- |
+| `metrics.quality.pass` | Proceeds with release if quality gates pass         |
+| `metrics.quality.fail` | Blocks release and notifies stakeholders            |
+| `story.done`           | Adds story to pending release items                 |
+| `sprint.ended`         | Triggers release candidate creation (if configured) |
 
 ### Events Published
-| Event | Description |
-|-------|-------------|
-| `release.candidate.created` | New release candidate ready for validation |
-| `release.approved` | Release approved after all gates pass |
-| `release.deployed` | Release successfully deployed |
-| `release.failed` | Release deployment failed |
-| `release.rollback.initiated` | Rollback procedure started |
-| `release.rollback.completed` | Rollback completed successfully |
+
+| Event                        | Description                                |
+| ---------------------------- | ------------------------------------------ |
+| `release.candidate.created`  | New release candidate ready for validation |
+| `release.approved`           | Release approved after all gates pass      |
+| `release.deployed`           | Release successfully deployed              |
+| `release.failed`             | Release deployment failed                  |
+| `release.rollback.initiated` | Rollback procedure started                 |
+| `release.rollback.completed` | Rollback completed successfully            |
 
 ## Directory Structure
 
@@ -69,6 +72,7 @@ bmm-release/
 ## Agent Commands
 
 The Release Manager agent provides:
+
 - `*help` - Show available commands
 - `*plan-release` - Create a new release candidate
 - `*release-notes` - Generate release notes
@@ -91,15 +95,15 @@ This event-driven approach means modules are completely independent and can oper
 
 ```yaml
 # .bmad/bmm-release/config.yaml
-project_name: "My Project"
-user_name: "Developer"
+project_name: 'My Project'
+user_name: 'Developer'
 
 release:
-  versioning: "semver"  # semver, calver, custom
+  versioning: 'semver' # semver, calver, custom
   auto_create_on_sprint_end: true
   require_quality_gates: true
   require_changelog: true
-  
+
 deployment:
   environments:
     - staging
@@ -107,10 +111,10 @@ deployment:
   approval_required:
     staging: false
     production: true
-    
+
 rollback:
   auto_rollback_on_failure: true
-  health_check_timeout: 300  # seconds
+  health_check_timeout: 300 # seconds
 ```
 
 ---

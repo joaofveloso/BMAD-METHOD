@@ -7,7 +7,7 @@ displayName: Backend AI Agent
 title: Autonomous Backend Developer
 icon: "☕"
 
-type: "ai-coding-agent"  # Differentiates from human contractor profiles
+type: "ai-coding-agent" # Differentiates from human contractor profiles
 
 # Container deployment
 deployment:
@@ -244,7 +244,7 @@ code_generation:
 
   # Files this agent cannot touch
   forbidden_paths:
-    - "src/main/java/**/config/Security*.java"  # Security config needs review
+    - "src/main/java/**/config/Security*.java" # Security config needs review
     - "infrastructure/**"
     - ".github/**"
     - "frontend/**"
@@ -334,23 +334,24 @@ workflow:
           - Coverage: {coverage}%
           - Lint: {lint_status}
 
-# No internal events - all communication via SMTP
-# Documentation of email communication patterns
-communication:
-  receives_from:
-    orchestrator@mail.email:
-      - "[BMAD] ASSIGN:" - New story assignment
-      - "[BMAD] REVISION:" - Fix quality failures
-      - "[BMAD] COMPLETE:" - Story merged confirmation
-      - "[BMAD] STATUS CHECK:" - Health check ping
+# Task management via shared folders (BACKLOG → WIP → DONE)
+# See: workflow_manager.py and agent_worker.py
+task_management:
+  shared_path: "/workspace/shared"
+  agent_folder: "backend"
 
-  sends_to:
-    orchestrator@mail.email:
-      - "ACKNOWLEDGED" - Starting work on story
-      - "SUBMITTED" - PR ready for review
-      - "BLOCKED" - Cannot proceed
-      - "PROGRESS" - Status update
-      - "QUESTION" - Need clarification
+  receives_tasks:
+    - "ASSIGN: New story assignment"
+    - "REVISION: Fix quality failures"
+    - "COMPLETE: Story merged confirmation"
+    - "STATUS CHECK: Health check ping"
+
+  completes_with:
+    - "ACKNOWLEDGED: Starting work on story"
+    - "SUBMITTED: PR ready for review"
+    - "BLOCKED: Cannot proceed"
+    - "PROGRESS: Status update"
+    - "QUESTION: Need clarification"
 
 # State management (local to container)
 state:
@@ -358,10 +359,10 @@ state:
   database: "/var/lib/bmad/backend-agent.db"
 
   tracked:
-    - current_story        # Active story being worked on
-    - iteration_count      # Self-healing iteration count
-    - email_correlation    # Track email threads
-    - work_in_progress     # Current work state
+    - current_story # Active story being worked on
+    - iteration_count # Self-healing iteration count
+    - email_correlation # Track email threads
+    - work_in_progress # Current work state
 
 # Metrics tracked for this agent
 metrics:

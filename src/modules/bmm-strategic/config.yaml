@@ -81,7 +81,7 @@ market:
   positioning:
     category: ""
     tagline: ""
-    against: ""  # "We are X for Y" or "Unlike X, we..."
+    against: "" # "We are X for Y" or "Unlike X, we..."
 
 # =============================================================================
 # SAAS BUSINESS MODEL
@@ -117,10 +117,10 @@ saas:
 
   # Key SaaS metrics targets
   metrics_targets:
-    mrr_growth: ""      # e.g., "10% MoM"
-    churn_rate: ""      # e.g., "< 5% monthly"
-    ltv_cac_ratio: ""   # e.g., "> 3:1"
-    nps_score: ""       # e.g., "> 50"
+    mrr_growth: "" # e.g., "10% MoM"
+    churn_rate: "" # e.g., "< 5% monthly"
+    ltv_cac_ratio: "" # e.g., "> 3:1"
+    nps_score: "" # e.g., "> 50"
     activation_rate: "" # e.g., "> 40%"
 
 # =============================================================================
@@ -161,7 +161,7 @@ compliance:
 
   # Compliance contacts
   contacts:
-    dpo_email: ""  # Data Protection Officer
+    dpo_email: "" # Data Protection Officer
     security_email: ""
 
 # =============================================================================
@@ -175,7 +175,7 @@ ux:
       role: ""
       goals: []
       pain_points: []
-      tech_savviness: ""  # low, medium, high
+      tech_savviness: "" # low, medium, high
 
   # Key user journeys to optimize
   critical_journeys:
@@ -237,10 +237,10 @@ growth:
 
   # Analytics tools in use
   analytics_stack:
-    product_analytics: ""    # e.g., Mixpanel, Amplitude, PostHog
-    web_analytics: ""        # e.g., Google Analytics, Plausible
-    session_recording: ""    # e.g., FullStory, Hotjar
-    ab_testing: ""           # e.g., LaunchDarkly, Optimizely
+    product_analytics: "" # e.g., Mixpanel, Amplitude, PostHog
+    web_analytics: "" # e.g., Google Analytics, Plausible
+    session_recording: "" # e.g., FullStory, Hotjar
+    ab_testing: "" # e.g., LaunchDarkly, Optimizely
 
   # Experiment velocity target
   experiments:
@@ -262,7 +262,7 @@ communication:
 
   # Git repository settings
   git:
-    provider: "github"  # github, gitlab, bitbucket
+    provider: "github" # github, gitlab, bitbucket
     org: ""
     main_branch: "main"
     develop_branch: "develop"

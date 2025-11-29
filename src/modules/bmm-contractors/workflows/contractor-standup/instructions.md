@@ -40,33 +40,33 @@ This workflow generates a daily standup summary by collecting status from all ac
 
 ```yaml
 contractor_statuses:
-  - contractor_id: "backend-001"
-    name: "Backend Developer"
-    status: "active"
+  - contractor_id: 'backend-001'
+    name: 'Backend Developer'
+    status: 'active'
     current_assignments:
-      - story_id: "STORY-123"
-        title: "Implement user authentication API"
-        assigned_at: "2025-11-25"
+      - story_id: 'STORY-123'
+        title: 'Implement user authentication API'
+        assigned_at: '2025-11-25'
         days_in_progress: 3
-        last_update: "PROGRESS - 70% complete"
-        last_update_at: "2025-11-27T14:00:00Z"
-        pr_status: "draft"
+        last_update: 'PROGRESS - 70% complete'
+        last_update_at: '2025-11-27T14:00:00Z'
+        pr_status: 'draft'
     blockers: []
     questions: []
 
-  - contractor_id: "frontend-001"
-    name: "Frontend Developer"
-    status: "blocked"
+  - contractor_id: 'frontend-001'
+    name: 'Frontend Developer'
+    status: 'blocked'
     current_assignments:
-      - story_id: "STORY-124"
-        title: "Login form component"
-        assigned_at: "2025-11-26"
+      - story_id: 'STORY-124'
+        title: 'Login form component'
+        assigned_at: '2025-11-26'
         days_in_progress: 2
-        last_update: "BLOCKED - Waiting on API endpoint"
-        last_update_at: "2025-11-27T10:00:00Z"
+        last_update: 'BLOCKED - Waiting on API endpoint'
+        last_update_at: '2025-11-27T10:00:00Z'
         pr_status: null
     blockers:
-      - "Waiting on STORY-123 API endpoint"
+      - 'Waiting on STORY-123 API endpoint'
     questions: []
 ```
 
@@ -74,15 +74,15 @@ contractor_statuses:
 
 ```yaml
 email_scan:
-  timeframe: "last_24_hours"
+  timeframe: 'last_24_hours'
   filter:
-    - from: "{contractor_emails}"
-    - to: "{coordinator_email}"
+    - from: '{contractor_emails}'
+    - to: '{coordinator_email}'
 
   extract:
-    - command: "PROGRESS|SUBMITTED|BLOCKED|QUESTION"
+    - command: 'PROGRESS|SUBMITTED|BLOCKED|QUESTION'
     - story_reference: "STORY-\\d+"
-    - content: "message body after command"
+    - content: 'message body after command'
 ```
 
 **Output:** Complete status for all contractors
@@ -95,13 +95,13 @@ email_scan:
 
 **Blocker Classification:**
 
-| Type | Description | Priority |
-|------|-------------|----------|
-| Dependency | Waiting on another story | Medium |
-| Technical | System/environment issue | High |
-| Clarification | Needs requirements clarity | Medium |
-| Access | Permission/resource issue | High |
-| External | Third-party dependency | Variable |
+| Type          | Description                | Priority |
+| ------------- | -------------------------- | -------- |
+| Dependency    | Waiting on another story   | Medium   |
+| Technical     | System/environment issue   | High     |
+| Clarification | Needs requirements clarity | Medium   |
+| Access        | Permission/resource issue  | High     |
+| External      | Third-party dependency     | Variable |
 
 **Blocker Aggregation:**
 
@@ -113,25 +113,25 @@ blockers_summary:
   medium: 1
 
   blockers:
-    - id: "BLK-001"
-      contractor: "frontend-001"
-      story_id: "STORY-124"
-      type: "dependency"
-      description: "Waiting on STORY-123 API endpoint"
-      blocked_since: "2025-11-27T10:00:00Z"
+    - id: 'BLK-001'
+      contractor: 'frontend-001'
+      story_id: 'STORY-124'
+      type: 'dependency'
+      description: 'Waiting on STORY-123 API endpoint'
+      blocked_since: '2025-11-27T10:00:00Z'
       hours_blocked: 24
-      priority: "medium"
-      resolution_owner: "backend-001"
+      priority: 'medium'
+      resolution_owner: 'backend-001'
 
-    - id: "BLK-002"
-      contractor: "mobile-001"
-      story_id: "STORY-125"
-      type: "access"
-      description: "Cannot access staging Firebase"
-      blocked_since: "2025-11-27T08:00:00Z"
+    - id: 'BLK-002'
+      contractor: 'mobile-001'
+      story_id: 'STORY-125'
+      type: 'access'
+      description: 'Cannot access staging Firebase'
+      blocked_since: '2025-11-27T08:00:00Z'
       hours_blocked: 26
-      priority: "high"
-      resolution_owner: "coordinator"
+      priority: 'high'
+      resolution_owner: 'coordinator'
 ```
 
 **Dependency Graph:**
@@ -152,12 +152,12 @@ STORY-125 (Mobile) ──depends on────────────┘
 
 **Deadline Categories:**
 
-| Status | Definition | Action |
-|--------|------------|--------|
-| 🔴 Overdue | Past deadline | Immediate attention |
-| 🟠 At Risk | < 1 day to deadline, < 80% complete | Escalate |
-| 🟡 Approaching | 1-2 days to deadline | Monitor |
-| 🟢 On Track | > 2 days or near completion | Continue |
+| Status         | Definition                          | Action              |
+| -------------- | ----------------------------------- | ------------------- |
+| 🔴 Overdue     | Past deadline                       | Immediate attention |
+| 🟠 At Risk     | < 1 day to deadline, < 80% complete | Escalate            |
+| 🟡 Approaching | 1-2 days to deadline                | Monitor             |
+| 🟢 On Track    | > 2 days or near completion         | Continue            |
 
 **Deadline Analysis:**
 
@@ -169,21 +169,21 @@ deadline_analysis:
   on_track: 3
 
   details:
-    - story_id: "STORY-123"
-      contractor: "backend-001"
-      deadline: "2025-11-29"
+    - story_id: 'STORY-123'
+      contractor: 'backend-001'
+      deadline: '2025-11-29'
       days_remaining: 1
-      progress: "70%"
-      status: "at_risk"
-      recommendation: "Escalate - unlikely to complete on time"
+      progress: '70%'
+      status: 'at_risk'
+      recommendation: 'Escalate - unlikely to complete on time'
 
-    - story_id: "STORY-126"
-      contractor: "qa-001"
-      deadline: "2025-11-30"
+    - story_id: 'STORY-126'
+      contractor: 'qa-001'
+      deadline: '2025-11-30'
       days_remaining: 2
-      progress: "50%"
-      status: "approaching"
-      recommendation: "Monitor - may need support"
+      progress: '50%'
+      status: 'approaching'
+      recommendation: 'Monitor - may need support'
 ```
 
 **SLA Check:**
@@ -191,13 +191,13 @@ deadline_analysis:
 ```yaml
 sla_status:
   acknowledgment_sla:
-    - contractor: "researcher-001"
-      story_id: "STORY-127"
-      assigned_at: "2025-11-27T09:00:00Z"
+    - contractor: 'researcher-001'
+      story_id: 'STORY-127'
+      assigned_at: '2025-11-27T09:00:00Z'
       hours_since_assignment: 25
       sla_hours: 24
-      status: "breached"
-      action: "Send reminder"
+      status: 'breached'
+      action: 'Send reminder'
 
   response_sla:
     pending_questions: 1
@@ -216,6 +216,7 @@ sla_status:
 
 ```markdown
 # Daily Standup Summary
+
 **Date:** {date}
 **Generated:** {timestamp}
 **Coordinator:** Contractor Coordinator
@@ -224,19 +225,20 @@ sla_status:
 
 ## 📊 Team Overview
 
-| Metric | Value |
-|--------|-------|
-| Active Contractors | {active_count} |
+| Metric              | Value               |
+| ------------------- | ------------------- |
+| Active Contractors  | {active_count}      |
 | Stories In Progress | {in_progress_count} |
-| Stories Blocked | {blocked_count} |
-| Pending Reviews | {pending_reviews} |
-| Open PRs | {open_prs} |
+| Stories Blocked     | {blocked_count}     |
+| Pending Reviews     | {pending_reviews}   |
+| Open PRs            | {open_prs}          |
 
 ---
 
 ## 👥 Contractor Status
 
 ### ☕ Backend Developer (backend-001)
+
 **Status:** 🟢 Active
 **Current Work:** STORY-123 - Implement user authentication API
 **Progress:** 70% complete
@@ -247,28 +249,33 @@ sla_status:
 ---
 
 ### ⚛️ Frontend Developer (frontend-001)
+
 **Status:** 🔴 Blocked
 **Current Work:** STORY-124 - Login form component
 **Progress:** 40% complete
 **Last Update:** "Waiting on API endpoint" (14h ago)
 **PR:** Not started
 **Blockers:**
+
 - ⚠️ Dependency on STORY-123 API endpoint
 
 ---
 
 ### 📱 Mobile Developer (mobile-001)
+
 **Status:** 🔴 Blocked
 **Current Work:** STORY-125 - Mobile authentication
 **Progress:** 20% complete
 **Last Update:** "Cannot access staging Firebase" (26h ago)
 **PR:** Not started
 **Blockers:**
+
 - 🚨 Cannot access staging Firebase project
 
 ---
 
 ### 🧪 QA Engineer (qa-001)
+
 **Status:** 🟢 Active
 **Current Work:** STORY-126 - Auth test automation
 **Progress:** 50% complete
@@ -279,6 +286,7 @@ sla_status:
 ---
 
 ### 📚 Researcher (researcher-001)
+
 **Status:** 🟡 Pending Acknowledgment
 **Current Work:** STORY-127 - API documentation
 **Progress:** Not started
@@ -291,12 +299,13 @@ sla_status:
 
 ## 🚧 Blockers Requiring Attention
 
-| Priority | Contractor | Story | Blocker | Hours Blocked |
-|----------|------------|-------|---------|---------------|
-| 🔴 HIGH | mobile-001 | STORY-125 | Firebase access | 26h |
-| 🟡 MED | frontend-001 | STORY-124 | Waiting on STORY-123 | 24h |
+| Priority | Contractor   | Story     | Blocker              | Hours Blocked |
+| -------- | ------------ | --------- | -------------------- | ------------- |
+| 🔴 HIGH  | mobile-001   | STORY-125 | Firebase access      | 26h           |
+| 🟡 MED   | frontend-001 | STORY-124 | Waiting on STORY-123 | 24h           |
 
 ### Recommended Actions:
+
 1. **[URGENT]** Grant mobile-001 Firebase staging access
 2. **[MEDIUM]** Check STORY-123 progress for frontend unblock
 
@@ -304,10 +313,10 @@ sla_status:
 
 ## ⏰ Deadline Status
 
-| Status | Story | Contractor | Deadline | Progress |
-|--------|-------|------------|----------|----------|
-| 🟠 At Risk | STORY-123 | backend-001 | Nov 29 | 70% |
-| 🟡 Approaching | STORY-126 | qa-001 | Nov 30 | 50% |
+| Status         | Story     | Contractor  | Deadline | Progress |
+| -------------- | --------- | ----------- | -------- | -------- |
+| 🟠 At Risk     | STORY-123 | backend-001 | Nov 29   | 70%      |
+| 🟡 Approaching | STORY-126 | qa-001      | Nov 30   | 50%      |
 
 ---
 
@@ -322,15 +331,15 @@ sla_status:
 
 ## 📧 Pending Communications
 
-| Type | Contractor | Subject | Hours Pending |
-|------|------------|---------|---------------|
-| Question | frontend-001 | API response format | 18h |
-| Reminder | researcher-001 | Acknowledgment needed | Due now |
+| Type     | Contractor     | Subject               | Hours Pending |
+| -------- | -------------- | --------------------- | ------------- |
+| Question | frontend-001   | API response format   | 18h           |
+| Reminder | researcher-001 | Acknowledgment needed | Due now       |
 
 ---
 
-*This summary was generated automatically. Reply with questions or updates.*
-*Correlation ID: standup-{date}*
+_This summary was generated automatically. Reply with questions or updates._
+_Correlation ID: standup-{date}_
 ```
 
 **Output:** Complete standup summary document
@@ -344,6 +353,7 @@ sla_status:
 **Email Distribution:**
 
 1. **Full Summary Email** (to all active contractors):
+
    ```
    Subject: [PROJECT] Daily Standup - {date}
 
@@ -360,6 +370,7 @@ sla_status:
    ```
 
 2. **Individual Status Email** (to each contractor):
+
    ```
    Subject: [PROJECT] Your Status - {date}
 
@@ -380,6 +391,7 @@ sla_status:
    ```
 
 3. **Blocker Digest Email** (to coordinator/stakeholders):
+
    ```
    Subject: [PROJECT] 🚧 Blockers Digest - {date}
 
@@ -399,20 +411,20 @@ Use `send-email` task for each recipient:
 
 ```yaml
 emails_to_send:
-  - template: "standup-team-summary"
-    to: "{all_contractor_emails}"
-    subject: "[PROJECT] Daily Standup - {date}"
+  - template: 'standup-team-summary'
+    to: '{all_contractor_emails}'
+    subject: '[PROJECT] Daily Standup - {date}'
 
-  - template: "standup-individual"
-    to: "{each_contractor_email}"
-    subject: "[PROJECT] Your Status - {date}"
+  - template: 'standup-individual'
+    to: '{each_contractor_email}'
+    subject: '[PROJECT] Your Status - {date}'
     variables:
-      contractor_id: "{id}"
+      contractor_id: '{id}'
 
-  - template: "standup-blocker-digest"
-    to: "{coordinator_email}"
-    subject: "[PROJECT] 🚧 Blockers Digest - {date}"
-    condition: "blockers.length > 0"
+  - template: 'standup-blocker-digest'
+    to: '{coordinator_email}'
+    subject: '[PROJECT] 🚧 Blockers Digest - {date}'
+    condition: 'blockers.length > 0'
 ```
 
 **Output:** All standup emails sent
@@ -425,33 +437,33 @@ emails_to_send:
 
 **Escalation Triggers:**
 
-| Condition | Action |
-|-----------|--------|
-| Blocker > 48 hours | Escalate to coordinator |
-| Deadline missed | Immediate escalation |
+| Condition              | Action                     |
+| ---------------------- | -------------------------- |
+| Blocker > 48 hours     | Escalate to coordinator    |
+| Deadline missed        | Immediate escalation       |
 | No response > 72 hours | Reassignment consideration |
-| Critical blocker | Urgent escalation email |
+| Critical blocker       | Urgent escalation email    |
 
 **Escalation Process:**
 
 ```yaml
 escalations:
-  - trigger: "blocker_duration > 48h"
-    action: "escalate-blocker workflow"
+  - trigger: 'blocker_duration > 48h'
+    action: 'escalate-blocker workflow'
     parameters:
-      blocker_id: "{blocker_id}"
-      urgency: "high"
+      blocker_id: '{blocker_id}'
+      urgency: 'high'
 
-  - trigger: "deadline_missed"
-    action: "escalate-blocker workflow"
+  - trigger: 'deadline_missed'
+    action: 'escalate-blocker workflow'
     parameters:
-      story_id: "{story_id}"
-      urgency: "critical"
+      story_id: '{story_id}'
+      urgency: 'critical'
 
-  - trigger: "no_response > 72h"
-    action: "send reminder"
+  - trigger: 'no_response > 72h'
+    action: 'send reminder'
     parameters:
-      contractor_id: "{contractor_id}"
+      contractor_id: '{contractor_id}'
       escalation_level: 2
 ```
 
@@ -488,8 +500,9 @@ Correlation ID: escalation-{id}
 ## Events Published
 
 **contractor.standup.completed:**
+
 ```yaml
-date: "2025-11-28"
+date: '2025-11-28'
 summary:
   active_contractors: 5
   stories_in_progress: 6
@@ -497,7 +510,7 @@ summary:
   at_risk_deadlines: 1
 emails_sent: 8
 escalations_triggered: 1
-generated_at: "2025-11-28T09:15:00Z"
+generated_at: '2025-11-28T09:15:00Z'
 ```
 
 ---
@@ -509,11 +522,11 @@ generated_at: "2025-11-28T09:15:00Z"
 ```yaml
 schedule:
   daily_standup:
-    cron: "0 9 * * 1-5"  # 9 AM UTC, weekdays
-    timezone: "UTC"
+    cron: '0 9 * * 1-5' # 9 AM UTC, weekdays
+    timezone: 'UTC'
 
   weekly_summary:
-    cron: "0 9 * * 1"    # Monday 9 AM
+    cron: '0 9 * * 1' # Monday 9 AM
     include_weekly_metrics: true
 ```
 

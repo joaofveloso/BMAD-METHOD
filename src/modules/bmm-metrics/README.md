@@ -54,6 +54,7 @@ bmm-metrics/
 **Role**: KPI definition, SLA monitoring, dashboard generation, quality gate validation
 
 **Responsibilities**:
+
 - Define meaningful KPIs aligned with business objectives
 - Set realistic SLA thresholds based on baseline data
 - Monitor metric trends and identify anomalies
@@ -63,24 +64,28 @@ bmm-metrics/
 ## Workflows
 
 ### define-kpis
+
 Define product and engineering KPIs with targets and measurement frequency.
 
 **Inputs**: PRD success metrics, business objectives
 **Outputs**: KPI definitions document
 
 ### define-slas
+
 Set SLA thresholds for critical metrics with alerting rules.
 
 **Inputs**: KPI definitions, baseline data
 **Outputs**: SLA configuration
 
 ### track-metrics
+
 Periodic collection and reporting of metric values.
 
 **Inputs**: Source data (stories, sprints, code)
 **Outputs**: Metrics report, SLA breach alerts
 
 ### quality-gate-check
+
 Validate a release candidate against quality criteria.
 
 **Inputs**: Story ID, quality gate definitions
@@ -88,6 +93,7 @@ Validate a release candidate against quality criteria.
 **Events Published**: `metrics.quality.pass` or `metrics.quality.fail`
 
 ### metrics-review
+
 Weekly or monthly analysis of metric trends.
 
 **Inputs**: Historical metric data
@@ -97,29 +103,29 @@ Weekly or monthly analysis of metric trends.
 
 ### Subscriptions (Listens To)
 
-| Event | Handler | Purpose |
-|-------|---------|---------|
-| `story.done` | on-story-done.xml | Track story completion metrics |
-| `story.ready` | on-story-ready.xml | Track cycle time from created to ready |
-| `sprint.ended` | on-sprint-ended.xml | Calculate sprint velocity |
-| `code.reviewed` | on-code-reviewed.xml | Track code quality metrics |
+| Event           | Handler              | Purpose                                |
+| --------------- | -------------------- | -------------------------------------- |
+| `story.done`    | on-story-done.xml    | Track story completion metrics         |
+| `story.ready`   | on-story-ready.xml   | Track cycle time from created to ready |
+| `sprint.ended`  | on-sprint-ended.xml  | Calculate sprint velocity              |
+| `code.reviewed` | on-code-reviewed.xml | Track code quality metrics             |
 
 ### Publications (Emits)
 
-| Event | Trigger | Purpose |
-|-------|---------|---------|
-| `metrics.kpi.defined` | define-kpis workflow | Notify KPIs are defined |
-| `metrics.kpi.updated` | track-metrics workflow | Notify KPI value changes |
-| `metrics.sla.breach` | track-metrics workflow | Alert on SLA violations |
-| `metrics.quality.pass` | quality-gate-check | Release can proceed |
-| `metrics.quality.fail` | quality-gate-check | Release blocked |
+| Event                  | Trigger                | Purpose                  |
+| ---------------------- | ---------------------- | ------------------------ |
+| `metrics.kpi.defined`  | define-kpis workflow   | Notify KPIs are defined  |
+| `metrics.kpi.updated`  | track-metrics workflow | Notify KPI value changes |
+| `metrics.sla.breach`   | track-metrics workflow | Alert on SLA violations  |
+| `metrics.quality.pass` | quality-gate-check     | Release can proceed      |
+| `metrics.quality.fail` | quality-gate-check     | Release blocked          |
 
 ## Configuration
 
 ```yaml
 # config.yaml
 module_name: bmm-metrics
-module_version: "1.0.0"
+module_version: '1.0.0'
 
 # Metric collection settings
 collection:
@@ -154,11 +160,13 @@ dashboard:
 ## Quick Start
 
 1. **Initialize metrics tracking**:
+
    ```
    /bmad:bmm-metrics:workflows:define-kpis
    ```
 
 2. **Set SLA thresholds**:
+
    ```
    /bmad:bmm-metrics:workflows:define-slas
    ```

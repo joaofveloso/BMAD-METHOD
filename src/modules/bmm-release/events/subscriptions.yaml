@@ -14,7 +14,7 @@ subscriptions:
       match_field: "payload.story_id"
       match_type: "in_release_candidate"
     action: "proceed_with_release"
-    
+
   - event_type: "metrics.quality.fail"
     handler: "handlers/on-quality-fail.xml"
     description: "Quality gates failed - block release"
@@ -28,7 +28,7 @@ subscriptions:
     handler: "handlers/on-story-done.xml"
     description: "Story completed - add to pending release items"
     action: "add_to_pending_release"
-    
+
   # Sprint events
   - event_type: "sprint.ended"
     handler: "handlers/on-sprint-ended.xml"
@@ -41,7 +41,7 @@ subscriptions:
     handler: "handlers/on-deploy-completed.xml"
     description: "Deployment finished - run health checks"
     action: "verify_deployment"
-    
+
   - event_type: "deploy.failed"
     handler: "handlers/on-deploy-failed.xml"
     description: "Deployment failed - initiate rollback if configured"

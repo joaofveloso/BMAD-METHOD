@@ -1,13 +1,17 @@
 # Agent Revision Request Email Template
+
 # Sent from orchestrator to AI coding agents when quality gates fail
+
 # Machine-parseable format for autonomous processing
 
 ---
+
 subject: "[BMAD] REVISION: {{story_id}} - Iteration {{iteration}}/3"
 to: "{{agent_email}}"
 from: "BMAD Orchestrator <orchestrator@bmad.local>"
 priority: "high"
 correlation_id: "{{correlation_id}}"
+
 ---
 
 ## REVISION REQUIRED
@@ -28,6 +32,7 @@ correlation_id: "{{correlation_id}}"
 ### Required Fixes
 
 {{#each failures}}
+
 #### {{@index}}. {{type}}
 
 **Severity:** {{severity}}
@@ -39,21 +44,24 @@ correlation_id: "{{correlation_id}}"
 
 {{#if suggested_fix}}
 **Suggested Fix:**
+
 ```{{language}}
 {{suggested_fix}}
 ```
+
 {{/if}}
 
 ---
+
 {{/each}}
 
 ### Quality Gate Results
 
-| Check | Status | Details |
-|-------|--------|---------|
-| Tests | {{test_status}} | {{test_details}} |
-| Coverage | {{coverage_status}} | {{coverage_percent}}% |
-| Linting | {{lint_status}} | {{lint_errors}} errors |
+| Check    | Status              | Details                    |
+| -------- | ------------------- | -------------------------- |
+| Tests    | {{test_status}}     | {{test_details}}           |
+| Coverage | {{coverage_status}} | {{coverage_percent}}%      |
+| Linting  | {{lint_status}}     | {{lint_errors}} errors     |
 | Security | {{security_status}} | {{security_issues}} issues |
 
 ---
@@ -70,9 +78,10 @@ correlation_id: "{{correlation_id}}"
 
 {{#if self_healing_hints}}
 {{#each self_healing_hints}}
+
 - {{this}}
-{{/each}}
-{{/if}}
+  {{/each}}
+  {{/if}}
 
 ---
 
@@ -96,19 +105,22 @@ Reply with ONE of:
 SUBMITTED
 PR: {{pr_url}}
 ```
+
 Fixes pushed, ready for re-review.
 
 ```
 BLOCKED <reason>
 ```
+
 Cannot fix due to blocker.
 
 ```
 QUESTION <question>
 ```
+
 Need clarification on failure.
 
 ---
 
-*Correlation ID: {{correlation_id}}*
-*Iteration {{iteration}} of 3*
+_Correlation ID: {{correlation_id}}_
+_Iteration {{iteration}} of 3_

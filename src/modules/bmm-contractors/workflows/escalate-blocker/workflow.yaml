@@ -63,5 +63,5 @@ triggers:
       auto: true
       condition: "blocked_hours > 24"
   scheduled:
-    - cron: "0 */4 * * *"  # Every 4 hours, check for unresolved blockers
+    - cron: "0 */4 * * *" # Every 4 hours, check for unresolved blockers
       action: "check_and_escalate"

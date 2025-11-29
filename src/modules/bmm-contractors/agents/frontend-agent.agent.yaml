@@ -269,20 +269,23 @@ workflow:
         subject: "[BMAD] SUBMITTED: {story_id}"
         body: "SUBMITTED\nStory: {story_id}\nPR: {pr_url}"
 
-# No internal events - all communication via SMTP
-communication:
-  receives_from:
-    orchestrator@mail.email:
-      - "[BMAD] ASSIGN:" - New story assignment
-      - "[BMAD] REVISION:" - Fix quality failures
-      - "[BMAD] COMPLETE:" - Story merged confirmation
-      - "[BMAD] STATUS CHECK:" - Health check ping
-  sends_to:
-    orchestrator@mail.email:
-      - "ACKNOWLEDGED" - Starting work
-      - "SUBMITTED" - PR ready
-      - "BLOCKED" - Cannot proceed
-      - "PROGRESS" - Status update
+# Task management via shared folders (BACKLOG → WIP → DONE)
+# See: workflow_manager.py and agent_worker.py
+task_management:
+  shared_path: "/workspace/shared"
+  agent_folder: "frontend"
+
+  receives_tasks:
+    - "ASSIGN: New story assignment"
+    - "REVISION: Fix quality failures"
+    - "COMPLETE: Story merged confirmation"
+    - "STATUS CHECK: Health check ping"
+
+  completes_with:
+    - "ACKNOWLEDGED: Starting work"
+    - "SUBMITTED: PR ready"
+    - "BLOCKED: Cannot proceed"
+    - "PROGRESS: Status update"
 
 state:
   persistence: "local_sqlite"

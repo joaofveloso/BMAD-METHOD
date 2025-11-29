@@ -1,9 +1,11 @@
 # Collect Feedback Instructions
 
 ## Objective
+
 Gather feedback from all configured sources, standardize the format, and prepare for analysis.
 
 ## Prerequisites
+
 - At least one feedback source configured
 - API credentials for external sources (if applicable)
 
@@ -152,14 +154,14 @@ Choice: </ask>
 
 **Collection Summary:**
 
-| Source | Raw | Deduplicated | New |
-|--------|-----|--------------|-----|
-| In-App | {{in_app_raw}} | {{in_app_dedup}} | {{in_app_new}} |
-| Support | {{support_raw}} | {{support_dedup}} | {{support_new}} |
-| Surveys | {{survey_raw}} | {{survey_dedup}} | {{survey_new}} |
+| Source    | Raw               | Deduplicated        | New               |
+| --------- | ----------------- | ------------------- | ----------------- |
+| In-App    | {{in_app_raw}}    | {{in_app_dedup}}    | {{in_app_new}}    |
+| Support   | {{support_raw}}   | {{support_dedup}}   | {{support_new}}   |
+| Surveys   | {{survey_raw}}    | {{survey_dedup}}    | {{survey_new}}    |
 | App Store | {{app_store_raw}} | {{app_store_dedup}} | {{app_store_new}} |
-| Manual | {{manual_count}} | {{manual_count}} | {{manual_count}} |
-| **Total** | {{total_raw}} | {{total_dedup}} | {{total_new}} |
+| Manual    | {{manual_count}}  | {{manual_count}}    | {{manual_count}}  |
+| **Total** | {{total_raw}}     | {{total_dedup}}     | {{total_new}}     |
 
 </step>
 
@@ -174,14 +176,15 @@ Choice: </ask>
 
 {{#each new_feedback_items}}
 <publish event="feedback.received">
-  <payload>
-    <feedback_id>{{id}}</feedback_id>
-    <source>{{source}}</source>
-    <content>{{content}}</content>
-    <customer_id>{{customer_id}}</customer_id>
-    <release_id>{{release_id}}</release_id>
-    <timestamp>{{timestamp}}</timestamp>
-  </payload>
+<payload>
+<feedback_id>{{id}}</feedback_id>
+
+<source>{{source}}</source>
+<content>{{content}}</content>
+<customer_id>{{customer_id}}</customer_id>
+<release_id>{{release_id}}</release_id>
+<timestamp>{{timestamp}}</timestamp>
+</payload>
 </publish>
 {{/each}}
 
@@ -196,12 +199,14 @@ Choice: </ask>
 Feedback collection complete.
 
 **Summary:**
+
 - Sources queried: {{sources_count}}
 - New feedback items: {{total_new}}
 - Duplicates removed: {{duplicates_removed}}
 - Period: {{since_date}} to {{now}}
 
 **Next Steps:**
+
 1. Run `*analyze` to categorize and score feedback
 2. Review high-priority items manually
 3. Generate report with `*report`

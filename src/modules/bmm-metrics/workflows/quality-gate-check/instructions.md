@@ -1,9 +1,11 @@
 # Quality Gate Check Instructions
 
 ## Objective
+
 Validate a story or release candidate against defined quality gates. This is a critical workflow that determines whether code can proceed to release.
 
 ## Prerequisites
+
 - Story ID or release candidate ID to validate
 - Quality gate definitions in module config
 - Access to story context and test results
@@ -15,6 +17,7 @@ Validate a story or release candidate against defined quality gates. This is a c
 ### Identify What We're Validating
 
 <ask>What would you like to validate?
+
 - Provide a **story ID** (e.g., STORY-123)
 - Or a **release candidate ID** if validating a batch
 
@@ -35,14 +38,14 @@ Story/Release ID: </ask>
 
 **Configured Quality Gates:**
 
-| Gate | Threshold | Blocking |
-|------|-----------|----------|
-| Test Coverage | {quality_gates.test_coverage.threshold}% | {quality_gates.test_coverage.blocking} |
-| Test Pass Rate | {quality_gates.test_pass_rate.threshold}% | {quality_gates.test_pass_rate.blocking} |
-| Code Review | Required: {quality_gates.code_review.required} | {quality_gates.code_review.blocking} |
-| No Critical Issues | Required: {quality_gates.no_critical_issues.required} | {quality_gates.no_critical_issues.blocking} |
-| No Security Vulns | Required: {quality_gates.no_security_vulnerabilities.required} | {quality_gates.no_security_vulnerabilities.blocking} |
-| Documentation | Required: {quality_gates.documentation_complete.required} | {quality_gates.documentation_complete.blocking} |
+| Gate               | Threshold                                                      | Blocking                                             |
+| ------------------ | -------------------------------------------------------------- | ---------------------------------------------------- |
+| Test Coverage      | {quality_gates.test_coverage.threshold}%                       | {quality_gates.test_coverage.blocking}               |
+| Test Pass Rate     | {quality_gates.test_pass_rate.threshold}%                      | {quality_gates.test_pass_rate.blocking}              |
+| Code Review        | Required: {quality_gates.code_review.required}                 | {quality_gates.code_review.blocking}                 |
+| No Critical Issues | Required: {quality_gates.no_critical_issues.required}          | {quality_gates.no_critical_issues.blocking}          |
+| No Security Vulns  | Required: {quality_gates.no_security_vulnerabilities.required} | {quality_gates.no_security_vulnerabilities.blocking} |
+| Documentation      | Required: {quality_gates.documentation_complete.required}      | {quality_gates.documentation_complete.blocking}      |
 
 <ask>Check all gates or specific ones?
 [a] All gates
@@ -61,14 +64,17 @@ Choice: </ask>
 For each gate, we need to gather the current value:
 
 #### 3.1 Test Coverage
+
 <action>Query test coverage for {{target_id}}</action>
 <ask>What is the current test coverage percentage?
 (Enter number, e.g., 85): </ask>
 <action>Store as {{test_coverage_actual}}</action>
 
 #### 3.2 Test Pass Rate
+
 <action>Query test results for {{target_id}}</action>
 <ask>Test results:
+
 - Total tests:
 - Passed:
 - Failed:
@@ -77,6 +83,7 @@ Or enter pass rate directly (e.g., 100): </ask>
 <action>Calculate or store as {{test_pass_rate_actual}}</action>
 
 #### 3.3 Code Review Status
+
 <ask>Has the code been reviewed and approved?
 [y] Yes - approved
 [n] No - not yet reviewed
@@ -86,6 +93,7 @@ Status: </ask>
 <action>Store as {{code_review_actual}}</action>
 
 #### 3.4 Critical Issues
+
 <ask>Are there any open critical or blocker issues?
 [n] No critical issues
 [y] Yes - list them
@@ -94,6 +102,7 @@ Status: </ask>
 <action>Store as {{critical_issues_actual}}</action>
 
 #### 3.5 Security Vulnerabilities
+
 <ask>Are there any high or critical security vulnerabilities?
 [n] No vulnerabilities found
 [y] Yes - describe them
@@ -102,6 +111,7 @@ Status: </ask>
 <action>Store as {{security_vulns_actual}}</action>
 
 #### 3.6 Documentation (if applicable)
+
 <check if="quality_gates.documentation_complete.required == true">
 <ask>Is required documentation complete?
 [y] Yes - documentation updated
@@ -123,14 +133,14 @@ Status: </ask>
 
 **Gate Evaluation Results:**
 
-| Gate | Threshold | Actual | Status | Blocking |
-|------|-----------|--------|--------|----------|
-| Test Coverage | ≥{quality_gates.test_coverage.threshold}% | {{test_coverage_actual}}% | {{coverage_status}} | {quality_gates.test_coverage.blocking} |
-| Test Pass Rate | ={quality_gates.test_pass_rate.threshold}% | {{test_pass_rate_actual}}% | {{tests_status}} | {quality_gates.test_pass_rate.blocking} |
-| Code Review | Approved | {{code_review_actual}} | {{review_status}} | {quality_gates.code_review.blocking} |
-| Critical Issues | None | {{critical_issues_actual}} | {{issues_status}} | {quality_gates.no_critical_issues.blocking} |
-| Security Vulns | None | {{security_vulns_actual}} | {{security_status}} | {quality_gates.no_security_vulnerabilities.blocking} |
-| Documentation | Complete | {{docs_actual}} | {{docs_status}} | {quality_gates.documentation_complete.blocking} |
+| Gate            | Threshold                                  | Actual                     | Status              | Blocking                                             |
+| --------------- | ------------------------------------------ | -------------------------- | ------------------- | ---------------------------------------------------- |
+| Test Coverage   | ≥{quality_gates.test_coverage.threshold}%  | {{test_coverage_actual}}%  | {{coverage_status}} | {quality_gates.test_coverage.blocking}               |
+| Test Pass Rate  | ={quality_gates.test_pass_rate.threshold}% | {{test_pass_rate_actual}}% | {{tests_status}}    | {quality_gates.test_pass_rate.blocking}              |
+| Code Review     | Approved                                   | {{code_review_actual}}     | {{review_status}}   | {quality_gates.code_review.blocking}                 |
+| Critical Issues | None                                       | {{critical_issues_actual}} | {{issues_status}}   | {quality_gates.no_critical_issues.blocking}          |
+| Security Vulns  | None                                       | {{security_vulns_actual}}  | {{security_status}} | {quality_gates.no_security_vulnerabilities.blocking} |
+| Documentation   | Complete                                   | {{docs_actual}}            | {{docs_status}}     | {quality_gates.documentation_complete.blocking}      |
 
 <action>Calculate overall_score as percentage of gates passed</action>
 <action>Determine if any BLOCKING gates failed</action>
@@ -147,15 +157,15 @@ Status: </ask>
   <action>Set result = PASS</action>
   <action>Set blocking = false</action>
 
-  ## ✅ QUALITY GATES PASSED
+## ✅ QUALITY GATES PASSED
 
-  All blocking quality gates have been validated successfully.
+All blocking quality gates have been validated successfully.
 
-  **Overall Score:** {{overall_score}}%
-  **Blocking Gates Failed:** 0
-  **Non-Blocking Warnings:** {{warning_count}}
+**Overall Score:** {{overall_score}}%
+**Blocking Gates Failed:** 0
+**Non-Blocking Warnings:** {{warning_count}}
 
-  This story/release is **cleared for deployment**.
+This story/release is **cleared for deployment**.
 
   <check if="warning_count > 0">
   **Warnings (non-blocking):**
@@ -167,20 +177,20 @@ Status: </ask>
   <action>Set result = FAIL</action>
   <action>Set blocking = true</action>
 
-  ## ❌ QUALITY GATES FAILED
+## ❌ QUALITY GATES FAILED
 
-  One or more blocking quality gates have failed.
+One or more blocking quality gates have failed.
 
-  **Overall Score:** {{overall_score}}%
-  **Blocking Gates Failed:** {{blocking_failures_count}}
+**Overall Score:** {{overall_score}}%
+**Blocking Gates Failed:** {{blocking_failures_count}}
 
-  This story/release is **NOT cleared for deployment**.
+This story/release is **NOT cleared for deployment**.
 
-  **Failed Gates:**
-  {{failed_gates_list}}
+**Failed Gates:**
+{{failed_gates_list}}
 
-  **Remediation Steps:**
-  {{remediation_steps}}
+**Remediation Steps:**
+{{remediation_steps}}
 </check>
 
 </step>
@@ -203,7 +213,7 @@ Status: </ask>
     </payload>
   </publish>
 
-  <action>Log: "Quality gates PASSED for {{target_id}} - event published to bmm-release"</action>
+<action>Log: "Quality gates PASSED for {{target_id}} - event published to bmm-release"</action>
 </check>
 
 <check if="result == FAIL">
@@ -218,7 +228,7 @@ Status: </ask>
     </payload>
   </publish>
 
-  <action>Log: "Quality gates FAILED for {{target_id}} - release blocked"</action>
+<action>Log: "Quality gates FAILED for {{target_id}} - release blocked"</action>
 </check>
 
 </step>

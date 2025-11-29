@@ -14,12 +14,12 @@ This workflow generates comprehensive contractor performance reports and distrib
 
 ## Report Types
 
-| Type | Frequency | Scope | Recipients |
-|------|-----------|-------|------------|
-| Individual | On-demand | Single contractor | Coordinator |
-| Team | Weekly | All contractors | Coordinator, PM |
-| Weekly | Every Monday | Previous week | All stakeholders |
-| Monthly | 1st of month | Previous month | Leadership |
+| Type       | Frequency    | Scope             | Recipients       |
+| ---------- | ------------ | ----------------- | ---------------- |
+| Individual | On-demand    | Single contractor | Coordinator      |
+| Team       | Weekly       | All contractors   | Coordinator, PM  |
+| Weekly     | Every Monday | Previous week     | All stakeholders |
+| Monthly    | 1st of month | Previous month    | Leadership       |
 
 ---
 
@@ -41,9 +41,9 @@ This workflow generates comprehensive contractor performance reports and distrib
 ```yaml
 metrics_collection:
   period:
-    start: "2025-11-01T00:00:00Z"
-    end: "2025-11-30T23:59:59Z"
-    type: "monthly"
+    start: '2025-11-01T00:00:00Z'
+    end: '2025-11-30T23:59:59Z'
+    type: 'monthly'
 
   per_contractor:
     backend-001:
@@ -134,25 +134,25 @@ performance_scores:
       points_delivered: 34
       target: 36
       achievement_rate: 0.94
-      trend: "+5% vs last month"
+      trend: '+5% vs last month'
 
     quality:
       first_try_rate: 0.57
       revision_rate: 0.43
       avg_revisions: 1.5
-      trend: "-10% vs last month"
+      trend: '-10% vs last month'
 
     reliability:
       on_time_rate: 0.86
       sla_compliance: 1.0
-      acknowledgment_speed: "4h avg"
-      trend: "stable"
+      acknowledgment_speed: '4h avg'
+      trend: 'stable'
 
     communication:
-      response_time: "8h avg"
-      question_rate: "0.75 per story"
-      progress_updates: "2.1 per story"
-      trend: "+15% responsiveness"
+      response_time: '8h avg'
+      question_rate: '0.75 per story'
+      progress_updates: '2.1 per story'
+      trend: '+15% responsiveness'
 ```
 
 **Trend Analysis:**
@@ -163,22 +163,22 @@ trends:
     velocity_trend:
       current: 34
       previous: 32
-      change: "+6.25%"
-      direction: "improving"
+      change: '+6.25%'
+      direction: 'improving'
 
     quality_trend:
       current: 0.57
       previous: 0.63
-      change: "-9.5%"
-      direction: "declining"
+      change: '-9.5%'
+      direction: 'declining'
       alert: true
-      alert_reason: "First-try approval rate declining"
+      alert_reason: 'First-try approval rate declining'
 
     cycle_time_trend:
       current: 72
       previous: 78
-      change: "-7.7%"
-      direction: "improving"
+      change: '-7.7%'
+      direction: 'improving'
 ```
 
 **Comparisons:**
@@ -186,25 +186,25 @@ trends:
 ```yaml
 rankings:
   by_velocity:
-    1: {id: "qa-001", points: 42}
-    2: {id: "backend-001", points: 34}
-    3: {id: "frontend-001", points: 28}
-    4: {id: "mobile-001", points: 22}
-    5: {id: "researcher-001", points: 18}
+    1: { id: 'qa-001', points: 42 }
+    2: { id: 'backend-001', points: 34 }
+    3: { id: 'frontend-001', points: 28 }
+    4: { id: 'mobile-001', points: 22 }
+    5: { id: 'researcher-001', points: 18 }
 
   by_quality:
-    1: {id: "qa-001", first_try_rate: 0.83}
-    2: {id: "frontend-001", first_try_rate: 0.71}
-    3: {id: "mobile-001", first_try_rate: 0.67}
-    4: {id: "backend-001", first_try_rate: 0.57}
-    5: {id: "researcher-001", first_try_rate: 0.50}
+    1: { id: 'qa-001', first_try_rate: 0.83 }
+    2: { id: 'frontend-001', first_try_rate: 0.71 }
+    3: { id: 'mobile-001', first_try_rate: 0.67 }
+    4: { id: 'backend-001', first_try_rate: 0.57 }
+    5: { id: 'researcher-001', first_try_rate: 0.50 }
 
   by_reliability:
-    1: {id: "backend-001", on_time_rate: 0.86}
-    2: {id: "qa-001", on_time_rate: 0.83}
-    3: {id: "frontend-001", on_time_rate: 0.80}
-    4: {id: "mobile-001", on_time_rate: 0.75}
-    5: {id: "researcher-001", on_time_rate: 0.70}
+    1: { id: 'backend-001', on_time_rate: 0.86 }
+    2: { id: 'qa-001', on_time_rate: 0.83 }
+    3: { id: 'frontend-001', on_time_rate: 0.80 }
+    4: { id: 'mobile-001', on_time_rate: 0.75 }
+    5: { id: 'researcher-001', on_time_rate: 0.70 }
 ```
 
 **Output:** Performance scores and trends calculated
@@ -219,6 +219,7 @@ rankings:
 
 ```markdown
 # Contractor Performance Report
+
 **Period:** November 2025
 **Generated:** December 1, 2025 09:00 UTC
 **Report Type:** Monthly Team Summary
@@ -227,28 +228,29 @@ rankings:
 
 ## Executive Summary
 
-| Metric | Value | vs Last Month | Target |
-|--------|-------|---------------|--------|
-| Stories Completed | 24 | +15% | 22 |
-| Story Points | 112 | +10% | 100 |
-| First-Try Approval | 58% | -5% | 70% |
-| On-Time Delivery | 82% | +3% | 85% |
-| SLA Compliance | 92% | stable | 95% |
-| Active Blockers | 2 | -3 | 0 |
+| Metric             | Value | vs Last Month | Target |
+| ------------------ | ----- | ------------- | ------ |
+| Stories Completed  | 24    | +15%          | 22     |
+| Story Points       | 112   | +10%          | 100    |
+| First-Try Approval | 58%   | -5%           | 70%    |
+| On-Time Delivery   | 82%   | +3%           | 85%    |
+| SLA Compliance     | 92%   | stable        | 95%    |
+| Active Blockers    | 2     | -3            | 0      |
 
 **Overall Team Health:** 🟢 Good (78/100)
 
 ---
 
 ## Team Overview
-
 ```
+
 Contractors: 5 active
-├── ☕ Backend Developer (backend-001)  - 82/100
+├── ☕ Backend Developer (backend-001) - 82/100
 ├── ⚛️ Frontend Developer (frontend-001) - 79/100
-├── 📱 Mobile Developer (mobile-001)    - 74/100
-├── 🧪 QA Engineer (qa-001)             - 88/100
-└── 📚 Researcher (researcher-001)      - 71/100
+├── 📱 Mobile Developer (mobile-001) - 74/100
+├── 🧪 QA Engineer (qa-001) - 88/100
+└── 📚 Researcher (researcher-001) - 71/100
+
 ```
 
 ---
@@ -435,6 +437,7 @@ clearer requirements or reduced scope on research tasks.
 ## Velocity Trends
 
 ```
+
 Story Points by Week (November 2025)
 
 Week 1: ████████████████████ 28 pts
@@ -443,6 +446,7 @@ Week 3: ████████████████████████
 Week 4: ██████████████████ 22 pts (holiday week)
 
 Monthly Total: 112 pts (Target: 100 pts) ✅
+
 ```
 
 ---
@@ -509,52 +513,52 @@ Monthly Total: 112 pts (Target: 100 pts) ✅
 ```yaml
 insights:
   alerts:
-    - type: "quality_decline"
-      contractor: "backend-001"
-      metric: "first_try_rate"
+    - type: 'quality_decline'
+      contractor: 'backend-001'
+      metric: 'first_try_rate'
       current: 0.57
       previous: 0.63
       threshold: 0.70
-      severity: "warning"
-      recommendation: "Review common revision reasons, add checklist"
+      severity: 'warning'
+      recommendation: 'Review common revision reasons, add checklist'
 
-    - type: "performance_decline"
-      contractor: "researcher-001"
-      metric: "overall_score"
+    - type: 'performance_decline'
+      contractor: 'researcher-001'
+      metric: 'overall_score'
       current: 71
       previous: 78
-      severity: "attention"
-      recommendation: "Send detailed email to discuss challenges"
+      severity: 'attention'
+      recommendation: 'Send detailed email to discuss challenges'
 
   achievements:
-    - type: "top_performer"
-      contractor: "qa-001"
-      metric: "overall_score"
+    - type: 'top_performer'
+      contractor: 'qa-001'
+      metric: 'overall_score'
       value: 88
-      message: "Highest performer this month"
+      message: 'Highest performer this month'
 
-    - type: "improvement"
-      contractor: "frontend-001"
-      metric: "first_try_rate"
-      improvement: "+8%"
-      message: "Significant quality improvement"
+    - type: 'improvement'
+      contractor: 'frontend-001'
+      metric: 'first_try_rate'
+      improvement: '+8%'
+      message: 'Significant quality improvement'
 
   patterns:
-    - type: "recurring_blocker"
-      issue: "staging_database_access"
+    - type: 'recurring_blocker'
+      issue: 'staging_database_access'
       frequency: 2
-      recommendation: "Systemic fix needed"
+      recommendation: 'Systemic fix needed'
 
-    - type: "revision_pattern"
-      issue: "missing_edge_cases"
+    - type: 'revision_pattern'
+      issue: 'missing_edge_cases'
       frequency: 8
-      recommendation: "Add edge case checklist to stories"
+      recommendation: 'Add edge case checklist to stories'
 
   risks:
-    - type: "capacity_risk"
-      description: "Holiday season may reduce availability"
-      likelihood: "high"
-      mitigation: "Confirm December availability"
+    - type: 'capacity_risk'
+      description: 'Holiday season may reduce availability'
+      likelihood: 'high'
+      mitigation: 'Confirm December availability'
 ```
 
 **Output:** Insights and recommendations
@@ -572,24 +576,24 @@ distribution:
   # Stakeholder summary email
   stakeholders:
     to:
-      - "pm@yourcompany.com"
-      - "lead@yourcompany.com"
-    subject: "[PROJECT] November 2025 Contractor Performance Report"
-    body: "{executive_summary + key_metrics + recommendations}"
+      - 'pm@yourcompany.com'
+      - 'lead@yourcompany.com'
+    subject: '[PROJECT] November 2025 Contractor Performance Report'
+    body: '{executive_summary + key_metrics + recommendations}'
     attachments:
-      - name: "contractor-report-2025-11.md"
-        content: "{full_report}"
+      - name: 'contractor-report-2025-11.md'
+        content: '{full_report}'
 
   # Individual contractor summaries (optional)
   contractors:
-    send_individual: false  # Configurable
-    template: "individual-performance-summary"
+    send_individual: false # Configurable
+    template: 'individual-performance-summary'
 
   # Coordinator detailed report
   coordinator:
-    to: "coordinator@yourcompany.com"
-    subject: "[PROJECT] Detailed Contractor Report - November 2025"
-    body: "{full_report}"
+    to: 'coordinator@yourcompany.com'
+    subject: '[PROJECT] Detailed Contractor Report - November 2025'
+    body: '{full_report}'
     include_raw_metrics: true
 ```
 
@@ -629,6 +633,7 @@ Here's the monthly contractor performance summary for November 2025.
 Full report attached.
 
 ---
+
 Report ID: report-monthly-2025-11
 ```
 
@@ -644,14 +649,14 @@ Report ID: report-monthly-2025-11
 
 ```yaml
 archive:
-  path: ".bmad/bmm-contractors/reports/2025-11-monthly.md"
-  content: "{full_report}"
+  path: '.bmad/bmm-contractors/reports/2025-11-monthly.md'
+  content: '{full_report}'
   metadata:
-    report_type: "monthly"
-    period_start: "2025-11-01"
-    period_end: "2025-11-30"
-    generated_at: "2025-12-01T09:00:00Z"
-    metrics_snapshot: "{raw_metrics}"
+    report_type: 'monthly'
+    period_start: '2025-11-01'
+    period_end: '2025-11-30'
+    generated_at: '2025-12-01T09:00:00Z'
+    metrics_snapshot: '{raw_metrics}'
 ```
 
 **Update Module State:**
@@ -660,20 +665,20 @@ archive:
 state_update:
   reports:
     latest:
-      type: "monthly"
-      period: "2025-11"
-      generated_at: "2025-12-01T09:00:00Z"
-      file: "reports/2025-11-monthly.md"
+      type: 'monthly'
+      period: '2025-11'
+      generated_at: '2025-12-01T09:00:00Z'
+      file: 'reports/2025-11-monthly.md'
       team_score: 78
       stories_completed: 24
 
     history:
-      - {period: "2025-11", type: "monthly", score: 78}
-      - {period: "2025-10", type: "monthly", score: 75}
-      - {period: "2025-09", type: "monthly", score: 72}
+      - { period: '2025-11', type: 'monthly', score: 78 }
+      - { period: '2025-10', type: 'monthly', score: 75 }
+      - { period: '2025-09', type: 'monthly', score: 72 }
 
   metrics_history:
-    "2025-11":
+    '2025-11':
       team_velocity: 112
       first_try_rate: 0.58
       avg_cycle_time: 68
@@ -687,16 +692,17 @@ state_update:
 ## Events Published
 
 **contractor.report.generated:**
+
 ```yaml
-report_type: "monthly"
-period: "2025-11"
+report_type: 'monthly'
+period: '2025-11'
 team_score: 78
 stories_completed: 24
 story_points: 112
 insights_count: 8
 alerts_count: 2
-generated_at: "2025-12-01T09:00:00Z"
-correlation_id: "report-monthly-2025-11"
+generated_at: '2025-12-01T09:00:00Z'
+correlation_id: 'report-monthly-2025-11'
 ```
 
 ---
@@ -706,19 +712,19 @@ correlation_id: "report-monthly-2025-11"
 ```yaml
 schedule:
   weekly:
-    cron: "0 9 * * 1"  # Monday 9 AM
-    recipients: ["coordinator", "pm"]
-    include: ["velocity", "blockers", "upcoming_deadlines"]
+    cron: '0 9 * * 1' # Monday 9 AM
+    recipients: ['coordinator', 'pm']
+    include: ['velocity', 'blockers', 'upcoming_deadlines']
 
   monthly:
-    cron: "0 9 1 * *"  # 1st of month 9 AM
-    recipients: ["coordinator", "pm", "lead"]
-    include: ["full_analysis", "trends", "recommendations"]
+    cron: '0 9 1 * *' # 1st of month 9 AM
+    recipients: ['coordinator', 'pm', 'lead']
+    include: ['full_analysis', 'trends', 'recommendations']
 
   quarterly:
-    cron: "0 9 1 */3 *"  # 1st of quarter 9 AM
-    recipients: ["coordinator", "pm", "lead", "management"]
-    include: ["strategic_review", "capacity_planning", "contracts"]
+    cron: '0 9 1 */3 *' # 1st of quarter 9 AM
+    recipients: ['coordinator', 'pm', 'lead', 'management']
+    include: ['strategic_review', 'capacity_planning', 'contracts']
 ```
 
 ---
@@ -731,22 +737,22 @@ schedule:
 custom_report:
   # Single contractor deep-dive
   individual:
-    contractor_id: "backend-001"
-    period: "last_90_days"
+    contractor_id: 'backend-001'
+    period: 'last_90_days'
     include_all_stories: true
     include_revision_details: true
 
   # Specific metric focus
   focused:
-    metric: "quality"
-    breakdown_by: "revision_reason"
-    period: "last_30_days"
+    metric: 'quality'
+    breakdown_by: 'revision_reason'
+    period: 'last_30_days'
 
   # Comparison report
   comparison:
-    contractors: ["backend-001", "frontend-001"]
-    metrics: ["velocity", "quality", "reliability"]
-    period: "last_60_days"
+    contractors: ['backend-001', 'frontend-001']
+    metrics: ['velocity', 'quality', 'reliability']
+    period: 'last_60_days'
 ```
 
 ---
@@ -771,12 +777,12 @@ reporting:
 
   # Alerts
   alert_on:
-    - metric: "score"
-      condition: "decline > 10%"
-    - metric: "first_try_rate"
-      condition: "< 0.60"
-    - metric: "sla_breaches"
-      condition: "> 0"
+    - metric: 'score'
+      condition: 'decline > 10%'
+    - metric: 'first_try_rate'
+      condition: '< 0.60'
+    - metric: 'sla_breaches'
+      condition: '> 0'
 
   # Distribution
   auto_distribute: true

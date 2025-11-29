@@ -1,13 +1,17 @@
 # Agent Assist Request Email Template
+
 # Sent from orchestrator to helper agent when another agent is blocked
+
 # Machine-parseable format for autonomous processing
 
 ---
+
 subject: "[BMAD] ASSIST: {{blocked_agent}} needs help with {{story_id}}"
 to: "{{helper_agent_email}}"
 from: "BMAD Orchestrator <orchestrator@bmad.local>"
 priority: "high"
 correlation_id: "{{correlation_id}}"
+
 ---
 
 ## ASSISTANCE REQUEST
@@ -33,8 +37,9 @@ correlation_id: "{{correlation_id}}"
 {{blocked_action}}
 
 **Where they got stuck:**
+
 - File: `{{blocked_file}}`
-{{#if blocked_line}}- Line: {{blocked_line}}{{/if}}
+  {{#if blocked_line}}- Line: {{blocked_line}}{{/if}}
 
 ---
 
@@ -49,15 +54,18 @@ correlation_id: "{{correlation_id}}"
 {{#if related_files}}
 **Related Files:**
 {{#each related_files}}
+
 - `{{this}}`
-{{/each}}
-{{/if}}
+  {{/each}}
+  {{/if}}
 
 {{#if error_message}}
 **Error Message:**
+
 ```
 {{error_message}}
 ```
+
 {{/if}}
 
 ---
@@ -68,6 +76,7 @@ correlation_id: "{{correlation_id}}"
 {{assistance_scope}}
 
 **What NOT to do:**
+
 - Do not take over the entire story
 - Do not modify files outside the assistance scope
 - Do not merge any changes
@@ -77,6 +86,7 @@ correlation_id: "{{correlation_id}}"
 ### Handoff Instructions
 
 After providing assistance:
+
 1. Push any helper code/config to branch `{{assist_branch}}`
 2. Reply with assistance details
 
@@ -107,5 +117,5 @@ Need clarification: <question>
 
 ---
 
-*Correlation ID: {{correlation_id}}*
-*Original story correlation: {{original_correlation_id}}*
+_Correlation ID: {{correlation_id}}_
+_Original story correlation: {{original_correlation_id}}_

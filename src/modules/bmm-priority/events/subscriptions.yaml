@@ -8,17 +8,17 @@ subscriptions:
     handler: "handlers/on-priority-suggested.xml"
     description: "Evaluate feedback-based priority suggestion"
     action: "evaluate_suggestion"
-    
+
   - event_type: "feedback.insight.generated"
     handler: "handlers/on-insight-generated.xml"
     description: "Consider insight for backlog"
     action: "evaluate_for_backlog"
-    
+
   - event_type: "metrics.velocity.calculated"
     handler: "handlers/on-velocity-calculated.xml"
     description: "Update capacity for prioritization"
     action: "update_capacity"
-    
+
   - event_type: "story.done"
     handler: "handlers/on-story-done.xml"
     description: "Remove completed story from queue"

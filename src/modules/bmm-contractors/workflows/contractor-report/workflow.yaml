@@ -61,7 +61,7 @@ events:
 triggers:
   manual: true
   scheduled:
-    - cron: "0 9 * * 1"  # Weekly: Monday 9 AM
+    - cron: "0 9 * * 1" # Weekly: Monday 9 AM
       report_type: "weekly"
-    - cron: "0 9 1 * *"  # Monthly: 1st of month 9 AM
+    - cron: "0 9 1 * *" # Monthly: 1st of month 9 AM
       report_type: "monthly"

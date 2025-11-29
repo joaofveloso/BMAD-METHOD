@@ -1,9 +1,11 @@
 # Metrics Review Instructions
 
 ## Objective
+
 Perform in-depth analysis of metric trends, identify patterns and anomalies, correlate metrics with events, and generate actionable insights for continuous improvement.
 
 ## Prerequisites
+
 - Historical metric data (at least 3 periods recommended)
 - Module state with recorded metric history
 - Context about recent changes (releases, team changes, process changes)
@@ -36,6 +38,7 @@ Focus: </ask>
 <action>Store as {{focus_area}}</action>
 
 <ask>What period should we analyze?
+
 - From: (date or "last_sprint")
 - To: (date or "current")
 
@@ -56,6 +59,7 @@ Period: </ask>
 <action>Identify comparison baseline period</action>
 
 **Data Loaded:**
+
 - Historical periods available: {{periods_count}}
 - Earliest data: {{earliest_date}}
 - Latest data: {{latest_date}}
@@ -90,18 +94,18 @@ Trend: {{velocity_trend}} ({{velocity_change}}%)
 
 **Quality Trends:**
 
-| Metric | 3 Periods Ago | 2 Periods Ago | Last Period | Current | Trend |
-|--------|---------------|---------------|-------------|---------|-------|
-| Test Coverage | {{cov_3}}% | {{cov_2}}% | {{cov_1}}% | {{cov_0}}% | {{cov_trend}} |
-| Pass Rate | {{pass_3}}% | {{pass_2}}% | {{pass_1}}% | {{pass_0}}% | {{pass_trend}} |
-| Defect Rate | {{def_3}} | {{def_2}} | {{def_1}} | {{def_0}} | {{def_trend}} |
+| Metric        | 3 Periods Ago | 2 Periods Ago | Last Period | Current     | Trend          |
+| ------------- | ------------- | ------------- | ----------- | ----------- | -------------- |
+| Test Coverage | {{cov_3}}%    | {{cov_2}}%    | {{cov_1}}%  | {{cov_0}}%  | {{cov_trend}}  |
+| Pass Rate     | {{pass_3}}%   | {{pass_2}}%   | {{pass_1}}% | {{pass_0}}% | {{pass_trend}} |
+| Defect Rate   | {{def_3}}     | {{def_2}}     | {{def_1}}   | {{def_0}}   | {{def_trend}}  |
 
 **Delivery Trends:**
 
-| Metric | Trend | Change | Assessment |
-|--------|-------|--------|------------|
-| Cycle Time | {{cycle_trend}} | {{cycle_change}} | {{cycle_assessment}} |
-| PR Review Time | {{pr_trend}} | {{pr_change}} | {{pr_assessment}} |
+| Metric           | Trend            | Change            | Assessment            |
+| ---------------- | ---------------- | ----------------- | --------------------- |
+| Cycle Time       | {{cycle_trend}}  | {{cycle_change}}  | {{cycle_assessment}}  |
+| PR Review Time   | {{pr_trend}}     | {{pr_change}}     | {{pr_assessment}}     |
 | Deploy Frequency | {{deploy_trend}} | {{deploy_change}} | {{deploy_assessment}} |
 
 </step>
@@ -119,7 +123,9 @@ Trend: {{velocity_trend}} ({{velocity_change}}%)
 **Anomalies Detected:**
 
 {{#each anomalies}}
+
 #### {{metric_name}}
+
 - **Current Value:** {{current}}
 - **Expected Range:** {{expected_min}} - {{expected_max}}
 - **Deviation:** {{deviation_percent}}%
@@ -154,18 +160,19 @@ Trend: {{velocity_trend}} ({{velocity_change}}%)
 
 **Key Correlations Found:**
 
-| Metric A | Metric B | Correlation | Insight |
-|----------|----------|-------------|---------|
-| Team Size | Velocity | {{team_vel_corr}} | {{team_vel_insight}} |
-| PR Review Time | Cycle Time | {{pr_cycle_corr}} | {{pr_cycle_insight}} |
-| Test Coverage | Defect Escape | {{cov_def_corr}} | {{cov_def_insight}} |
+| Metric A                 | Metric B        | Correlation        | Insight               |
+| ------------------------ | --------------- | ------------------ | --------------------- |
+| Team Size                | Velocity        | {{team_vel_corr}}  | {{team_vel_insight}}  |
+| PR Review Time           | Cycle Time      | {{pr_cycle_corr}}  | {{pr_cycle_insight}}  |
+| Test Coverage            | Defect Escape   | {{cov_def_corr}}   | {{cov_def_insight}}   |
 | Sprint Planning Accuracy | Completion Rate | {{plan_comp_corr}} | {{plan_comp_insight}} |
 
 **Leading Indicators:**
 These metrics predict future performance:
 {{#each leading_indicators}}
+
 - {{indicator}}: {{prediction}}
-{{/each}}
+  {{/each}}
 
 </step>
 
@@ -180,22 +187,24 @@ These metrics predict future performance:
 
 **Comparison: {{current_period}} vs {{baseline_period}}**
 
-| Category | Baseline | Current | Change | Status |
-|----------|----------|---------|--------|--------|
-| Velocity | {{vel_base}} | {{vel_curr}} | {{vel_change}} | {{vel_status}} |
-| Quality | {{qual_base}} | {{qual_curr}} | {{qual_change}} | {{qual_status}} |
-| Delivery | {{del_base}} | {{del_curr}} | {{del_change}} | {{del_status}} |
-| SLA Compliance | {{sla_base}}% | {{sla_curr}}% | {{sla_change}} | {{sla_status}} |
+| Category       | Baseline      | Current       | Change          | Status          |
+| -------------- | ------------- | ------------- | --------------- | --------------- |
+| Velocity       | {{vel_base}}  | {{vel_curr}}  | {{vel_change}}  | {{vel_status}}  |
+| Quality        | {{qual_base}} | {{qual_curr}} | {{qual_change}} | {{qual_status}} |
+| Delivery       | {{del_base}}  | {{del_curr}}  | {{del_change}}  | {{del_status}}  |
+| SLA Compliance | {{sla_base}}% | {{sla_curr}}% | {{sla_change}}  | {{sla_status}}  |
 
 **Improvements:**
 {{#each improvements}}
+
 - {{metric}}: Improved by {{improvement}} ({{cause}})
-{{/each}}
+  {{/each}}
 
 **Regressions:**
 {{#each regressions}}
+
 - {{metric}}: Declined by {{decline}} ({{cause}})
-{{/each}}
+  {{/each}}
 
 </step>
 
@@ -208,6 +217,7 @@ These metrics predict future performance:
 <ask>For the identified regressions/anomalies, can you provide context?
 
 Recent events to consider:
+
 - Team changes (joiners/leavers)
 - Process changes
 - Technical changes (new tools, migrations)
@@ -220,18 +230,22 @@ Context: </ask>
 **Root Cause Analysis:**
 
 {{#each issues_to_analyze}}
+
 #### {{metric_name}} {{direction}}
 
 **Symptoms:**
+
 - {{symptom_1}}
 - {{symptom_2}}
 
 **Potential Root Causes:**
+
 1. {{cause_1}} (likelihood: {{likelihood_1}})
 2. {{cause_2}} (likelihood: {{likelihood_2}})
 3. {{cause_3}} (likelihood: {{likelihood_3}})
 
 **Recommended Investigation:**
+
 - {{investigation_step_1}}
 - {{investigation_step_2}}
 
@@ -251,7 +265,9 @@ Context: </ask>
 **High Priority Recommendations:**
 
 {{#each high_priority_recs}}
+
 #### {{number}}. {{title}}
+
 - **Issue:** {{issue}}
 - **Impact:** {{impact}}
 - **Recommendation:** {{recommendation}}
@@ -262,13 +278,15 @@ Context: </ask>
 
 **Medium Priority Recommendations:**
 {{#each medium_priority_recs}}
+
 - {{recommendation}}
-{{/each}}
+  {{/each}}
 
 **Monitoring Suggestions:**
 {{#each monitoring_suggestions}}
+
 - {{suggestion}}
-{{/each}}
+  {{/each}}
 
 </step>
 
@@ -325,16 +343,19 @@ Metrics review complete for **{{analysis_period}}**.
 
 **Key Findings:**
 {{#each key_findings}}
+
 - {{finding}}
-{{/each}}
+  {{/each}}
 
 **Health Assessment:**
+
 - Overall trend: {{overall_trend}}
 - Areas improving: {{improving_count}}
 - Areas declining: {{declining_count}}
 - Anomalies detected: {{anomalies_count}}
 
 **Next Steps:**
+
 1. Share report with stakeholders
 2. Discuss recommendations in retrospective
 3. Assign owners to action items

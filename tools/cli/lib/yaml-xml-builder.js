@@ -98,7 +98,7 @@ class YamlXmlBuilder {
               nonEmptyMetadata[key] = value;
             }
           }
-          merged.metadata = { ...(merged.metadata || {}), ...nonEmptyMetadata };
+          merged.metadata = { ...merged.metadata, ...nonEmptyMetadata };
         }
 
         // Append menu items (support both 'menu' and legacy 'commands')
@@ -120,14 +120,14 @@ class YamlXmlBuilder {
           merged.critical_actions = [...(merged.critical_actions || []), ...customizeYaml.critical_actions];
         }
 
-        // Append prompts
+        // Merge prompts (object with named prompts, not array)
         if (customizeYaml.prompts) {
-          merged.prompts = [...(merged.prompts || []), ...customizeYaml.prompts];
+          merged.prompts = { ...merged.prompts, ...customizeYaml.prompts };
         }
 
-        // Append memories
+        // Merge memories (object with named memories, not array)
         if (customizeYaml.memories) {
-          merged.memories = [...(merged.memories || []), ...customizeYaml.memories];
+          merged.memories = { ...merged.memories, ...customizeYaml.memories };
         }
       }
     }
