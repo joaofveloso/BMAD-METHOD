@@ -228,26 +228,26 @@ def main():
         epilog="""
 Examples:
   # Get email statistics
-  python email_manager.py founder@localdomain Founder123! --command stats
+  python email_manager.py founder@mail.email founder123 --command stats
 
   # Generate email digest
-  python email_manager.py founder@localdomain Founder123! --command digest
+  python email_manager.py founder@mail.email founder123 --command digest
 
   # Create project folder
-  python email_manager.py founder@localdomain Founder123! --command create-folder --folder "WebsiteRedesign"
+  python email_manager.py founder@mail.email founder123 --command create-folder --folder "WebsiteRedesign"
 
   # Organize project emails
-  python email_manager.py founder@localdomain Founder123! --command organize --project "WebsiteRedesign" --keywords "website" "redesign" "UI"
+  python email_manager.py founder@mail.email founder123 --command organize --project "WebsiteRedesign" --keywords "website" "redesign" "UI"
 
   # Mark emails from sender as important
-  python email_manager.py founder@localdomain Founder123! --command mark-important --sender "client@example.com"
+  python email_manager.py founder@mail.email founder123 --command mark-important --sender "client@example.com"
 
   # Send team update
-  python email_manager.py founder@localdomain Founder123! --command team-update --team-emails backend@localdomain frontend@localdomain --subject "Daily Update" --message "Team update here"
+  python email_manager.py founder@mail.email founder123 --command team-update --team-emails backend@mail.email frontend@mail.email --subject "Daily Update" --message "Team update here"
         """
     )
 
-    parser.add_argument('user_email', help='Your email address (e.g., founder@localdomain)')
+    parser.add_argument('user_email', help='Your email address (e.g., founder@mail.email)')
     parser.add_argument('password', help='Your email password')
 
     parser.add_argument('--command', choices=[

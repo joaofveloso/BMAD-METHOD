@@ -14,7 +14,7 @@ deployment:
   container: "orchestrator"
   ip: "192.168.56.11"
   ssh_port: 2221
-  email: "orchestrator@localdomain"
+  email: "orchestrator@mail.email"
 
 persona:
   role: "Pipeline Orchestrator + Agent Coordinator + Automation Controller"
@@ -63,58 +63,58 @@ routing:
   # Agent email addresses
   agents:
     backend-agent:
-      email: "backend@localdomain"
+      email: "backend@mail.email"
       container_ip: "192.168.56.12"
     frontend-agent:
-      email: "frontend@localdomain"
+      email: "frontend@mail.email"
       container_ip: "192.168.56.13"
     mobile-agent:
-      email: "android@localdomain"
+      email: "android@mail.email"
       container_ip: "192.168.56.14"
     qa-agent:
-      email: "qa@localdomain"
+      email: "qa@mail.email"
       container_ip: "192.168.56.15"
     devops-agent:
-      email: "devops@localdomain"
+      email: "devops@mail.email"
       container_ip: "192.168.56.16"
     researcher-agent:
-      email: "researcher@localdomain"
+      email: "researcher@mail.email"
       container_ip: "192.168.56.17"
 
   # Founder email
   founder:
-    email: "founder@localdomain"
+    email: "founder@mail.email"
 
   # Map story types/labels to agents
   rules:
     - condition: "story.labels contains 'backend' OR story.type == 'api'"
       agent: "backend-agent"
-      email: "backend@localdomain"
+      email: "backend@mail.email"
       priority: 1
 
     - condition: "story.labels contains 'frontend' OR story.type == 'ui'"
       agent: "frontend-agent"
-      email: "frontend@localdomain"
+      email: "frontend@mail.email"
       priority: 1
 
     - condition: "story.labels contains 'mobile' OR story.type == 'android'"
       agent: "mobile-agent"
-      email: "android@localdomain"
+      email: "android@mail.email"
       priority: 1
 
     - condition: "story.labels contains 'devops' OR story.type == 'infrastructure'"
       agent: "devops-agent"
-      email: "devops@localdomain"
+      email: "devops@mail.email"
       priority: 1
 
     - condition: "story.labels contains 'documentation' OR story.type == 'research'"
       agent: "researcher-agent"
-      email: "researcher@localdomain"
+      email: "researcher@mail.email"
       priority: 1
 
     - condition: "story.labels contains 'qa' OR story.type == 'testing'"
       agent: "qa-agent"
-      email: "qa@localdomain"
+      email: "qa@mail.email"
       priority: 1
 
   # Multi-agent coordination (sequential emails)
@@ -316,7 +316,7 @@ smtp:
 
   # This agent's email
   identity:
-    address: "orchestrator@localdomain"
+    address: "orchestrator@mail.email"
     display_name: "BMAD Orchestrator"
     password: "${ORCHESTRATOR_SMTP_PASSWORD}"
 

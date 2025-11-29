@@ -18,7 +18,7 @@ import subprocess
 def connect_email_server(user_email, password):
     """Connect to the mail server using IMAP SSL"""
     context = ssl.create_default_context()
-    imap = imaplib.IMAP4_SSL("mail.localdomain", 993, ssl_context=context)
+    imap = imaplib.IMAP4_SSL("mail.email", 993, ssl_context=context)
     try:
         imap.login(user_email, password)
         return imap
@@ -148,9 +148,10 @@ def send_email(sender_email, sender_password, recipient_email, subject, body,
             )
             msg.attach(part)
 
-        # Send email
+        # Send email using STARTTLS
         context = ssl.create_default_context()
-        with smtplib.SMTP_SSL("mail.localdomain", 465, context=context) as server:
+        with smtplib.SMTP("mail.email", 587) as server:
+            server.starttls(context=context)
             server.login(sender_email, sender_password)
             text = msg.as_string()
             server.sendmail(sender_email, [recipient_email] + (cc_emails or []) + (bcc_emails or []), text)
@@ -172,7 +173,8 @@ def send_html_email(sender_email, sender_password, recipient_email, subject, htm
         msg.attach(html_part)
 
         context = ssl.create_default_context()
-        with smtplib.SMTP_SSL("mail.localdomain", 465, context=context) as server:
+        with smtplib.SMTP("mail.email", 587) as server:
+            server.starttls(context=context)
             server.login(sender_email, sender_password)
             server.sendmail(sender_email, [recipient_email], msg.as_string())
 

@@ -14,7 +14,7 @@ deployment:
   container: "devops"
   ip: "192.168.56.16"
   ssh_port: 2226
-  email: "devops@localdomain"
+  email: "devops@mail.email"
 
 persona:
   role: "Autonomous DevOps Engineer + Infrastructure Architect + Release Automator"
@@ -76,7 +76,7 @@ smtp:
     port: 143
     tls: false
   identity:
-    address: "devops@localdomain"
+    address: "devops@mail.email"
     display_name: "DevOps AI Agent"
     password: "${DEVOPS_SMTP_PASSWORD}"
   polling:
@@ -84,7 +84,7 @@ smtp:
     protocol: "IMAP"
     folder: "INBOX"
   contacts:
-    orchestrator: "orchestrator@localdomain"
+    orchestrator: "orchestrator@mail.email"
   parsing:
     command_patterns:
       - pattern: "\\[BMAD\\] DEPLOY:"
@@ -106,7 +106,7 @@ smtp_handlers:
       4. Run health checks
       5. Send DEPLOYED or DEPLOY FAILED reply
     reply:
-      to: "orchestrator@localdomain"
+      to: "orchestrator@mail.email"
       body: |
         DEPLOYED  # or DEPLOY FAILED
         Version: {version}
@@ -121,19 +121,19 @@ smtp_handlers:
       2. Verify health
       3. Send ROLLED BACK reply
     reply:
-      to: "orchestrator@localdomain"
+      to: "orchestrator@mail.email"
       body: "ROLLED BACK\nVersion: {previous_version}\nEnvironment: {environment}"
 
   on_assignment:
     trigger: "Receives email with subject '[BMAD] ASSIGN:'"
     reply:
-      to: "orchestrator@localdomain"
+      to: "orchestrator@mail.email"
       body: "ACKNOWLEDGED\nStory: {story_id}\nStarting implementation."
 
   on_blocked:
     trigger: "Agent encounters blocker"
     send_email:
-      to: "orchestrator@localdomain"
+      to: "orchestrator@mail.email"
       subject: "[BMAD] BLOCKED: {story_id}"
       body: "BLOCKED\nStory: {story_id}\nReason: {blocker_reason}"
 
@@ -261,7 +261,7 @@ workflow:
     - id: "submit"
       action: "Create PR and send SUBMITTED email to orchestrator"
       send_email:
-        to: "orchestrator@localdomain"
+        to: "orchestrator@mail.email"
         subject: "[BMAD] SUBMITTED: {story_id}"
         body: "SUBMITTED\nStory: {story_id}\nPR: {pr_url}"
 
@@ -298,13 +298,13 @@ deployment:
 
 communication:
   receives_from:
-    orchestrator@localdomain:
+    orchestrator@mail.email:
       - "[BMAD] DEPLOY:" - Deployment request
       - "[BMAD] ROLLBACK:" - Rollback request
       - "[BMAD] ASSIGN:" - Infrastructure story assignment
       - "[BMAD] STATUS CHECK:" - Health check ping
   sends_to:
-    orchestrator@localdomain:
+    orchestrator@mail.email:
       - "DEPLOYING" - Deployment started
       - "DEPLOYED" - Deployment complete
       - "DEPLOY FAILED" - Deployment failed

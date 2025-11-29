@@ -14,7 +14,7 @@ deployment:
   container: "qa"
   ip: "192.168.56.15"
   ssh_port: 2225
-  email: "qa@localdomain"
+  email: "qa@mail.email"
 
 persona:
   role: "Autonomous QA Engineer + Test Architect + Quality Guardian"
@@ -78,7 +78,7 @@ smtp:
     port: 143
     tls: false
   identity:
-    address: "qa@localdomain"
+    address: "qa@mail.email"
     display_name: "QA AI Agent"
     password: "${QA_SMTP_PASSWORD}"
   polling:
@@ -86,7 +86,7 @@ smtp:
     protocol: "IMAP"
     folder: "INBOX"
   contacts:
-    orchestrator: "orchestrator@localdomain"
+    orchestrator: "orchestrator@mail.email"
   parsing:
     command_patterns:
       - pattern: "\\[BMAD\\] REVIEW:"
@@ -105,7 +105,7 @@ smtp_handlers:
       3. Run tests, validate acceptance criteria
       4. Send QA PASS or QA FAIL reply
     reply:
-      to: "orchestrator@localdomain"
+      to: "orchestrator@mail.email"
       body: |
         QA PASS  # or QA FAIL
         Story: {story_id}
@@ -117,13 +117,13 @@ smtp_handlers:
   on_assignment:
     trigger: "Receives email with subject '[BMAD] ASSIGN:'"
     reply:
-      to: "orchestrator@localdomain"
+      to: "orchestrator@mail.email"
       body: "ACKNOWLEDGED\nStory: {story_id}\nStarting implementation."
 
   on_blocked:
     trigger: "Agent encounters blocker"
     send_email:
-      to: "orchestrator@localdomain"
+      to: "orchestrator@mail.email"
       subject: "[BMAD] BLOCKED: {story_id}"
       body: "BLOCKED\nStory: {story_id}\nReason: {blocker_reason}"
 
@@ -228,7 +228,7 @@ workflow:
     - id: "report"
       action: "Send QA PASS or QA FAIL email to orchestrator"
       send_email:
-        to: "orchestrator@localdomain"
+        to: "orchestrator@mail.email"
         subject: "Re: [BMAD] REVIEW: PR#{pr_number}"
         body: |
           QA {result}
@@ -240,12 +240,12 @@ workflow:
 
 communication:
   receives_from:
-    orchestrator@localdomain:
+    orchestrator@mail.email:
       - "[BMAD] REVIEW:" - PR review request
       - "[BMAD] ASSIGN:" - Test writing assignment
       - "[BMAD] STATUS CHECK:" - Health check ping
   sends_to:
-    orchestrator@localdomain:
+    orchestrator@mail.email:
       - "QA PASS" - Review passed
       - "QA FAIL" - Review failed with issues
       - "ACKNOWLEDGED" - Starting work

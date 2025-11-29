@@ -77,56 +77,56 @@ containers:
   founder:
     ip: "192.168.56.10"
     ssh_port: 2220
-    email: "founder@localdomain"
+    email: "founder@mail.email"
     password_env: "FOUNDER_SMTP_PASSWORD"
     purpose: "Leadership & approvals"
 
   orchestrator:
     ip: "192.168.56.11"
     ssh_port: 2221
-    email: "orchestrator@localdomain"
+    email: "orchestrator@mail.email"
     password_env: "ORCHESTRATOR_SMTP_PASSWORD"
     purpose: "Central coordinator - routes work to agents via SMTP"
 
   backend:
     ip: "192.168.56.12"
     ssh_port: 2222
-    email: "backend@localdomain"
+    email: "backend@mail.email"
     password_env: "BACKEND_SMTP_PASSWORD"
     purpose: "Java/Spring backend development"
 
   frontend:
     ip: "192.168.56.13"
     ssh_port: 2223
-    email: "frontend@localdomain"
+    email: "frontend@mail.email"
     password_env: "FRONTEND_SMTP_PASSWORD"
     purpose: "React/TypeScript frontend development"
 
   mobile:
     ip: "192.168.56.14"
     ssh_port: 2224
-    email: "android@localdomain"
+    email: "android@mail.email"
     password_env: "MOBILE_SMTP_PASSWORD"
     purpose: "Android/Kotlin mobile development"
 
   qa:
     ip: "192.168.56.15"
     ssh_port: 2225
-    email: "qa@localdomain"
+    email: "qa@mail.email"
     password_env: "QA_SMTP_PASSWORD"
     purpose: "Test automation and QA review"
 
   devops:
     ip: "192.168.56.16"
     ssh_port: 2226
-    email: "devops@localdomain"
+    email: "devops@mail.email"
     password_env: "DEVOPS_SMTP_PASSWORD"
     purpose: "Infrastructure and deployments"
 
   researcher:
     ip: "192.168.56.17"
     ssh_port: 2227
-    email: "researcher@localdomain"
+    email: "researcher@mail.email"
     password_env: "RESEARCHER_SMTP_PASSWORD"
     purpose: "Documentation and research"
 

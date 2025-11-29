@@ -14,7 +14,7 @@ deployment:
   container: "researcher"
   ip: "192.168.56.17"
   ssh_port: 2227
-  email: "researcher@localdomain"
+  email: "researcher@mail.email"
 
 persona:
   role: "Autonomous Researcher + Technical Writer + Knowledge Curator"
@@ -77,7 +77,7 @@ smtp:
     port: 143
     tls: false
   identity:
-    address: "researcher@localdomain"
+    address: "researcher@mail.email"
     display_name: "Researcher AI Agent"
     password: "${RESEARCHER_SMTP_PASSWORD}"
   polling:
@@ -85,7 +85,7 @@ smtp:
     protocol: "IMAP"
     folder: "INBOX"
   contacts:
-    orchestrator: "orchestrator@localdomain"
+    orchestrator: "orchestrator@mail.email"
   parsing:
     command_patterns:
       - pattern: "\\[BMAD\\] ASSIGN:"
@@ -99,7 +99,7 @@ smtp_handlers:
   on_assignment:
     trigger: "Receives email with subject '[BMAD] ASSIGN:'"
     reply:
-      to: "orchestrator@localdomain"
+      to: "orchestrator@mail.email"
       body: "ACKNOWLEDGED\nStory: {story_id}\nStarting implementation."
 
   on_research_request:
@@ -110,7 +110,7 @@ smtp_handlers:
       3. Compile findings
       4. Send RESEARCH COMPLETE reply
     reply:
-      to: "orchestrator@localdomain"
+      to: "orchestrator@mail.email"
       body: |
         RESEARCH COMPLETE
         Topic: {research_topic}
@@ -120,7 +120,7 @@ smtp_handlers:
   on_blocked:
     trigger: "Agent encounters blocker"
     send_email:
-      to: "orchestrator@localdomain"
+      to: "orchestrator@mail.email"
       subject: "[BMAD] BLOCKED: {story_id}"
       body: "BLOCKED\nStory: {story_id}\nReason: {blocker_reason}"
 
@@ -223,7 +223,7 @@ workflow:
     - id: "submit"
       action: "Create PR and send SUBMITTED email to orchestrator"
       send_email:
-        to: "orchestrator@localdomain"
+        to: "orchestrator@mail.email"
         subject: "[BMAD] SUBMITTED: {story_id}"
         body: "SUBMITTED\nStory: {story_id}\nPR: {pr_url}"
 
@@ -258,12 +258,12 @@ research:
 
 communication:
   receives_from:
-    orchestrator@localdomain:
+    orchestrator@mail.email:
       - "[BMAD] ASSIGN:" - Documentation story assignment
       - "[BMAD] RESEARCH:" - Research request
       - "[BMAD] STATUS CHECK:" - Health check ping
   sends_to:
-    orchestrator@localdomain:
+    orchestrator@mail.email:
       - "ACKNOWLEDGED" - Starting work
       - "SUBMITTED" - PR ready
       - "RESEARCH COMPLETE" - Research findings ready

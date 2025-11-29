@@ -14,7 +14,7 @@ subheader: |
 
   Container IP: 192.168.56.13
   SSH Port: 2223
-  Email: frontend@localdomain
+  Email: frontend@mail.email
 
 # Dependencies
 requires:
@@ -31,12 +31,12 @@ container:
 # Local SMTP configuration
 email_address:
   prompt: "Frontend agent email address"
-  default: "frontend@localdomain"
+  default: "frontend@mail.email"
   result: "{value}"
 
 smtp_password:
   prompt: "SMTP password for frontend agent"
-  default: "Frontend123!"
+  default: "frontend123"
   result: "{value}"
   secret: true
   env_var: "FRONTEND_SMTP_PASSWORD"
@@ -77,13 +77,13 @@ env_vars:
   REACT_VERSION: "{react_version}"
   POLLING_INTERVAL: "{polling_interval}"
 
-# SMTP config for local mail
+# SMTP config
 smtp_config:
-  server: "localhost"
-  port: 25
-  tls: false
-  imap_server: "localhost"
-  imap_port: 143
+  server: "mail.email"
+  port: 587
+  tls: true
+  imap_server: "mail.email"
+  imap_port: 993
 
 post_install_message: |
   Frontend container configured!

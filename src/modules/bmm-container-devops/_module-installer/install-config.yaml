@@ -14,7 +14,7 @@ subheader: |
 
   Container IP: 192.168.56.16
   SSH Port: 2226
-  Email: devops@localdomain
+  Email: devops@mail.email
 
 # Dependencies
 requires:
@@ -31,12 +31,12 @@ container:
 # Local SMTP configuration
 email_address:
   prompt: "DevOps agent email address"
-  default: "devops@localdomain"
+  default: "devops@mail.email"
   result: "{value}"
 
 smtp_password:
   prompt: "SMTP password for DevOps agent"
-  default: "DevOps123!"
+  default: "devops123"
   result: "{value}"
   secret: true
   env_var: "DEVOPS_SMTP_PASSWORD"
@@ -97,13 +97,13 @@ env_vars:
   DEPLOY_TARGET: "{deploy_target}"
   POLLING_INTERVAL: "{polling_interval}"
 
-# SMTP config for local mail
+# SMTP config
 smtp_config:
-  server: "localhost"
-  port: 25
-  tls: false
-  imap_server: "localhost"
-  imap_port: 143
+  server: "mail.email"
+  port: 587
+  tls: true
+  imap_server: "mail.email"
+  imap_port: 993
 
 post_install_message: |
   DevOps container configured!
